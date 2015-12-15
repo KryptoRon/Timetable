@@ -28,11 +28,19 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Intent intent = new Intent(getApplicationContext(), UserScreen.class);
             Bundle b = new Bundle();
-            b.putInt("userID", user.getId()); //Your id
-            intent.putExtras(b); //Put your id to your next Intent
+            b.putInt("userID", user.getId());
+            intent.putExtras(b);
             startActivity(intent);
             finish();
         }
+    }
+    public void test (View v){
+        Intent intent = new Intent(getApplicationContext(), UserScreen.class);
+        Bundle b = new Bundle();
+        b.putInt("userID", 0);
+        intent.putExtras(b);
+        startActivity(intent);
+        finish();
     }
 
 }
