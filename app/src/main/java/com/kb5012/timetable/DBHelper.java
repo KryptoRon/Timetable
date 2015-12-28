@@ -50,4 +50,17 @@ public class DBHelper {
         }
         return tasks;
     }
+    public static ArrayList<Group>findAllGroupByUserId(int userId){
+        //TODO hier uit db halen alle groupen van user
+        ArrayList<Group> groups=new ArrayList<>();
+        Group group;
+        User user=new User();
+        user.setId(1);
+        for (int i = 0; i <10 ; i++) {
+            group=new Group(user);
+            group.setName("group "+i);
+            groups.add(group);
+        }
+        return groups;
+    }
 }

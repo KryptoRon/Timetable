@@ -3,14 +3,17 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
         <LinearLayout
-            android:id="@+id/layout_allTask"
+            android:id="@+id/layout_MyGroup"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
         </LinearLayout>
+</ScrollView>
 
 
 </LinearLayout>
