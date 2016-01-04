@@ -42,14 +42,14 @@ public class UserScreen extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    private int userID;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         Bundle b = getIntent().getExtras();
-        int userID = b.getInt("userID");
+        userID = b.getString("UserID");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -148,8 +148,7 @@ public class UserScreen extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    Fragment_AllTask tab1 = new Fragment_AllTask();
-                    return tab1;
+                    return new Fragment_AllTask();
                 default:
             return PlaceholderFragment.newInstance(position + 1);
         }

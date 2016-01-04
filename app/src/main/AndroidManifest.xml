@@ -27,8 +27,7 @@
         </activity>
         <activity
             android:name=".UserScreen"
-            android:label="@string/title_activity_test"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <meta-data
             android:name="com.parse.APPLICATION_ID"
