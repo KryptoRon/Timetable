@@ -1,5 +1,6 @@
 package com.kb5012.timetable;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,16 +12,18 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.kb5012.timetable.FragmentUserScreen.Fragment_MyGroups;
-import com.kb5012.timetable.FragmentUserScreen.Fragment_MyTask;
+import com.kb5012.timetable.FragmentUserScreen.MyGroups;
+import com.kb5012.timetable.FragmentUserScreen.MyTask;
 
 public class UserScreen extends AppCompatActivity {
 
@@ -43,9 +46,9 @@ public class UserScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_screen);
+        setContentView(R.layout.activity_group_screen);
         Bundle b = getIntent().getExtras();
-        int userID = b.getInt("userID");
+        userID = b.getInt("userID");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -68,13 +71,6 @@ public class UserScreen extends AppCompatActivity {
             }
         });
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_test, menu);
-        return true;
     }
 
     @Override
@@ -142,12 +138,17 @@ public class UserScreen extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+            Bundle bundle = new Bundle();
+            bundle.putInt("userId",userID);
             switch (position) {
                 case 0:
-                    Fragment_MyTask tab1 = new Fragment_MyTask();
+                    MyTask tab1 = new MyTask();
+
+                    tab1.setArguments(bundle);
                     return tab1;
                 case 1:
-                    Fragment_MyGroups tab2 = new Fragment_MyGroups();
+                    MyGroups tab2 = new MyGroups();
+                    tab2.setArguments(bundle);
                     return tab2;
                 default:
             return PlaceholderFragment.newInstance(position + 1);
@@ -172,5 +173,15 @@ public class UserScreen extends AppCompatActivity {
             }
             return null;
         }
+    }
+    public void groupClick(View v) {
+        Button b = (Button) v;
+        Log.d("clicked button: ", b.getTag() + "");
+        Intent intent = new Intent(UserScreen.this, GroupScreen.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("groupNumber", b.getTag() + "");
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
     }
 }

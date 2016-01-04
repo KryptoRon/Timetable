@@ -34,13 +34,6 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
     }
-    public void test (View v){
-        Intent intent = new Intent(getApplicationContext(), UserScreen.class);
-        Bundle b = new Bundle();
-        b.putInt("userID", 0);
-        intent.putExtras(b);
-        startActivity(intent);
-        finish();
-    }
+
 
 }

@@ -17,8 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.kb5012.timetable.FragmentUserScreen.Fragment_MyGroups;
-import com.kb5012.timetable.FragmentUserScreen.Fragment_MyTask;
+import com.kb5012.timetable.FragmentUserScreen.MyGroups;
+import com.kb5012.timetable.FragmentUserScreen.MyTask;
 
 public class GroupScreen extends AppCompatActivity {
 
@@ -41,9 +41,9 @@ public class GroupScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_screen);
+        setContentView(R.layout.activity_group_screen);
         Bundle b = getIntent().getExtras();
-        int userID = b.getInt("userID");
+        int userID = b.getInt("groupNumber");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -142,10 +142,10 @@ public class GroupScreen extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    Fragment_MyTask tab1 = new Fragment_MyTask();
+                    MyTask tab1 = new MyTask();
                     return tab1;
                 case 1:
-                    Fragment_MyGroups tab2 = new Fragment_MyGroups();
+                    MyGroups tab2 = new MyGroups();
                     return tab2;
                 default:
             return PlaceholderFragment.newInstance(position + 1);

@@ -1,5 +1,7 @@
 package com.kb5012.timetable;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -7,7 +9,7 @@ import java.util.ArrayList;
  */
 public class DBHelper {
     // alleen gebruikt voor demo
-    private ArrayList<Group> groups = new ArrayList<Group>();
+    private ArrayList<Group> groups = new ArrayList<>();
     private ArrayList<User> users = new ArrayList<>();
 
     //ToDo database connection maken..
@@ -18,6 +20,7 @@ public class DBHelper {
         // demo
         if (username.equals("username") && password.equals("password")) {
             User user = new User();
+            user.setId(14);
             user.setFirstName("test");
             user.setLastName("testen");
             return user;
@@ -30,6 +33,7 @@ public class DBHelper {
         //TODO hier de user uithalen
         //demo test
         User user = new User();
+        user.setId(16);
         user.setFirstName("test");
         user.setLastName("testen");
         return user;
@@ -52,15 +56,18 @@ public class DBHelper {
     }
     public static ArrayList<Group>findAllGroupByUserId(int userId){
         //TODO hier uit db halen alle groupen van user
+        Log.d("findAllGroupByUserId:",userId+"");
         ArrayList<Group> groups=new ArrayList<>();
         Group group;
         User user=new User();
         user.setId(1);
         for (int i = 0; i <10 ; i++) {
             group=new Group(user);
+            group.setId(i);
             group.setName("group "+i);
             groups.add(group);
         }
+
         return groups;
     }
 }
