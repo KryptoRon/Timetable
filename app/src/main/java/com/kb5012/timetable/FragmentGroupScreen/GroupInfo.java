@@ -33,18 +33,23 @@ import java.util.ArrayList;
 public class GroupInfo extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.tab_frag_my_group, container, false);
+        View v = inflater.inflate(R.layout.fragment_group_info, container, false);
         setMyGroups(v);
         return v;
     }
 
 
-    private void setMyGroups(View v){
-        //TODO juiste manier id ophalen. de taken ophalen van de persoon.
+    private void setMyGroups(View v) {
         //Bundle
-        TextView groupNumber=(TextView)v.findViewById(R.id.groupNumber);
-
+        Bundle bundle = getArguments();
+        int groupId=0;
+        if (bundle != null) {
+            groupId = bundle.getInt("groupId");
         }
+        TextView groupnumber=(TextView) v.findViewById(R.id.groupNumber);
+        groupnumber.setText("Group id: " + groupId);
+
+    }
 
 
 }

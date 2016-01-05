@@ -15,27 +15,24 @@ import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.Group;
 import com.kb5012.timetable.GroupScreen;
 import com.kb5012.timetable.R;
-import com.kb5012.timetable.Task;
 import com.kb5012.timetable.User;
-import com.kb5012.timetable.UserScreen;
 
 import java.util.ArrayList;
 
 /**
  * Created by Chie-cheung on 15-12-2015.
  */
-public class MyGroups extends Fragment {
+public class MyGroupsButtons extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.tab_frag_my_group, container, false);
+        View v=inflater.inflate(R.layout.tab_frag_my_group_button, container, false);
         setMyGroups(v);
         return v;
     }
 
 
     private void setMyGroups(View v){
-        //TODO juiste manier id ophalen. de taken ophalen van de persoon.
-        Bundle bundle=getArguments();
+       Bundle bundle=getArguments();
         int userID=bundle.getInt("userId");
         LinearLayout linearLayout=(LinearLayout)v.findViewById(R.id.layout_MyGroup);
         ArrayList<Group> myGroups = DBHelper.findAllGroupByUserId(userID);
@@ -53,7 +50,7 @@ public class MyGroups extends Fragment {
                     Log.d("clicked button: ", b.getTag() + "");
                     Intent intent = new Intent(getActivity(),GroupScreen.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("groupNumber", b.getTag() + "");
+                    bundle.putInt("groupId", Integer.parseInt(b.getTag()+""));
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }

@@ -56,14 +56,16 @@ public class DBHelper {
     }
     public static ArrayList<Group>findAllGroupByUserId(int userId){
         //TODO hier uit db halen alle groupen van user
-        Log.d("findAllGroupByUserId:",userId+"");
         ArrayList<Group> groups=new ArrayList<>();
         Group group;
         User user=new User();
-        user.setId(1);
+        user.setId(userId);
         for (int i = 0; i <10 ; i++) {
             group=new Group(user);
             group.setId(i);
+            if(group.getId()==4){
+                group.setTasks(DBHelper.findAllTaskByUserId(0));
+            }
             group.setName("group "+i);
             groups.add(group);
         }

@@ -9,6 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/groupNumber"
-        android:text="@string/hello_blank_fragment" />
+        android:text="" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/groupName"
+        android:text="" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/groupLeader"
+        android:text="" />
+
 
 </FrameLayout>

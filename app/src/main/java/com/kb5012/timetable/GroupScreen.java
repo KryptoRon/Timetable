@@ -15,10 +15,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.kb5012.timetable.FragmentUserScreen.MyGroups;
-import com.kb5012.timetable.FragmentUserScreen.MyTask;
+import com.kb5012.timetable.FragmentGroupScreen.GroupInfo;
+import com.kb5012.timetable.FragmentUserScreen.MyGroupsButtons;
 
 public class GroupScreen extends AppCompatActivity {
 
@@ -36,14 +35,14 @@ public class GroupScreen extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    private int userID;
+    private int groupId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_screen);
         Bundle b = getIntent().getExtras();
-        int userID = b.getInt("groupNumber");
+        groupId = b.getInt("groupId");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -119,9 +118,8 @@ public class GroupScreen extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_user_screen, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            View rootView = inflater.inflate(R.layout.activity_user_screen, container, false);
+
             return rootView;
         }
     }
@@ -140,12 +138,16 @@ public class GroupScreen extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+            Bundle bundle = new Bundle();
+            bundle.putInt("groupId",groupId);
             switch (position) {
                 case 0:
-                    MyTask tab1 = new MyTask();
+                    GroupInfo tab1 = new GroupInfo();
+                    tab1.setArguments(bundle);
                     return tab1;
                 case 1:
-                    MyGroups tab2 = new MyGroups();
+                    MyGroupsButtons tab2 = new MyGroupsButtons();
+                    tab2.setArguments(bundle);
                     return tab2;
                 default:
             return PlaceholderFragment.newInstance(position + 1);

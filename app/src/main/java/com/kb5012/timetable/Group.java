@@ -51,4 +51,24 @@ public class Group {
     public void setId(int id) {
         this.id = id;
     }
+
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+    }
+    public void addTask(Task task){
+        // TODO toevoegen aan database
+        tasks.add(task);
+    }
+    public void deleteTask(int taskId){
+        // TODO delete van database
+        for (Task task:tasks) {
+            if (task.getID()==taskId){
+                tasks.remove(task);
+            }
+        }
+    }
 }
