@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:focusable="false"
+    android:clickable="false">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -11,6 +13,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
-            android:id="@+id/groupName" />
+            android:id="@+id/groupName"
+            android:focusable="false"
+            android:clickable="false"/>
     </ScrollView>
 </LinearLayout>

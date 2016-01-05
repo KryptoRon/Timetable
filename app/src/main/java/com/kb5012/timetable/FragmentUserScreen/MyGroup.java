@@ -4,11 +4,13 @@ package com.kb5012.timetable.FragmentUserScreen;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyGroup extends ListFragment {
+public class MyGroup extends ListFragment implements OnItemClickListener{
 
 
     public MyGroup() {
@@ -53,16 +55,33 @@ public class MyGroup extends ListFragment {
 
 
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getListView().setOnClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), view + "", Toast.LENGTH_LONG).show();
-            }
-        });
+        getListView().setOnItemClickListener(this);
+        getListView().setAdapter(getListAdapter());
+//       ListView listView = (ListView) getActivity().findViewById(android.R.id.list);
+//        listView.setOnItemClickListener(new OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Log.d("view", view + "");
+//                Log.d("parent", parent + "");
+//            }
+//        });
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.d("onitemclick view", view + "");
+        Log.d("onitemclick parent", parent + "");
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        Log.d("onlistitemclick view", v + "");
+        Log.d("onlistitem listview", l + "");
     }
 
     public class MyListAdapter extends ArrayAdapter<Group> {
