@@ -1,4 +1,6 @@
-package com.kb5012.timetable;
+package com.kb5012.timetable.DataModels;
+
+import com.kb5012.timetable.DataModels.Task;
 
 import java.util.ArrayList;
 
@@ -26,9 +28,9 @@ public class User {
         tasks.add(task);
     }
 
-    public Task getTask(int taskID) {
+    public Task getTask(String taskID) {
         for (Task task : tasks) {
-            if (task.getID() == taskID) {
+            if (task.getObjectId().equals(taskID)) {
                 return task;
             }
         }

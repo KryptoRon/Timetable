@@ -1,6 +1,9 @@
-package com.kb5012.timetable;
+package com.kb5012.timetable.DataModels;
 
 import android.media.Image;
+
+import com.kb5012.timetable.DataModels.Task;
+import com.kb5012.timetable.DataModels.User;
 
 import java.util.ArrayList;
 

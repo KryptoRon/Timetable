@@ -152,7 +152,12 @@ public class UserScreen extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return new Fragment_AllTask();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("userId", userID);
+                    Fragment fragment = new Fragment_AllTask();
+                    fragment.setArguments(bundle);
+                    return fragment;
+
                 default:
             return PlaceholderFragment.newInstance(position + 1);
         }

@@ -1,13 +1,14 @@
 package com.kb5012.timetable;
 
 import android.util.Log;
-import android.widget.Toast;
 
+import com.kb5012.timetable.DataModels.Group;
+import com.kb5012.timetable.DataModels.Task;
+import com.kb5012.timetable.DataModels.User;
 import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,28 +45,6 @@ public class DBHelper {
         return user;
     }
 
-    public static ArrayList<Task> findAllTaskByUserId(int userId) {
-        //TODO hier uit db halen alle taken van user.
-        final ArrayList<Task> tasks = new ArrayList<>();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
-        query.whereEqualTo("receiver", userId);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> parseTasks, com.parse.ParseException e) {
-                if (e == null) {
-                    for (ParseObject task : parseTasks){
-                        Task newTask = new Task(task);
-
-                        tasks.add(newTask);
-                    }
-                    Log.e("SUCCESS", "we have results");
-                } else {
-                    Log.e("ERROR", "message: " + e);
-                }
-            }
-        });
-        return tasks;
-    }
-
     public static ArrayList<Group>findAllGroupByUserId(int userId){
         //TODO hier uit db halen alle groupen van user
         ArrayList<Group> groups=new ArrayList<>();
@@ -80,20 +59,36 @@ public class DBHelper {
         return groups;
     }
 
-    public boolean createTask (Task task) {
-        ParseObject newTask = new ParseObject("Task");
-        newTask.put("title", task.getTitle());
-        newTask.put("description", task.getDescription());
-        newTask.put("deadline", task.getDeadline());
-        newTask.put("status", task.isStatus());
-        newTask.put("sender", task.getSender());
-        newTask.put("receiver", task.getReceiver());
-        newTask.put("group_id", task.getGroup_id());
+    /*
+     *  Find all tasks based on User ID
+     *  @param userId : String which is the PK from ParseObject
+     *  @return : returns a list of all Tasks found by using "userId" as parameter
+     */
+    public ArrayList<Task> findAllTaskByUserId(String userId) {
 
-        newTask.saveInBackground();
+        final ArrayList<Task> tasks = new ArrayList<>();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
+        query.whereEqualTo("receiver", userId);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> parseTasks, com.parse.ParseException e) {
+                if (e == null) {
+                    for (ParseObject task : parseTasks) {
+                        Task newTask = (Task) task;
 
-        return true;
+                        tasks.add(newTask);
+                        Log.e("SUCCESS", newTask.getObjectId() + " , " + newTask.getDescription());
+                    }
+
+                } else {
+                    Log.e("ERROR", "message: " + e);
+                }
+                Log.e("SUCCESS", "we have " + tasks.size() + " results");
+            }
+        });
+
+        return tasks;
     }
+
 
 
 }

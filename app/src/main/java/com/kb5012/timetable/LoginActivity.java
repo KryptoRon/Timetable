@@ -7,9 +7,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.kb5012.timetable.DataModels.*;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -31,9 +33,13 @@ public class LoginActivity extends AppCompatActivity {
         // Locate EditTexts in main.xml
         username = (EditText) findViewById(R.id.tf_username);
         password = (EditText) findViewById(R.id.tf_password);
+
+        ParseObject.registerSubclass(Task.class);
+
         // [Optional] Power your app with Local Datastore. For more info, go to
         // https://parse.com/docs/android/guide#local-datastore
         Parse.enableLocalDatastore(this);
+
 
         Parse.initialize(this);
     }

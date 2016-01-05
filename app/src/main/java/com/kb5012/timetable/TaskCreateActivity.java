@@ -7,8 +7,11 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.kb5012.timetable.DataModels.Task;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class TaskCreateActivity extends AppCompatActivity{
@@ -18,7 +21,7 @@ public class TaskCreateActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_create);
         Spinner dropdown = (Spinner)findViewById(R.id.spinner);
-        String[] items = new String[]{"Ray", "Chie-Cheung", "Ronald", "Jordi,", "Bryant"};
+        String[] items = new String[]{"Ray", "Chie-Cheung", "Ronald", "Jordi,", "Bryant"}; // TODO : Make dynamic
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
@@ -26,9 +29,10 @@ public class TaskCreateActivity extends AppCompatActivity{
 
     public void onClick(View v){
         newTask();
+        finish();
     }
 
-    private Task newTask() {
+    private void newTask() {
         Task t = new Task();
 
         String datetime = "" + ((EditText) findViewById(R.id.tf_date)).getText() + " "
@@ -47,12 +51,16 @@ public class TaskCreateActivity extends AppCompatActivity{
         String receiver = s.getSelectedItem().toString();
         Date convert = new Date();
 
-        t.setName("" + ((EditText) findViewById(R.id.tf_name)).getText());
+        t.setTitle("" + ((EditText) findViewById(R.id.tf_name)).getText());
         t.setDescription("" + ((EditText) findViewById(R.id.tf_description)).getText());
         t.setReceiver(receiver);
-        t.setDeadline(convertedDate);
 
-        return t;
+        Calendar c = Calendar.getInstance();
+
+        t.setDeadline(c.getTime());
+
+        t.saveInBackground();
+
     }
 
 }
