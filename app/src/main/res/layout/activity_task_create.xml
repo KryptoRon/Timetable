@@ -95,6 +95,6 @@
         android:text="Save"
         android:id="@+id/bt_save"
         android:layout_gravity="center_horizontal"
-        android:onClick="onclickT"/>
+        android:onClick="onClick"/>
 
 </LinearLayout>

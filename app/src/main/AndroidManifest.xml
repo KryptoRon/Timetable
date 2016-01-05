@@ -26,6 +26,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".TaskCreateActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".UserScreen"
             android:theme="@style/AppTheme.NoActionBar"/>
 
