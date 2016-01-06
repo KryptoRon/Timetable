@@ -37,4 +37,12 @@ public class Group extends ParseObject {
         return users;
     }
 
+    public void addGroupMember(User u){
+        members.add(u);
+    }
+
+    public void setBeheerder(User u){
+        beheerder = u;
+    }
+
 }
