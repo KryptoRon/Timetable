@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.kb5012.timetable.DataModels.User;
+
 /**
  * Created by Ronald on 14-12-2015.
  */
@@ -37,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     public void test (View v){
         Intent intent = new Intent(getApplicationContext(), UserScreen.class);
         Bundle b = new Bundle();
-        b.putInt("userID", 0);
+        b.putString("userID", "0");
         intent.putExtras(b);
         startActivity(intent);
         finish();

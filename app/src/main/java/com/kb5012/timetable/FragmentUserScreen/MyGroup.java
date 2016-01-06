@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.kb5012.timetable.DBHelper;
-import com.kb5012.timetable.Group;
+import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.R;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class MyGroup extends ListFragment implements OnItemClickListener{
-
+    private DBHelper dbHelper=new DBHelper();
 
     public MyGroup() {
         // Required empty public constructor
@@ -59,7 +59,7 @@ public class MyGroup extends ListFragment implements OnItemClickListener{
     }
 
     private void setList(View v) {
-        groups = DBHelper.findAllGroupByUserId(userId);
+        //groups = dbHelper.findAllGroupByUserId(userId);
         ArrayAdapter<Group> adapter = new MyListAdapter(getActivity());
         setListAdapter(adapter);
         ListView listView=(ListView)v.findViewById(android.R.id.list);

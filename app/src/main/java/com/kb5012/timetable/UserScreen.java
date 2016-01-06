@@ -23,7 +23,6 @@ import com.kb5012.timetable.FragmentUserScreen.MyGroup;
 import com.kb5012.timetable.FragmentUserScreen.MyGroupsButtons;
 import com.kb5012.timetable.FragmentUserScreen.MyTask;
 
-import com.kb5012.timetable.FragmentUserScreen.Fragment_AllTask;
 
 import java.util.ArrayList;
 
