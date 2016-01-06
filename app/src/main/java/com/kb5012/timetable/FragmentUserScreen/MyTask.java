@@ -59,14 +59,14 @@ public class MyTask extends ListFragment implements AdapterView.OnItemClickListe
 
     public class MyListAdapter extends ArrayAdapter<Task> {
         public MyListAdapter() {
-            super(getActivity(), R.layout.list_view_task, tasks);
+            super(getActivity(), R.layout.list_item_task, tasks);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View itemView = convertView;
             if (convertView==null){
-                itemView=getActivity().getLayoutInflater().inflate(R.layout.list_view_task,parent,false);
+                itemView=getActivity().getLayoutInflater().inflate(R.layout.list_item_task,parent,false);
             }
             Task task =tasks.get(position);
             TextView taskName=(TextView)itemView.findViewById(R.id.taskName);
