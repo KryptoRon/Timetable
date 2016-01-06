@@ -17,7 +17,7 @@ public class DBHelper {
     }
 
     public static User userInlog(String username, String password) {
-        // demo
+        // demofwefeee
         if (username.equals("username") && password.equals("password")) {
             User user = new User();
             user.setId(14);
