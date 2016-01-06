@@ -16,9 +16,12 @@ import java.util.ArrayList;
 public class Group extends ParseObject {
     private ArrayList<User> members;
     private ArrayList<Task> tasks;
+    private User beheerder;
+    private Image image;
+    private String name;
 
     public Group() {
-
+        
     }
 
     public String getName() {

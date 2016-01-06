@@ -70,6 +70,9 @@ public class UserScreen extends AppCompatActivity {
        //         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
        //                 .setAction("Action", null).show();
                 Intent intent = new Intent(getApplicationContext(), TaskCreateActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("userId", userID);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

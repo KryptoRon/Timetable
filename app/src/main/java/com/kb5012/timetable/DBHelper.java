@@ -7,6 +7,7 @@ import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -29,9 +30,6 @@ import java.util.List;
  * Created by Ronald on 14-12-2015.
  */
 public class DBHelper {
-    // alleen gebruikt voor demo
-    private ArrayList<Group> groups = new ArrayList<Group>();
-    private ArrayList<User> users = new ArrayList<>();
 
     //ToDo database connection maken..
     public DBHelper() {
@@ -41,7 +39,6 @@ public class DBHelper {
         // demo
         if (username.equals("username") && password.equals("password")) {
             User user = new User();
-            user.setId(14);
             user.setFirstName("test");
             user.setLastName("testen");
             return user;
@@ -63,7 +60,38 @@ public class DBHelper {
         });
         return user[0];
     }
+    private ArrayList<ParseObject> groups;
+    public ArrayList<ParseObject>findAllGroupByUserId(String userId){
+        //TODO hier uit db halen alle groupen van user
+        groups=new ArrayList<>();
+        ParseQuery<Group> query = ParseQuery.getQuery("Group_user");
+        query.whereEqualTo("user_id", userId);
+        query.findInBackground(new FindCallback<Group>() {
+            @Override
+            public void done(List<Group> objects, ParseException e) {
+                if (e == null) {
+                    for (ParseObject group : objects) {
+                        ParseObject newGroup = findGroupById(group.getString("group_id"));
+                        groups.add(newGroup);
+                    }
+                }
+            }
+        });
+        return groups;
+    }
+    private ParseObject group;
+    public ParseObject findGroupById(String groupId){
 
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Group");
+        query.whereEqualTo("objectId", groupId);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                group = object;
+            }
+        });
+        return group;
+    }
     /*
      *  Find all tasks based on User ID
      *  @param userId : String which is the PK from ParseObject
@@ -93,6 +121,7 @@ public class DBHelper {
 
         return tasks;
     }
+
 
     public static ArrayList<User> findAllUsersByGroup(String objectId) {
         final ArrayList<User> users = new ArrayList<>();

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="118dp">
+        android:layout_height="75dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,9 +54,15 @@
     <Spinner
         android:layout_width="230dp"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner"
-        android:layout_gravity="center_horizontal"
-        android:spinnerMode="dropdown" />/>
+        android:id="@+id/spinnerGroup"
+        android:spinnerMode="dropdown"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/tf_time"
+        android:layout_gravity="center_horizontal" /><![CDATA[
+
+    />
+
+    ]]>
 
     <TextView
         android:layout_width="wrap_content"
@@ -65,7 +73,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="81dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal">
 
         <EditText
@@ -87,7 +95,25 @@
             android:id="@+id/tf_date"
             android:layout_alignParentTop="true"
             android:layout_toStartOf="@+id/tf_time" />
+
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Group"
+        android:id="@+id/textView8"
+        android:layout_weight="0.28"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/tf_date"
+        android:layout_centerHorizontal="true" />
+
+    <Spinner
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerUser"
+        android:spinnerMode="dropdown"
+        android:layout_gravity="center_horizontal" />
 
     <Button
         android:layout_width="wrap_content"
