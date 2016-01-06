@@ -36,13 +36,18 @@ public class DBHelper {
         return null;
     }
 
-    public static User findUserById(int id) {
+    public static User findUserById(String id) {
         //TODO hier de user uithalen
-        //demo test
-        User user = new User();
-        user.setFirstName("test");
-        user.setLastName("testen");
-        return user;
+        final User[] user = new User[1];
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
+        query.whereEqualTo("objectId", id);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                user[0] = (User) object;
+            }
+        });
+        return user[0];
     }
     private ArrayList<ParseObject> groups;
     public ArrayList<ParseObject>findAllGroupByUserId(String userId){
@@ -87,7 +92,7 @@ public class DBHelper {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
         query.whereEqualTo("receiver", userId);
         query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> parseTasks, com.parse.ParseException e) {
+            public void done(List<ParseObject> parseTasks, ParseException e) {
                 if (e == null) {
                     for (ParseObject task : parseTasks) {
                         Task newTask = (Task) task;
@@ -107,5 +112,23 @@ public class DBHelper {
     }
 
 
+    public static ArrayList<User> findAllUsersByGroup(String objectId) {
+        final ArrayList<User> users = new ArrayList<>();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Group_user");
+        query.whereEqualTo("group_id", objectId);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    for (ParseObject user : objects) {
+                        User newUser = findUserById(user.getString("user_id"));
+                        users.add(newUser);
+                    }
+                }
+            }
+        });
 
+
+        return users;
+    }
 }

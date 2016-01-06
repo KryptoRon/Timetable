@@ -2,8 +2,10 @@ package com.kb5012.timetable.DataModels;
 
 import android.media.Image;
 
+import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -18,17 +20,21 @@ public class Group extends ParseObject {
     private Image image;
     private String name;
 
-
     public Group() {
-        this.beheerder = beheerder;
-        members = new ArrayList<>();
+        
     }
 
     public String getName() {
-        return name;
+        return getString("group_name");
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String group_name) {
+        put("group_name", group_name);
     }
+
+    public ArrayList<User> getGroupUsers() {
+        ArrayList<User> users = DBHelper.findAllUsersByGroup(this.getObjectId());
+        return users;
+    }
+
 }
