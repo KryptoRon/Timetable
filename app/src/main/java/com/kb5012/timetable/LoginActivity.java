@@ -34,14 +34,13 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
     }
-    public void onclickgroup(View v){
-        Intent intent = new Intent(getApplicationContext(), GroupScreen.class);
+    public void test (View v){
+        Intent intent = new Intent(getApplicationContext(), UserScreen.class);
         Bundle b = new Bundle();
-        b.putInt("groupId", 4);
+        b.putInt("userID", 0);
         intent.putExtras(b);
         startActivity(intent);
         finish();
     }
-
 
 }

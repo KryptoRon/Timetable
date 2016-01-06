@@ -1,16 +1,20 @@
 package com.kb5012.timetable;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +22,10 @@ import android.view.ViewGroup;
 import com.kb5012.timetable.FragmentUserScreen.MyGroup;
 import com.kb5012.timetable.FragmentUserScreen.MyGroupsButtons;
 import com.kb5012.timetable.FragmentUserScreen.MyTask;
+
+import com.kb5012.timetable.FragmentUserScreen.Fragment_AllTask;
+
+import java.util.ArrayList;
 
 public class UserScreen extends AppCompatActivity {
 
@@ -35,14 +43,14 @@ public class UserScreen extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    private int userID;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_screen);
         Bundle b = getIntent().getExtras();
-        userID = b.getInt("userID");
+        userID = b.getString("UserID");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -60,8 +68,10 @@ public class UserScreen extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+       //         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+       //                 .setAction("Action", null).show();
+                Intent intent = new Intent(getApplicationContext(), TaskCreateActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -132,7 +142,7 @@ public class UserScreen extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             Bundle bundle = new Bundle();
-            bundle.putInt("userId",userID);
+            bundle.putString("userId",userID);
             switch (position) {
                 case 0:
                     MyTask tab1 = new MyTask();

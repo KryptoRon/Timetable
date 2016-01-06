@@ -2,14 +2,26 @@ package com.kb5012.timetable;
 
 import android.util.Log;
 
+import com.kb5012.timetable.DataModels.Group;
+import com.kb5012.timetable.DataModels.Task;
+import com.kb5012.timetable.DataModels.User;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ronald on 14-12-2015.
  */
 public class DBHelper {
     // alleen gebruikt voor demo
-    private ArrayList<Group> groups = new ArrayList<>();
+    private ArrayList<Group> groups = new ArrayList<Group>();
     private ArrayList<User> users = new ArrayList<>();
 
     //ToDo database connection maken..
@@ -17,10 +29,9 @@ public class DBHelper {
     }
 
     public static User userInlog(String username, String password) {
-        // demofwefeee
+        // demo
         if (username.equals("username") && password.equals("password")) {
             User user = new User();
-            user.setId(14);
             user.setFirstName("test");
             user.setLastName("testen");
             return user;
@@ -29,47 +40,48 @@ public class DBHelper {
         return null;
     }
 
-    public static User findUserById(int id) {
+    public static User findUserById(String id) {
         //TODO hier de user uithalen
-        //demo test
-        User user = new User();
-        user.setId(16);
-        user.setFirstName("test");
-        user.setLastName("testen");
-        return user;
-    }
-
-    public static ArrayList<Task> findAllTaskByUserId(int userId) {
-        //TODO hier uit db halen alle taken van user.
-        // demo code hier
-        ArrayList<Task> tasks = new ArrayList<>();
-        Task task;
-        for (int i = 0; i < 10; i++) {
-            task = new Task();
-            task.setID(i);
-            task.setName("taak " + i);
-            task.setTaskMaker("maker " + i);
-            task.setTaskUser("user " + i);
-            tasks.add(task);
-        }
-        return tasks;
-    }
-    public static ArrayList<Group>findAllGroupByUserId(int userId){
-        //TODO hier uit db halen alle groupen van user
-        ArrayList<Group> groups=new ArrayList<>();
-        Group group;
-        User user=new User();
-        user.setId(userId);
-        for (int i = 0; i <10 ; i++) {
-            group=new Group(user);
-            group.setId(i);
-            if(group.getId()==4){
-                group.setTasks(DBHelper.findAllTaskByUserId(0));
+        final User[] user = new User[1];
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
+        query.whereEqualTo("objectId", id);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                user[0] = (User) object;
             }
-            group.setName("group "+i);
-            groups.add(group);
-        }
+        });
+        return user[0];
+    }
 
-        return groups;
+
+    /*
+     *  Find all tasks based on User ID
+     *  @param userId : String which is the PK from ParseObject
+     *  @return : returns a list of all Tasks found by using "userId" as parameter
+     */
+    public ArrayList<Task> findAllTaskByUserId(String userId) {
+
+        final ArrayList<Task> tasks = new ArrayList<>();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
+        query.whereEqualTo("receiver", userId);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> parseTasks, ParseException e) {
+                if (e == null) {
+                    for (ParseObject task : parseTasks) {
+                        Task newTask = (Task) task;
+
+                        tasks.add(newTask);
+                        Log.e("SUCCESS", newTask.getObjectId() + " , " + newTask.getDescription());
+                    }
+
+                } else {
+                    Log.e("ERROR", "message: " + e);
+                }
+                Log.e("SUCCESS", "we have " + tasks.size() + " results");
+            }
+        });
+
+        return tasks;
     }
 }

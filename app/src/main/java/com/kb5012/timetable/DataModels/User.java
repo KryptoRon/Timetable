@@ -1,11 +1,14 @@
-package com.kb5012.timetable;
+package com.kb5012.timetable.DataModels;
+
+import com.kb5012.timetable.DataModels.Task;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
 
 /**
  * Created by Ronald on 14-12-2015.
  */
-public class User {
+public class User extends ParseObject{
     private int id;
     private String firstName;
     private String lastName;
@@ -26,9 +29,9 @@ public class User {
         tasks.add(task);
     }
 
-    public Task getTask(int taskID) {
+    public Task getTask(String taskID) {
         for (Task task : tasks) {
-            if (task.getID() == taskID) {
+            if (task.getObjectId().equals(taskID)) {
                 return task;
             }
         }

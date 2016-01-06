@@ -20,18 +20,18 @@ import java.util.ArrayList;
 /**
  * Created by Chie-cheung on 15-12-2015.
  */
-public class MyTaskButtons extends Fragment {
+public class Fragment_AllTask extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.tab_frag_my_task_buttons, container, false);
+        View v=inflater.inflate(R.layout.tab_frag_all_task, container, false);
         setAllTask(v);
         return v;
     }
 
 
     private void setAllTask(View v){
-        Bundle bundle=getArguments();
-        int userID=bundle.getInt("userId");
+        //TODO juiste manier id ophalen
+        int userID=0;
         LinearLayout linearLayout=(LinearLayout)v.findViewById(R.id.layout_allTask);
         ArrayList<Task> tasks = DBHelper.findAllTaskByUserId(userID);
         User user = DBHelper.findUserById(userID);
@@ -39,7 +39,7 @@ public class MyTaskButtons extends Fragment {
         Button button;
         for (Task task : tasks) {
             button = new Button(getContext());
-            button.setText((Html.fromHtml("taak: " + task.getName() + "<br/>" + "gemaakt door: " + task.getTaskMaker())));
+            button.setText((Html.fromHtml("taak: " + task.getID() + "<br/>" + "gemaakt door: " + task.getTaskMaker())));
             button.setTag(task.getID());
             linearLayout.addView(button);
         }

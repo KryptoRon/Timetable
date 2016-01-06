@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="118dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="New task"
+            android:id="@+id/textView7"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Subject"
+        android:id="@+id/textView3"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tf_name"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:id="@+id/textView4"
+        android:layout_gravity="center_horizontal" />
+
+    <EditText
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tf_description"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="For who?"
+        android:id="@+id/textView5"
+        android:layout_gravity="center_horizontal" />
+
+    <Spinner
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_gravity="center_horizontal"
+        android:spinnerMode="dropdown" />/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Timeframe"
+        android:id="@+id/textView6"
+        android:layout_gravity="center_horizontal" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="81dp"
+        android:layout_gravity="center_horizontal">
+
+        <EditText
+            android:layout_width="52dp"
+            android:layout_height="wrap_content"
+            android:inputType="time"
+            android:ems="10"
+            android:id="@+id/tf_time"
+            android:layout_gravity="right"
+            android:layout_marginEnd="75dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+        <EditText
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/tf_date"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/tf_time" />
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/bt_save"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClick"/>
+
+</LinearLayout>

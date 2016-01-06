@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tf_password"
-        android:onClick="onclick"
+        android:onClick="signIn"
         android:text="login" />
     <Button
         android:id="@+id/bt_testGroup"
@@ -58,6 +58,15 @@
         android:layout_below="@+id/bt_login"
         android:onClick="onclickgroup"
         android:text="Test group" />
+
+    <Button
+        android:id="@+id/bt_signup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/bt_login"
+        android:onClick="signUp"
+        android:text="Sign Up" />
 
 
 </RelativeLayout>

@@ -25,6 +25,14 @@
         </activity>
         <activity
             android:name=".UserScreen"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="QHIC2tKjRl2qG6DnqODp0zfdCqIdvIVacKB2anbI" />
+        <meta-data
+            android:name="com.parse.CLIENT_KEY"
+            android:value="J78bulEGe6tAHuYdNobTRlSZb3NDrcvFuOrho5Bc" />
             android:label=""
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
