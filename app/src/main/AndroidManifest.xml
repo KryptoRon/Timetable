@@ -34,7 +34,7 @@
             android:name="com.parse.CLIENT_KEY"
             android:value="J78bulEGe6tAHuYdNobTRlSZb3NDrcvFuOrho5Bc" />
             android:label=""
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".GroupScreen"
             android:label=""

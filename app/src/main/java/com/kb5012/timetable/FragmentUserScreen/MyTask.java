@@ -12,8 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.kb5012.timetable.DBHelper;
+import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.R;
-import com.kb5012.timetable.Task;
 
 import java.util.ArrayList;
 
@@ -27,21 +27,21 @@ public class MyTask extends ListFragment implements AdapterView.OnItemClickListe
         // Required empty public constructor
     }
 
-    private int userId;
+    private String userId;
     private ArrayList<Task> tasks;
-
+    final private DBHelper dbHelper=new DBHelper();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Bundle bundle = getArguments();
-        userId = bundle.getInt("userId");
+        userId = bundle.getString("userId");
         setList();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_my_group, container, false);
     }
 
     private void setList() {
-        tasks = DBHelper.findAllTaskByUserId(userId);
+        tasks = dbHelper.findAllTaskByUserId(userId);
         ArrayAdapter<Task> adapter = new MyListAdapter();
         setListAdapter(adapter);
     }
@@ -70,7 +70,7 @@ public class MyTask extends ListFragment implements AdapterView.OnItemClickListe
             }
             Task task =tasks.get(position);
             TextView taskName=(TextView)itemView.findViewById(R.id.taskName);
-            taskName.setText(task.getName());
+            taskName.setText(task.getTitle());
             return itemView;
         }
     }

@@ -13,6 +13,15 @@ import com.parse.ParseQuery;
 
 import android.util.Log;
 
+import com.kb5012.timetable.DataModels.Group;
+import com.kb5012.timetable.DataModels.Task;
+import com.kb5012.timetable.DataModels.User;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +41,7 @@ public class DBHelper {
         // demo
         if (username.equals("username") && password.equals("password")) {
             User user = new User();
+            user.setId(14);
             user.setFirstName("test");
             user.setLastName("testen");
             return user;
@@ -53,7 +63,6 @@ public class DBHelper {
         });
         return user[0];
     }
-
 
     /*
      *  Find all tasks based on User ID
@@ -83,5 +92,25 @@ public class DBHelper {
         });
 
         return tasks;
+    }
+
+    public static ArrayList<User> findAllUsersByGroup(String objectId) {
+        final ArrayList<User> users = new ArrayList<>();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Group_user");
+        query.whereEqualTo("group_id", objectId);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    for (ParseObject user : objects) {
+                        User newUser = findUserById(user.getString("user_id"));
+                        users.add(newUser);
+                    }
+                }
+            }
+        });
+
+
+        return users;
     }
 }
