@@ -24,6 +24,9 @@ import android.widget.TextView;
 import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.R;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +36,11 @@ import java.util.List;
  */
 public class MyTask extends ListFragment implements AdapterView.OnItemClickListener {
 
-    private Thread thread;
-    private Handler handler;
-    private ProgressDialog progress;
     private String userId;
     private ArrayList<Task> tasks;
-    final private DBHelper dbHelper=new DBHelper();
+    final private DBHelper dbHelper = new DBHelper();
+    private ArrayAdapter<Task> adapter;
+    private ProgressDialog pDialog;
 
     public MyTask() {
         // Required empty public constructor
@@ -48,43 +50,37 @@ public class MyTask extends ListFragment implements AdapterView.OnItemClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_my_group, container, false);
-        final ProgressBar pb = (ProgressBar) view.findViewById(R.id.progressBar);
+        pDialog = ProgressDialog.show(getActivity(), "Loading...", "Fetching Data...", true, false);
         Bundle bundle = getArguments();
         userId = bundle.getString("userId");
-//        thread = new Thread(new MyThread());
-//        thread.start();
-//        handler = new Handler(){
-//            @Override
-//            public void handleMessage(Message msg) {
-//                tasks = (ArrayList) msg.obj;
-//            }
-//        };
-        tasks = dbHelper.findAllTaskByUserId(userId);
-        Log.e("Next Step:", "moving on to newListAdapter");
-        ArrayAdapter<Task> adapter = new MyListAdapter();
-        //ListView list = (ListView) view.findViewById(android.R.id.list);
+        tasks = new ArrayList<>();
+
+        findAllTaskByUserId(userId);
+        ListView list = (ListView) view.findViewById(android.R.id.list);
+
+        adapter = new MyListAdapter();
         setListAdapter(adapter);
+        list.setOnItemClickListener(this);
+
+
 
         return view;
     }
 
-    private void setList() {
-//        ProgressDialog prog= ProgressDialog.show(getActivity(), "Please Wait...", "Fetching Data...",true, false);//Assuming that you are using fragments.
-//        prog.dismiss();
-
-
-    }
-
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        Log.d("ONITEMCLICK: ", "Clicked " + position);
     }
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        // abstract stub. not needed
     }
 
     public class MyListAdapter extends ArrayAdapter<Task> {
@@ -95,26 +91,35 @@ public class MyTask extends ListFragment implements AdapterView.OnItemClickListe
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View itemView = convertView;
-            if (convertView==null){
-                itemView=getActivity().getLayoutInflater().inflate(R.layout.list_item_task,parent,false);
+            if (convertView == null) {
+                itemView = getActivity().getLayoutInflater().inflate(R.layout.list_item_task, parent, false);
             }
-            Task task =tasks.get(position);
-            TextView taskName=(TextView)itemView.findViewById(R.id.taskName);
+            Task task = tasks.get(position);
+            TextView taskName = (TextView) itemView.findViewById(R.id.group_name);
             taskName.setText(task.getTitle());
             return itemView;
         }
     }
 
-    class MyThread implements Runnable {
+    public void findAllTaskByUserId(String userId) {
 
-        ArrayList<Task> tasks = new ArrayList<>();
-        @Override
-        public void run() {
-            Message message = Message.obtain();
-            tasks = dbHelper.findAllTaskByUserId(userId);
-            message.obj = tasks;
-            handler.sendMessage(message);
+        ParseQuery<Task> query = ParseQuery.getQuery("Task");
+        query.whereEqualTo("receiver", userId);
+        query.findInBackground(new FindCallback<Task>() {
+            public void done(List<Task> parseTasks, ParseException e) {
+                if (e == null) {
+                    for (Task task : parseTasks) {
+                        tasks.add(task);
+                        setListAdapter(adapter);
+                        pDialog.dismiss();
+                        Log.e("SUCCESS", task.getObjectId() + " , " + task.getDescription());
+                    }
 
-        }
+                } else {
+                    Log.e("ERROR", "message: " + e);
+                }
+                Log.e("SUCCESS", "we have " + tasks.size() + " results");
+            }
+        });
     }
 }
