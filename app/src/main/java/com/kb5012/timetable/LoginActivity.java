@@ -37,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.tf_password);
 
         ParseObject.registerSubclass(Task.class);
+        ParseObject.registerSubclass(Group.class);
+        ParseObject.registerSubclass(User.class);
 
         // [Optional] Power your app with Local Datastore. For more info, go to
         // https://parse.com/docs/android/guide#local-datastore

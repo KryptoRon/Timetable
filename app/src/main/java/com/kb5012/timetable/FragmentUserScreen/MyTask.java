@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.R;
+import com.kb5012.timetable.TaskDetails;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -70,6 +71,10 @@ public class MyTask extends ListFragment implements AdapterView.OnItemClickListe
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Log.d("ONITEMCLICK: ", "Clicked " + position);
+        Task item = (Task) getListAdapter().getItem(position);
+        Intent intent = new Intent(getContext(), TaskDetails.class);
+        intent.putExtra("task" , item.getObjectId());
+        startActivity(intent);
     }
 
     @Override
