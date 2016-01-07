@@ -168,13 +168,11 @@ public class GroupScreen extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Group info";
-                case 1:
                     return "My group task";
-                case 2:
+                case 1:
                     return "All group task";
-
-
+                case 2:
+                    return "Group info";
             }
             return null;
         }
