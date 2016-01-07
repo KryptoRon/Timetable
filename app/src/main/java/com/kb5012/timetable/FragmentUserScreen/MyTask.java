@@ -47,7 +47,7 @@ public class MyTask extends ListFragment implements AdapterView.OnItemClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_my_group, container, false);
+        final View view = inflater.inflate(R.layout.fragment_my_task, container, false);
         final ProgressBar pb = (ProgressBar) view.findViewById(R.id.progressBar);
         Bundle bundle = getArguments();
         userId = bundle.getString("userId");

@@ -112,5 +112,13 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+    public void onclickgroup(View v){
+        Intent intent = new Intent(getApplicationContext(), GroupScreen.class);
+        Bundle b = new Bundle();
+        b.putString("groupId", "qSAL3jKMhY");
+        intent.putExtras(b);
+        startActivity(intent);
+        finish();
+    }
 
 }

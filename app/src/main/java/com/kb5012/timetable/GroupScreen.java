@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kb5012.timetable.FragmentGroupScreen.GroupInfo;
-import com.kb5012.timetable.FragmentUserScreen.MyGroupsButtons;
+import com.kb5012.timetable.FragmentGroupScreen.groupTask;
 
 public class GroupScreen extends AppCompatActivity {
 
@@ -35,14 +35,14 @@ public class GroupScreen extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    private int groupId;
+    private String groupId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_screen);
         Bundle b = getIntent().getExtras();
-        groupId = b.getInt("groupId");
+        groupId = b.getString("groupId");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -139,26 +139,29 @@ public class GroupScreen extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             Bundle bundle = new Bundle();
-            bundle.putInt("groupId",groupId);
+            bundle.putString("groupId", groupId);
             switch (position) {
                 case 0:
-                    GroupInfo tab1 = new GroupInfo();
-                    tab1.setArguments(bundle);
-                    return tab1;
+                    //TODO deze moet nog gemaakt worden. lijst van mijn taken van de groep
+                    return PlaceholderFragment.newInstance(position + 1);
                 case 1:
-                    MyGroupsButtons tab2 = new MyGroupsButtons();
+                    groupTask tab2 = new groupTask();
                     tab2.setArguments(bundle);
                     return tab2;
+                case 2:
+                    GroupInfo tab3 = new GroupInfo();
+                    tab3.setArguments(bundle);
+                    return tab3;
                 default:
-            return PlaceholderFragment.newInstance(position + 1);
-        }
+                    return PlaceholderFragment.newInstance(position + 1);
+            }
 
         }
 
         @Override
         public int getCount() {
             // Show 2 total pages.
-            return 2;
+            return 3;
         }
 
         @Override
