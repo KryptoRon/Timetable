@@ -38,7 +38,7 @@ public class MyGroupsButtons extends Fragment {
        Bundle bundle=getArguments();
         String userID=bundle.getString("userId");
         LinearLayout linearLayout=(LinearLayout)v.findViewById(R.id.layout_MyGroup);
-       // ArrayList<Group> myGroups = dbHelper.findAllGroupByUserId(userID);
+        ArrayList<Group> myGroups = dbHelper.findAllGroupByUserId(userID);
         User user = DBHelper.findUserById(userID);
         //((TextView) findViewById(R.id.tv_user)).setText("welkom " + user.getFirstName() + " " + user.getLastName());
         Button button;

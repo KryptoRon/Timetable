@@ -1,17 +1,6 @@
 package com.kb5012.timetable;
 
-import android.util.Log;
-
-import com.kb5012.timetable.DataModels.Group;
-import com.kb5012.timetable.DataModels.Task;
-import com.kb5012.timetable.DataModels.User;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.Parse;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
+import android.support.annotation.MainThread;
 import android.util.Log;
 
 import com.kb5012.timetable.DataModels.Group;
@@ -60,8 +49,8 @@ public class DBHelper {
         });
         return user[0];
     }
-    private ArrayList<ParseObject> groups;
-    public ArrayList<ParseObject>findAllGroupByUserId(String userId){
+    private ArrayList<Group> groups;
+    public ArrayList<Group>findAllGroupByUserId(String userId){
         //TODO hier uit db halen alle groupen van user
         groups=new ArrayList<>();
         ParseQuery<Group> query = ParseQuery.getQuery("Group_user");
@@ -70,8 +59,8 @@ public class DBHelper {
             @Override
             public void done(List<Group> objects, ParseException e) {
                 if (e == null) {
-                    for (ParseObject group : objects) {
-                        ParseObject newGroup = findGroupById(group.getString("group_id"));
+                    for (Group group : objects) {
+                        Group newGroup = findGroupById(group.getString("group_id"));
                         groups.add(newGroup);
                     }
                 }
@@ -79,14 +68,14 @@ public class DBHelper {
         });
         return groups;
     }
-    private ParseObject group;
-    public ParseObject findGroupById(String groupId){
+    private Group group;
+    public Group findGroupById(String groupId){
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Group");
+        ParseQuery<Group> query = ParseQuery.getQuery("Group");
         query.whereEqualTo("objectId", groupId);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
+        query.getFirstInBackground(new GetCallback<Group>() {
             @Override
-            public void done(ParseObject object, ParseException e) {
+            public void done(Group object, ParseException e) {
                 group = object;
             }
         });
@@ -100,16 +89,14 @@ public class DBHelper {
     public ArrayList<Task> findAllTaskByUserId(String userId) {
 
         final ArrayList<Task> tasks = new ArrayList<>();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
+        ParseQuery<Task> query = ParseQuery.getQuery("Task");
         query.whereEqualTo("receiver", userId);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> parseTasks, ParseException e) {
+        query.findInBackground(new FindCallback<Task>() {
+            public void done(List<Task> parseTasks, ParseException e) {
                 if (e == null) {
-                    for (ParseObject task : parseTasks) {
-                        Task newTask = (Task) task;
-
-                        tasks.add(newTask);
-                        Log.e("SUCCESS", newTask.getObjectId() + " , " + newTask.getDescription());
+                    for (Task task : parseTasks) {
+                        tasks.add(task);
+                        Log.e("SUCCESS", task.getObjectId() + " , " + task.getDescription());
                     }
 
                 } else {
@@ -125,13 +112,13 @@ public class DBHelper {
 
     public static ArrayList<User> findAllUsersByGroup(String objectId) {
         final ArrayList<User> users = new ArrayList<>();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Group_user");
+        ParseQuery<User> query = ParseQuery.getQuery("Group_user");
         query.whereEqualTo("group_id", objectId);
-        query.findInBackground(new FindCallback<ParseObject>() {
+        query.findInBackground(new FindCallback<User>() {
             @Override
-            public void done(List<ParseObject> objects, ParseException e) {
+            public void done(List<User> objects, ParseException e) {
                 if (e == null) {
-                    for (ParseObject user : objects) {
+                    for (User user : objects) {
                         User newUser = findUserById(user.getString("user_id"));
                         users.add(newUser);
                     }
