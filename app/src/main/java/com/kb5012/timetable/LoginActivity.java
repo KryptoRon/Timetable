@@ -37,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.tf_password);
 
         ParseObject.registerSubclass(Task.class);
+        ParseObject.registerSubclass(User.class);
+        ParseObject.registerSubclass(Group_user.class);
 
         // [Optional] Power your app with Local Datastore. For more info, go to
         // https://parse.com/docs/android/guide#local-datastore
@@ -116,6 +118,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), GroupScreen.class);
         Bundle b = new Bundle();
         b.putString("groupId", "qSAL3jKMhY");
+        b.putString("userId", "x6S4XHQKfy");
         intent.putExtras(b);
         startActivity(intent);
         finish();

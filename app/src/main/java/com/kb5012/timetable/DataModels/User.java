@@ -15,6 +15,12 @@ public class User extends ParseObject{
     private String firstName;
     private String lastName;
     private ArrayList<Task> tasks;
+    public String getUsername() {
+        return getString("username");
+    }
+    public void setUsername(String username) {
+        put("username", username);
+    }
 
     public User() {
     }

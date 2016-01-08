@@ -4,6 +4,7 @@ import android.support.annotation.MainThread;
 import android.util.Log;
 
 import com.kb5012.timetable.DataModels.Group;
+import com.kb5012.timetable.DataModels.Group_user;
 import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
 import com.parse.FindCallback;
@@ -110,7 +111,7 @@ public class DBHelper {
     }
 
 
-    public static ArrayList<User> findAllUsersByGroup(String objectId) {
+    public ArrayList<User> findAllUsersByGroup(String objectId) {
         final ArrayList<User> users = new ArrayList<>();
         ParseQuery<User> query = ParseQuery.getQuery("Group_user");
         query.whereEqualTo("group_id", objectId);
@@ -149,5 +150,54 @@ public class DBHelper {
                 //Log.e("SUCCESS", "we have " + tasks.size() + " results");
             }
         });
+    }
+
+    public void findAllTaskByGroupIdAndUserId(String groupId, String userId, TaskAdapter mAdapter) {
+        final TaskAdapter Adapter = mAdapter;
+        ParseQuery<Task> query = ParseQuery.getQuery("Task");
+        query.whereEqualTo("group_id", groupId);
+        query.whereEqualTo("receiver", userId);
+        query.findInBackground(new FindCallback<Task>() {
+            public void done(List<Task> parseTasks, ParseException e) {
+                if (e == null) {
+                    if(parseTasks != null){
+                        Adapter.clear();
+                        for (int i = 0; i < parseTasks.size(); i++) {
+                            Adapter.add(parseTasks.get(i));
+                        }
+                    }
+
+                } else {
+                    Log.e("ERROR", "message: " + e);
+                }
+                //Log.e("SUCCESS", "we have " + tasks.size() + " results");
+            }
+        });
+
+    }
+
+    public void findAllUserByGroupId(String groupId, UserAdapter mAdapter) {
+        final UserAdapter Adapter = mAdapter;
+        ParseQuery<Group_user> query = ParseQuery.getQuery("Group_user");
+        query.whereEqualTo("group_id", groupId);
+        query.findInBackground(new FindCallback<Group_user>() {
+            public void done(List<Group_user> parseUsers, ParseException e) {
+                if (e == null) {
+                    if(parseUsers != null){
+                        Adapter.clear();
+                        User user;
+                        for (int i = 0; i < parseUsers.size(); i++) {
+                            user= findUserById(parseUsers.get(i).getUser_id());
+                            Adapter.add(user);
+                        }
+                    }
+
+                } else {
+                    Log.e("ERROR", "message: " + e);
+                }
+                //Log.e("SUCCESS", "we have " + tasks.size() + " results");
+            }
+        });
+
     }
 }

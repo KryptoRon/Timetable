@@ -30,7 +30,7 @@ public class Group extends ParseObject {
     }
 
     public ArrayList<User> getGroupUsers() {
-        ArrayList<User> users = DBHelper.findAllUsersByGroup(this.getObjectId());
+        ArrayList<User> users = new DBHelper().findAllUsersByGroup(this.getObjectId());
         return users;
     }
 
