@@ -129,27 +129,25 @@ public class DBHelper {
 
         return users;
     }
-    public ArrayList<Task> findAllTaskByGroupId(String groupid) {
-        final ArrayList<Task> tasks = new ArrayList<>();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Task");
+    public void findAllTaskByGroupId(String groupid,TaskAdapter listAdapter) {
+        final TaskAdapter mAdapter = listAdapter;
+        ParseQuery<Task> query = ParseQuery.getQuery("Task");
         query.whereEqualTo("group_id", groupid);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> parseTasks, ParseException e) {
+        query.findInBackground(new FindCallback<Task>() {
+            public void done(List<Task> parseTasks, ParseException e) {
                 if (e == null) {
-                    for (ParseObject task : parseTasks) {
-                        Task newTask = (Task) task;
-
-                        tasks.add(newTask);
-                        Log.e("SUCCESS", newTask.getObjectId() + " , " + newTask.getDescription());
+                    if(parseTasks != null){
+                        mAdapter.clear();
+                        for (int i = 0; i < parseTasks.size(); i++) {
+                            mAdapter.add(parseTasks.get(i));
+                        }
                     }
 
                 } else {
                     Log.e("ERROR", "message: " + e);
                 }
-                Log.e("SUCCESS", "we have " + tasks.size() + " results");
+                //Log.e("SUCCESS", "we have " + tasks.size() + " results");
             }
         });
-
-        return tasks;
     }
 }

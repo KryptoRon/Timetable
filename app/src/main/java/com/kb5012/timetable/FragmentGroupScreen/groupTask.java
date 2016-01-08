@@ -59,29 +59,9 @@ public class groupTask extends ListFragment {
                 Toast.makeText(getContext(), "klik", Toast.LENGTH_LONG).show();
             }
         });
-        updateData();
+        dbHelper.findAllTaskByGroupId(groupId,mAdapter);
         return v;
-    }
 
-    private void updateData() {
-        ParseQuery<Task> query = ParseQuery.getQuery("Task");
-        query.whereEqualTo("group_id", groupId);
-        query.findInBackground(new FindCallback<Task>() {
-            public void done(List<Task> parseTasks, ParseException e) {
-                if (e == null) {
-                    if(tasks != null){
-                        mAdapter.clear();
-                        for (int i = 0; i < tasks.size(); i++) {
-                            mAdapter.add(tasks.get(i));
-                        }
-                    }
-
-                } else {
-                    Log.e("ERROR", "message: " + e);
-                }
-                Log.e("SUCCESS", "we have " + tasks.size() + " results");
-            }
-        });
     }
 
 
@@ -90,7 +70,6 @@ public class groupTask extends ListFragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         groupId = bundle.getString("groupId");
-        tasks = dbHelper.findAllTaskByGroupId(groupId);
 
 
     }
