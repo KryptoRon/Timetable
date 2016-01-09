@@ -13,19 +13,19 @@ public class Task extends ParseObject {
 
     public Task() {}
 
-    public String getSender() {
-        return getString("sender");
+    public User getSender() {
+        return (User) getParseUser("sender");
     }
 
-    public void setSender(String sender) {
+    public void setSender(User sender) {
         put("sender", sender);
     }
 
-    public String getReceiver() {
-        return getString("receiver");
+    public User getReceiver() {
+        return (User) getParseUser("receiver");
     }
 
-    public void setReceiver(String receiver) {
+    public void setReceiver(User receiver) {
         put("receiver", receiver);
     }
 

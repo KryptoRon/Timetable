@@ -3,14 +3,15 @@ package com.kb5012.timetable.DataModels;
 import com.kb5012.timetable.DataModels.Task;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
 /**
  * Created by Ronald on 14-12-2015.
  */
-@ParseClassName("User")
-public class User extends ParseObject{
+@ParseClassName("_User")
+public class User extends ParseUser{
     private int id;
     private String firstName;
     private String lastName;

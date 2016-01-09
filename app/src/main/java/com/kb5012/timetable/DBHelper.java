@@ -1,7 +1,11 @@
 package com.kb5012.timetable;
 
+import android.content.Context;
 import android.support.annotation.MainThread;
+import android.text.Layout;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.DataModels.Task;
@@ -11,6 +15,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +25,6 @@ import java.util.List;
  */
 public class DBHelper {
 
-    //ToDo database connection maken..
     public DBHelper() {
     }
 
@@ -81,32 +85,44 @@ public class DBHelper {
         });
         return group;
     }
+    private static Task task;
+    public static Task findTaskById(String taskId) {
+        ParseQuery<Task> query = ParseQuery.getQuery("Task");
+        query.whereEqualTo("objectId", taskId);
+        query.getFirstInBackground(new GetCallback<Task>() {
+            @Override
+            public void done(Task object, ParseException e) {
+                task = object;
+            }});
+        return task;
+    }
+
+
     /*
      *  Find all tasks based on User ID
-     *  @param userId : String which is the PK from ParseObject
-     *  @return : returns a list of all Tasks found by using "userId" as parameter
+     *  @param user : ParseUser to be used.
+     *  @param adapter : adapter to be updated when query is succes
      */
-    public ArrayList<Task> findAllTaskByUserId(String userId) {
+    public void findAllTaskByUserId(ParseUser user, final TaskAdapter adapter) {
 
-        final ArrayList<Task> tasks = new ArrayList<>();
         ParseQuery<Task> query = ParseQuery.getQuery("Task");
-        query.whereEqualTo("receiver", userId);
+        query.whereEqualTo("receiver", user);
         query.findInBackground(new FindCallback<Task>() {
             public void done(List<Task> parseTasks, ParseException e) {
-                if (e == null) {
+                if (e == null && parseTasks != null) {
+                    adapter.clear();
                     for (Task task : parseTasks) {
-                        tasks.add(task);
+                        adapter.add(task);
+
                         Log.e("SUCCESS", task.getObjectId() + " , " + task.getDescription());
                     }
 
                 } else {
                     Log.e("ERROR", "message: " + e);
                 }
-                Log.e("SUCCESS", "we have " + tasks.size() + " results");
+                //Log.e("SUCCESS", "we have " + tasks.size() + " results");
             }
         });
-
-        return tasks;
     }
 
 
@@ -128,5 +144,26 @@ public class DBHelper {
 
 
         return users;
+    }
+    public void findAllTaskByGroupId(String groupid,TaskAdapter listAdapter) {
+        final TaskAdapter mAdapter = listAdapter;
+        ParseQuery<Task> query = ParseQuery.getQuery("Task");
+        query.whereEqualTo("group_id", groupid);
+        query.findInBackground(new FindCallback<Task>() {
+            public void done(List<Task> parseTasks, ParseException e) {
+                if (e == null) {
+                    if(parseTasks != null){
+                        mAdapter.clear();
+                        for (int i = 0; i < parseTasks.size(); i++) {
+                            mAdapter.add(parseTasks.get(i));
+                        }
+                    }
+
+                } else {
+                    Log.e("ERROR", "message: " + e);
+                }
+                //Log.e("SUCCESS", "we have " + tasks.size() + " results");
+            }
+        });
     }
 }

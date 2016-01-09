@@ -77,7 +77,7 @@ public class TaskCreateActivity extends AppCompatActivity{
 
         t.setTitle("" + ((EditText) findViewById(R.id.tf_name)).getText());
         t.setDescription("" + ((EditText) findViewById(R.id.tf_description)).getText());
-        t.setReceiver(receiver);
+        //t.setReceiver(receiver);
 
         Calendar c = Calendar.getInstance();
 
