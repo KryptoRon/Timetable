@@ -33,7 +33,7 @@ public class TaskCreateActivity extends AppCompatActivity{
 
         DBHelper helper = new DBHelper();
 
-        ArrayList<ParseObject> groupList = helper.findAllGroupByUserId(userID);
+        ArrayList<Group> groupList = helper.findAllGroupByUserId(userID);
         String[] groupNameList = new String[groupList.size()];
         int i = 0;
         for(ParseObject group : groupList) {

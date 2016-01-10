@@ -1,6 +1,7 @@
 package com.kb5012.timetable.DataModels;
 
 import com.kb5012.timetable.DataModels.Task;
+import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -8,11 +9,18 @@ import java.util.ArrayList;
 /**
  * Created by Ronald on 14-12-2015.
  */
+@ParseClassName("User")
 public class User extends ParseObject{
     private int id;
     private String firstName;
     private String lastName;
     private ArrayList<Task> tasks;
+    public String getUsername() {
+        return getString("username");
+    }
+    public void setUsername(String username) {
+        put("username", username);
+    }
 
     public User() {
     }

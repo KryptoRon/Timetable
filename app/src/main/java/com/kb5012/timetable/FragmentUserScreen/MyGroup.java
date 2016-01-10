@@ -26,25 +26,29 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class MyGroup extends ListFragment implements OnItemClickListener{
+
     private DBHelper dbHelper=new DBHelper();
+    private int userId;
+    private ArrayList<Group> groups;
 
     public MyGroup() {
         // Required empty public constructor
     }
 
-    private int userId;
-    private ArrayList<Group> groups;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.fragment_my_group, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_group, container, false);
         Bundle bundle = getArguments();
         userId = bundle.getInt("userId");
+        groups = new ArrayList<>();
 
-        setList(v);
-        // Inflate the layout for this fragment
-        return v;
+        MyListAdapter adapter = new MyListAdapter(getActivity());
+        ListView myList = (ListView) view.findViewById(android.R.id.list);
+        myList.setAdapter(adapter);
+
+        return view;
     }
 
 
@@ -57,19 +61,6 @@ public class MyGroup extends ListFragment implements OnItemClickListener{
 
 
     }
-
-    private void setList(View v) {
-        //groups = dbHelper.findAllGroupByUserId(userId);
-        ArrayAdapter<Group> adapter = new MyListAdapter(getActivity());
-        setListAdapter(adapter);
-        ListView listView=(ListView)v.findViewById(android.R.id.list);
-        ((AdapterView)listView).setAdapter(adapter);
-        Log.d("adapter","gezet");
-
-
-    }
-
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -110,11 +101,11 @@ public class MyGroup extends ListFragment implements OnItemClickListener{
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View itemView = convertView;
-            if (convertView==null){
+            if (convertView == null){
                 itemView=getActivity().getLayoutInflater().inflate(R.layout.list_item_group,parent,false);
             }
             Group group = groups.get(position);
-            TextView groupName=(TextView)itemView.findViewById(R.id.groupName);
+            TextView groupName = (TextView) itemView.findViewById(R.id.groupName);
             groupName.setText(group.getName());
             return itemView;
         }
