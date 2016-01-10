@@ -47,9 +47,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="For who?"
-        android:id="@+id/textView5"
-        android:layout_gravity="center_horizontal" />
+        android:text="Group"
+        android:id="@+id/textView8"
+        android:layout_weight="0.28"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/tf_date"
+        android:layout_centerHorizontal="true" />
 
     <Spinner
         android:layout_width="230dp"
@@ -76,37 +79,37 @@
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal">
 
-        <EditText
-            android:layout_width="52dp"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="time"
-            android:ems="10"
-            android:id="@+id/tf_time"
-            android:layout_gravity="right"
-            android:layout_marginEnd="75dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true" />
+            android:text="New Text"
+            android:id="@+id/date_view"
+            android:layout_marginStart="93dp"
+            android:textColor="#060505"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true" />
 
-        <EditText
-            android:layout_width="175dp"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/tf_date"
-            android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/tf_time" />
+            android:text="New Text"
+            android:id="@+id/time_view"
+            android:layout_marginStart="56dp"
+            android:textColor="#060505"
+            android:textSize="16sp"
+            android:layout_alignTop="@+id/date_view"
+            android:layout_toEndOf="@+id/date_view" />
 
     </RelativeLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Group"
-        android:id="@+id/textView8"
-        android:layout_weight="0.28"
+        android:text="For who?"
+        android:id="@+id/textView5"
         android:layout_gravity="center_horizontal"
-        android:layout_below="@+id/tf_date"
-        android:layout_centerHorizontal="true" />
+        android:onClick="onDateClick"/>
 
     <Spinner
         android:layout_width="230dp"
