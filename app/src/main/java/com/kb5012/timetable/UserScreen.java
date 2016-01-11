@@ -15,9 +15,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.kb5012.timetable.FragmentUserScreen.MyGroup;
 import com.kb5012.timetable.FragmentUserScreen.MyTask;
+import com.parse.ParseUser;
 
 public class UserScreen extends AppCompatActivity {
 
@@ -42,7 +44,7 @@ public class UserScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_screen);
         Bundle b = getIntent().getExtras();
-        userID = b.getString("UserID");
+        userID = ParseUser.getCurrentUser().getObjectId();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -69,6 +71,8 @@ public class UserScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Toast.makeText(this, "Data has been collected", Toast.LENGTH_LONG);
 
     }
 

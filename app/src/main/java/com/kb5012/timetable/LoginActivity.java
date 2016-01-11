@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void done(ParseUser user, ParseException e) {
                         if (user != null) {
                             // If user exist and authenticated, send user to Welcome.class
-                            Intent intent = new Intent(getApplicationContext(), UserScreen.class);
+                            Intent intent = new Intent(getApplicationContext(), SplashPage.class);
                             Bundle b = new Bundle();
                             b.putString("UserID", user.getObjectId());
                             intent.putExtras(b);
