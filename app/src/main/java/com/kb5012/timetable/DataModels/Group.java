@@ -29,10 +29,13 @@ public class Group extends ParseObject {
 
     public Group() { }
 
+    public String getId() {
+        return getString("objectId");
+    }
+
     public String getName() {
         return getString("group_name");
     }
-
     public void setName(String group_name) {
         put("group_name", group_name);
     }

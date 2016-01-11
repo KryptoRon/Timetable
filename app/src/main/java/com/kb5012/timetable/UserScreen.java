@@ -64,9 +64,9 @@ public class UserScreen extends AppCompatActivity {
        //                 .setAction("Action", null).show();
                 //Intent intent = new Intent(getApplicationContext(), TaskCreateActivity.class);
                 Intent intent = new Intent(getApplicationContext(), GroupCreateActivity.class);
-                //Bundle bundle = new Bundle();
-                //bundle.putString("userId", userID);
-                //intent.putExtras(bundle);
+                Bundle bundle = new Bundle();
+                bundle.putString("userId", userID);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

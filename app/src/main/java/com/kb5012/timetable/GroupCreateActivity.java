@@ -1,5 +1,6 @@
 package com.kb5012.timetable;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -9,16 +10,21 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kb5012.timetable.DataModels.Group;
+import com.kb5012.timetable.DataModels.Group_user;
 import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
 import com.parse.ParseObject;
@@ -29,11 +35,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class GroupCreateActivity extends AppCompatActivity {
     private ArrayList<User> users;
     private ArrayList<String> username;
     private byte[] img;
+    private ListView lv;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +51,11 @@ public class GroupCreateActivity extends AppCompatActivity {
 
         users = new ArrayList<User>();
         username = new ArrayList<String>();
+
+        lv = (ListView) findViewById(R.id.listView);
+        lv.setAdapter(new MyListAdaper(this, R.layout.list_group_members_managment, username));
+        Bundle b = getIntent().getExtras();
+        userID = b.getString("UserID");
     }
 
     public void onClickGallery(View v){
@@ -78,8 +92,49 @@ public class GroupCreateActivity extends AppCompatActivity {
         }
     }
     public void onClick(View v){
-        newGroup();
-        finish();
+        if(newGroup()){
+            finish();
+        }
+    }
+
+    private class MyListAdaper extends ArrayAdapter<String> {
+        private int layout;
+        private List<String> mObjects;
+        private MyListAdaper(Context context, int resource, List<String> objects) {
+            super(context, resource, objects);
+            mObjects = objects;
+            layout = resource;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ViewHolder mainViewholder = null;
+            if(convertView == null) {
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                convertView = inflater.inflate(layout, parent, false);
+                ViewHolder viewHolder = new ViewHolder();
+                viewHolder.title = (TextView) convertView.findViewById(R.id.list_item_name);
+                viewHolder.button = (ImageView) convertView.findViewById(R.id.list_item_btn);
+                viewHolder.button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TextView title = (TextView) findViewById(R.id.list_item_name);
+                        DBHelper helper = new DBHelper();
+                        User userList = helper.findUserByUsername(title.getText().toString());
+                        downgradeList(userList);
+                    }
+                });
+                convertView.setTag(viewHolder);
+            }
+            mainViewholder = (ViewHolder) convertView.getTag();
+            mainViewholder.title.setText(getItem(position));
+
+            return convertView;
+        }
+    }
+    public class ViewHolder {
+        TextView title;
+        ImageView button;
     }
 
     public void onClickAdd(View v){
@@ -93,28 +148,40 @@ public class GroupCreateActivity extends AppCompatActivity {
             Toast.makeText(this.getBaseContext(), "User doesn't exist", Toast.LENGTH_SHORT).show();
         }
     }
-
+    private void downgradeList(User u){
+        users.remove(u);
+        username.remove(u.getUsername());
+        lv.setAdapter(new MyListAdaper(this, R.layout.list_group_members_managment, username));
+    }
     private void updateList(User u){
         users.add(u);
         username.add(u.getUsername());
-        ListView lv = (ListView) findViewById(R.id.listView);
-
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, username);
-
-        lv.setAdapter(arrayAdapter);
+        lv.setAdapter(new MyListAdaper(this, R.layout.list_group_members_managment, username));
     }
 
-    private void newGroup() {
+    private boolean newGroup() {
         EditText et1 = (EditText) findViewById(R.id.tf_name);
         EditText et2 = (EditText) findViewById(R.id.tf_addUser);
         if(img != null && !et1.getText().toString().isEmpty() && !et2.getText().toString().isEmpty()) {
             Group g = new Group();
             g.setName(et1.getText().toString());
             g.setImage(img);
-            g.saveInBackground();
+            g.saveEventually();
+            for (int i = 0; i < users.size(); i++) {
+                Group_user gu = new Group_user();
+                gu.setGroup_id(g.getId());
+                gu.setUser_id(users.get(i).getId());
+                gu.saveEventually();
+            }
+            Group_user gu = new Group_user();
+            gu.setGroup_id(g.getId());
+            gu.setUser_id(userID);
+            gu.saveEventually();
             Toast.makeText(this.getBaseContext(), "Your group has been made!", Toast.LENGTH_SHORT).show();
+            return true;
         } else {
             Toast.makeText(this.getBaseContext(), "Fill all parameters!", Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 }
