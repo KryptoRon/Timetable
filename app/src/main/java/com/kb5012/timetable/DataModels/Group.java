@@ -18,7 +18,9 @@ import java.util.ArrayList;
 public class Group extends ParseObject {
     private ArrayList<User> members;
     private ArrayList<Task> tasks;
-    private byte[] image;
+    private User beheerder;
+    private Image image;
+    private String name;
 
     public byte[] getImage() {
         return image;
@@ -26,7 +28,6 @@ public class Group extends ParseObject {
     public void setImage(byte[] image) {
         this.image = image;
     }
-
     public Group() { }
 
     public String getName() {
@@ -42,7 +43,7 @@ public class Group extends ParseObject {
     }
 
     public ArrayList<User> getGroupUsers() {
-        ArrayList<User> users = DBHelper.findAllUsersByGroup(this.getObjectId());
+        ArrayList<User> users = new DBHelper().findAllUsersByGroup(this.getObjectId());
         return users;
     }
 

@@ -20,6 +20,10 @@
         android:layout_height="match_parent"
         android:id="@+id/groupLeader"
         android:text="" />
+    <ListView
+        android:id="@id/android:list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ListView>
 
 
 </FrameLayout>
