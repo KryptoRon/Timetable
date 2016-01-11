@@ -43,9 +43,15 @@ public class LoginActivity extends AppCompatActivity {
         // [Optional] Power your app with Local Datastore. For more info, go to
         // https://parse.com/docs/android/guide#local-datastore
         Parse.enableLocalDatastore(this);
-
-
         Parse.initialize(this);
+        User currentUser =(User) ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            Intent intent = new Intent(getApplicationContext(), UserScreen.class);
+            Bundle b = new Bundle();
+            b.putString("UserID", currentUser.getObjectId());
+            intent.putExtras(b);
+            startActivity(intent);
+        }
     }
 
     public void signIn(View v) {
