@@ -5,6 +5,7 @@ import android.media.Image;
 import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
+import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
@@ -13,16 +14,20 @@ import java.util.ArrayList;
 /**
  * Created by Ronald on 14-12-2015.
  */
+@ParseClassName("Group")
 public class Group extends ParseObject {
     private ArrayList<User> members;
     private ArrayList<Task> tasks;
-    private User beheerder;
-    private Image image;
-    private String name;
+    private byte[] image;
 
-    public Group() {
-        
+    public byte[] getImage() {
+        return image;
     }
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public Group() { }
 
     public String getName() {
         return getString("group_name");
@@ -32,9 +37,20 @@ public class Group extends ParseObject {
         put("group_name", group_name);
     }
 
+    public String getId(){
+        return getString("objectId");
+    }
+
     public ArrayList<User> getGroupUsers() {
         ArrayList<User> users = DBHelper.findAllUsersByGroup(this.getObjectId());
         return users;
     }
 
+    public ArrayList<User> getMembers(){
+        return members;
+    }
+
+    public void addGroupMember(User u){
+        members.add(u);
+    }
 }
