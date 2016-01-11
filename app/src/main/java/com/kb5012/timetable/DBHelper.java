@@ -67,7 +67,13 @@ public class DBHelper {
                         for (int i = 0; i < parseGroup.size(); i++) {
                             //findGroupById(parseGroup.get(i).get("group_id")+"",adapter);
                             //TODO get groups
-                            Log.d("group", parseGroup.get(i).get("group_id") + "");
+                            Group group =(Group) parseGroup.get(i).getParseObject("group_id");
+                            try {
+                                group.fetch();
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                            }
+                            mAdapter.add(group);
                         }
                     }
 
@@ -168,7 +174,7 @@ public class DBHelper {
     public void findAllTaskByGroupIdAndUserId(Group group, User user, TaskAdapter mAdapter) {
         final TaskAdapter myAdapter = mAdapter;
         ParseQuery<Task> query = ParseQuery.getQuery("Task");
-       // query.whereEqualTo("receiver", user);
+        query.whereEqualTo("receiver", user);
         query.whereEqualTo("group",group);
         query.findInBackground(new FindCallback<Task>() {
             public void done(List<Task> parseTasks, ParseException e) {

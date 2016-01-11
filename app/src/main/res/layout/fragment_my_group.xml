@@ -9,12 +9,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
 
-    <ProgressBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="?android:attr/progressBarStyleSmall"
-        android:indeterminate="true"
-        android:id="@+id/progressBar"
-        android:layout_gravity="center" />
-
 </FrameLayout>

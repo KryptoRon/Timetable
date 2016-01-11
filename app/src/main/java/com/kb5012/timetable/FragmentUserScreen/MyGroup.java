@@ -23,6 +23,7 @@ import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
 import com.kb5012.timetable.R;
 import com.kb5012.timetable.TaskAdapter;
+import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
