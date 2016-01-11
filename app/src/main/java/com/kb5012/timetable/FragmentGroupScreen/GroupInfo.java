@@ -1,9 +1,12 @@
 package com.kb5012.timetable.FragmentGroupScreen;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +20,13 @@ import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
+import com.kb5012.timetable.GroupScreen;
 import com.kb5012.timetable.R;
 import com.kb5012.timetable.TaskAdapter;
 import com.kb5012.timetable.UserAdapter;
+import com.kb5012.timetable.UserScreen;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +41,7 @@ import java.util.List;
  */
 public class GroupInfo extends ListFragment {
     private String groupId;
+
     private ArrayList<User> users;
     final private DBHelper dbHelper=new DBHelper();
     private ListView mListView;
@@ -55,7 +63,7 @@ public class GroupInfo extends ListFragment {
         if (bundle != null) {
             groupId = bundle.getString("groupId");
         }
-        TextView groupnumber=(TextView) v.findViewById(R.id.groupNumber);
+        TextView groupnumber=(TextView) v.findViewById(R.id.groupName);
         groupnumber.setText("Group id: " + groupId);
         mAdapter = new UserAdapter(getContext(), new ArrayList<User>());
 
@@ -70,6 +78,34 @@ public class GroupInfo extends ListFragment {
         //TODO members uit de db halen
         //dbHelper.findAllUserByGroupId(groupId, mAdapter);
 
+
+    }
+    public void leaveGroup(View view) {
+        //TODO verlaat group
+        new AlertDialog.Builder(view.getContext())
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Leaving group")
+                .setMessage("Are you sure you want to leave this group?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO db group verlaten
+                        //TODO group object maken
+                        Group group= new Group();
+                        dbHelper.leaveGroup( group);
+                        User user=(User) ParseUser.getCurrentUser();
+                        Intent intent = new Intent(getActivity(), UserScreen.class);
+                        Bundle b = new Bundle();
+                        b.putString("userId", user.getObjectId());
+                        intent.putExtras(b);
+                        startActivity(intent);
+                        //finish();
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show();
 
     }
 

@@ -5,25 +5,18 @@
     tools:context=".FragmentGroupScreen.GroupInfo">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/groupNumber"
-        android:text="" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/groupName"
-        android:text="" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/groupLeader"
-        android:text="" />
-    <ListView
-        android:id="@id/android:list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Leave group"
+        android:id="@+id/leaveGroup"
+        android:onClick="leaveGroup"
+        android:layout_below="@+id/groupName"
+        />
+
+
 
 
 </FrameLayout>

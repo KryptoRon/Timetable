@@ -2,6 +2,7 @@ package com.kb5012.timetable;
 
 import android.support.annotation.MainThread;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.DataModels.Group_user;
@@ -12,6 +13,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -199,5 +201,27 @@ public class DBHelper {
             }
         });
 
+    }
+
+    public void removeUserFromGroup(Group group, User user) {
+
+        //TODO testen of dit doet
+        ParseQuery<ParseObject> query=ParseQuery.getQuery("Group_user");
+        query.whereEqualTo("group_id",group.getObjectId());
+        query.whereEqualTo("user_id", user.getObjectId());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if(e==null) {
+
+
+                    for (ParseObject delete : parseObjects) {
+                        delete.deleteEventually();
+                    }
+                }else{
+                    Log.e("ERROR", "message: " + e);
+                }
+            }
+        });
     }
 }

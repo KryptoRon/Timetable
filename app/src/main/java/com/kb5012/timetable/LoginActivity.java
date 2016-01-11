@@ -1,7 +1,9 @@
 package com.kb5012.timetable;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -44,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         // https://parse.com/docs/android/guide#local-datastore
         Parse.enableLocalDatastore(this);
         Parse.initialize(this);
-        User currentUser =(User) ParseUser.getCurrentUser();
+        User currentUser = (User) ParseUser.getCurrentUser();
         if (currentUser != null) {
             Intent intent = new Intent(getApplicationContext(), UserScreen.class);
             Bundle b = new Bundle();
@@ -112,7 +114,8 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
     }
-    public void test (View v){
+
+    public void test(View v) {
         Intent intent = new Intent(getApplicationContext(), UserScreen.class);
         Bundle b = new Bundle();
         b.putString("userID", "0");
@@ -120,7 +123,8 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    public void onclickgroup(View v){
+
+    public void onclickgroup(View v) {
         Intent intent = new Intent(getApplicationContext(), GroupScreen.class);
         Bundle b = new Bundle();
         b.putString("groupId", "qSAL3jKMhY");
@@ -129,5 +133,8 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+
+
 
 }
