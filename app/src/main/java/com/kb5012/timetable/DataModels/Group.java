@@ -18,6 +18,14 @@ import java.util.ArrayList;
 public class Group extends ParseObject {
     private ArrayList<User> members;
     private ArrayList<Task> tasks;
+    private byte[] image;
+
+    public byte[] getImage() {
+        return image;
+    }
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 
     public Group() { }
 
@@ -37,9 +45,4 @@ public class Group extends ParseObject {
     public void addGroupMember(User u){
         members.add(u);
     }
-
-    public void setBeheerder(User u){
-        beheerder = u;
-    }
-
 }
