@@ -13,18 +13,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
-import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
-import com.parse.Parse;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -93,6 +87,7 @@ public class TaskCreateActivity extends AppCompatActivity{
         finish();
     }
 
+    //Saving a new task in the database
     private void newTask() {
         Task t = new Task();
 
@@ -106,20 +101,15 @@ public class TaskCreateActivity extends AppCompatActivity{
         catch (ParseException e){
             e.printStackTrace();
         }
-        System.out.println(datetime);
 
-        Spinner sR = (Spinner)findViewById(R.id.spinnerUser);
-        String receiver = sR.getSelectedItem().toString();
-        Spinner sG = (Spinner)findViewById(R.id.spinnerGroup);
-        String group = sG.getSelectedItem().toString();
-        Date convert = new Date();
-
+        //TODO : Make Dynamic
         User receiverT = new User();
         receiverT.setObjectId("4lCSDPPBSX");
 
         t.put("title", "" + ((EditText) findViewById(R.id.tf_name)).getText());
         t.put("description", "" + ((EditText) findViewById(R.id.tf_description)).getText());
         t.put("receiver", receiverT);
+        //TODO : Make Dynamic
         t.put("group_id", "qSAL3jKMhY");
         t.put("status", false);
         t.put("sender", ParseUser.getCurrentUser());
@@ -133,6 +123,8 @@ public class TaskCreateActivity extends AppCompatActivity{
 
     }
 
+
+    //Making a Dialog for the date & time pickers
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id) {
@@ -145,6 +137,8 @@ public class TaskCreateActivity extends AppCompatActivity{
         return null;
 
     }
+
+    //Making a listener for the timepicker
     private TimePickerDialog.OnTimeSetListener mTimeSetListener =
             new TimePickerDialog.OnTimeSetListener()
             {
@@ -159,6 +153,7 @@ public class TaskCreateActivity extends AppCompatActivity{
                 }
             };
 
+    //Making a listener for the datepicker
     private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -170,7 +165,5 @@ public class TaskCreateActivity extends AppCompatActivity{
         }
 
     };
-
-
 
 }
