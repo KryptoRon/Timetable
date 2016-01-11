@@ -24,7 +24,7 @@ import java.util.Date;
 
 public class TaskCreateActivity extends AppCompatActivity{
 
-    private String userID;
+    private User user;
     private final Calendar currentDate = Calendar.getInstance();
 
     private String year;
@@ -39,8 +39,7 @@ public class TaskCreateActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_create);
-        Bundle bundle = getIntent().getExtras();
-        userID = bundle.getString("userId");
+        user=(User)ParseUser.getCurrentUser();
 
 
         yearI = currentDate.get(Calendar.YEAR);

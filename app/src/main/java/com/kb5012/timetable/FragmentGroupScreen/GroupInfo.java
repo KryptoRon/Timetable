@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +40,7 @@ import java.util.List;
  * Use the {@link GroupInfo#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GroupInfo extends ListFragment {
+public class GroupInfo extends Fragment {
     private String groupId;
 
     private ArrayList<User> users;
@@ -52,7 +53,42 @@ public class GroupInfo extends ListFragment {
         View v = inflater.inflate(R.layout.fragment_group_info, container, false);
         setMyGroups(v);
 
+        SetButtonclick(v);
         return v;
+    }
+
+    private void SetButtonclick(View v) {
+        Button button=(Button)v.findViewById(R.id.leaveGroup);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(v.getContext())
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Leaving group")
+                        .setMessage("Are you sure you want to leave this group?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // TODO db group verlaten
+                                //TODO group object maken
+                                Group group = new Group();
+                                User user = (User) ParseUser.getCurrentUser();
+                                dbHelper.removeUserFromGroup(group, user);
+
+                                Intent intent = new Intent(getActivity(), UserScreen.class);
+                                Bundle b = new Bundle();
+                                b.putString("userId", user.getObjectId());
+                                intent.putExtras(b);
+                                startActivity(intent);
+                                //finish();
+                            }
+
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+            }
+        });
+
     }
 
 
@@ -78,34 +114,6 @@ public class GroupInfo extends ListFragment {
         //TODO members uit de db halen
         //dbHelper.findAllUserByGroupId(groupId, mAdapter);
 
-
-    }
-    public void leaveGroup(View view) {
-        //TODO verlaat group
-        new AlertDialog.Builder(view.getContext())
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Leaving group")
-                .setMessage("Are you sure you want to leave this group?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // TODO db group verlaten
-                        //TODO group object maken
-                        Group group= new Group();
-                        dbHelper.leaveGroup( group);
-                        User user=(User) ParseUser.getCurrentUser();
-                        Intent intent = new Intent(getActivity(), UserScreen.class);
-                        Bundle b = new Bundle();
-                        b.putString("userId", user.getObjectId());
-                        intent.putExtras(b);
-                        startActivity(intent);
-                        //finish();
-                    }
-
-                })
-                .setNegativeButton("No", null)
-                .show();
 
     }
 

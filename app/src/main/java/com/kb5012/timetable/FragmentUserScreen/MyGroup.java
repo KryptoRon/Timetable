@@ -15,12 +15,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Group;
+import com.kb5012.timetable.DataModels.Task;
+import com.kb5012.timetable.DataModels.User;
 import com.kb5012.timetable.R;
+import com.kb5012.timetable.TaskAdapter;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,8 +34,10 @@ import java.util.ArrayList;
 public class MyGroup extends ListFragment implements OnItemClickListener{
 
     private DBHelper dbHelper=new DBHelper();
-    private int userId;
+    private User user;
     private ArrayList<Group> groups;
+    private ListView mListView;
+    private MyListAdapter mAdapter;
 
     public MyGroup() {
         // Required empty public constructor
@@ -40,24 +48,25 @@ public class MyGroup extends ListFragment implements OnItemClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_group, container, false);
-        Bundle bundle = getArguments();
-        userId = bundle.getInt("userId");
-        groups = new ArrayList<>();
-
-        MyListAdapter adapter = new MyListAdapter(getActivity());
-        ListView myList = (ListView) view.findViewById(android.R.id.list);
-        myList.setAdapter(adapter);
-
+        user= (User)ParseUser.getCurrentUser();
+        mAdapter = new MyListAdapter(getContext(), new ArrayList<Group>());
+        mListView = (ListView)view.findViewById(android.R.id.list);
+        mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getContext(), "klik", Toast.LENGTH_LONG).show();
+            }
+        });
+        dbHelper.findAllGroupByUserId(user, mAdapter);
         return view;
     }
-
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = getArguments();
-        userId = bundle.getInt("userId");
+        user= (User) ParseUser.getCurrentUser();
 
 
     }
@@ -65,17 +74,7 @@ public class MyGroup extends ListFragment implements OnItemClickListener{
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //setList();
-//        getListView().setOnItemClickListener(this);
-//        getListView().setAdapter(getListAdapter());
-//       ListView listView = (ListView) getActivity().findViewById(android.R.id.list);
-//        getListView().setOnItemClickListener(new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Log.d("view", view + "");
-//                Log.d("parent", parent + "");
-//            }
-//        });
+
 
     }
 
@@ -94,20 +93,25 @@ public class MyGroup extends ListFragment implements OnItemClickListener{
     }
 
     public class MyListAdapter extends ArrayAdapter<Group> {
-        public MyListAdapter(Context myGroup) {
-            super(myGroup, R.layout.list_item_group,groups);
+        private Context mContext;
+        private List<Group> mGroup;
+
+        public MyListAdapter(Context context, List<Group> objects) {
+            super(context, R.layout.list_item_task, objects);
+            this.mContext = context;
+            this.mGroup = objects;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View itemView = convertView;
-            if (convertView == null){
-                itemView=getActivity().getLayoutInflater().inflate(R.layout.list_item_group,parent,false);
+            if (convertView==null){
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                itemView=inflater.inflate(R.layout.list_item_group, parent, false);
             }
-            Group group = groups.get(position);
-            TextView groupName = (TextView) itemView.findViewById(R.id.groupName);
-            groupName.setText(group.getName());
+            Group group =mGroup.get(position);
+            TextView taskName=(TextView)itemView.findViewById(R.id.groupName);
+            taskName.setText(group.getName());
             return itemView;
         }
-    }
-}
+}}

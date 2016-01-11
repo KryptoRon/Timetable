@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         ParseObject.registerSubclass(Task.class);
         ParseObject.registerSubclass(User.class);
         ParseObject.registerSubclass(Group_user.class);
+        ParseObject.registerSubclass(Group.class);
 
         // [Optional] Power your app with Local Datastore. For more info, go to
         // https://parse.com/docs/android/guide#local-datastore
@@ -66,9 +67,6 @@ public class LoginActivity extends AppCompatActivity {
                         if (user != null) {
                             // If user exist and authenticated, send user to Welcome.class
                             Intent intent = new Intent(getApplicationContext(), UserScreen.class);
-                            Bundle b = new Bundle();
-                            b.putString("UserID", user.getObjectId());
-                            intent.putExtras(b);
                             startActivity(intent);
                             Toast.makeText(getApplicationContext(),
                                     "Successfully Logged in",
@@ -116,12 +114,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void test(View v) {
-        Intent intent = new Intent(getApplicationContext(), UserScreen.class);
-        Bundle b = new Bundle();
-        b.putString("userID", "0");
-        intent.putExtras(b);
-        startActivity(intent);
-        finish();
+        User user=(User) ParseUser.getCurrentUser();
+        DBHelper dbHelper= new DBHelper();
+        Group group =dbHelper.findGroupById("wtMZ3Dw3Yr");
+        dbHelper.removeUserFromGroup(group, user);
     }
 
     public void onclickgroup(View v) {
