@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -13,33 +12,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.DataModels.Group_user;
-import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
-import com.parse.ParseObject;
 
 import java.io.ByteArrayOutputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class GroupCreateActivity extends AppCompatActivity {
     private ArrayList<User> users;
-    private ArrayList<String> username;
+    private ArrayList<String> ids;
     private byte[] img;
     private ListView lv;
     private String userID;
@@ -50,12 +40,29 @@ public class GroupCreateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_group_create);
 
         users = new ArrayList<User>();
-        username = new ArrayList<String>();
+        ids = new ArrayList<String>();
 
         lv = (ListView) findViewById(R.id.listView);
-        lv.setAdapter(new MyListAdaper(this, R.layout.list_group_members_managment, username));
+        lv.setAdapter(new MyListAdaper(this, R.layout.list_group_members_managment, ids));
         Bundle b = getIntent().getExtras();
         userID = b.getString("UserID");
+
+        try{
+            DBHelper db = new DBHelper();
+            Group g = db.findGroupById(b.getString("GroupID"));
+            EditText et = (EditText) findViewById(R.id.tf_name);
+            et.setText(g.getName());
+            ImageView iv = (ImageView) findViewById(R.id.imageView);
+            iv.setImageBitmap(BitmapFactory.decodeByteArray(g.getImage(), 0, g.getImage().length));
+
+            users = g.getGroupUsers();
+            for (int i = 0; i < users.size(); i++) {
+                ids.add(users.get(i).getUsername());
+            }
+            lv.setAdapter(new MyListAdaper(this, R.layout.list_group_members_managment, ids));
+        } catch (NullPointerException j){
+
+        }
     }
 
     public void onClickGallery(View v){
@@ -150,13 +157,13 @@ public class GroupCreateActivity extends AppCompatActivity {
     }
     private void downgradeList(User u){
         users.remove(u);
-        username.remove(u.getUsername());
-        lv.setAdapter(new MyListAdaper(this, R.layout.list_group_members_managment, username));
+        ids.remove("iets om te testen");// TODO een username ophalen en plaatsen
+        lv.setAdapter(new MyListAdaper(this, R.layout.list_group_members_managment, ids));
     }
-    private void updateList(User u){
+    private void updateList(User u) {
         users.add(u);
-        username.add(u.getUsername());
-        lv.setAdapter(new MyListAdaper(this, R.layout.list_group_members_managment, username));
+        ids.add("iets om te testen"); // TODO een username ophalen en plaatsen
+        lv.setAdapter(new MyListAdaper(this, R.layout.list_group_members_managment, ids));
     }
 
     private boolean newGroup() {
