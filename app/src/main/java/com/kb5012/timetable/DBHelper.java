@@ -110,6 +110,19 @@ public class DBHelper {
         return tasks;
     }
 
+    public static User findUserByUsername(String username) {
+        //TODO hier de user uithalen
+        final User[] user = new User[1];
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
+        query.whereEqualTo("username", username);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                user[0] = (User) object;
+            }
+        });
+        return user[0];
+    }
 
     public ArrayList<User> findAllUsersByGroup(String objectId) {
         final ArrayList<User> users = new ArrayList<>();
