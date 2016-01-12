@@ -4,7 +4,6 @@ package com.kb5012.timetable.FragmentUserScreen;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,16 +13,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 
 import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Group;
-import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
 import com.kb5012.timetable.R;
-import com.kb5012.timetable.TaskAdapter;
-import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -32,7 +26,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyGroup extends ListFragment implements OnItemClickListener{
+public class MyGroup extends ListFragment implements AdapterView.OnItemClickListener{
 
     private DBHelper dbHelper=new DBHelper();
     private User user;
@@ -52,15 +46,16 @@ public class MyGroup extends ListFragment implements OnItemClickListener{
         user= (User)ParseUser.getCurrentUser();
         mAdapter = new MyListAdapter(getContext(), new ArrayList<Group>());
         mListView = (ListView)view.findViewById(android.R.id.list);
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "klik", Toast.LENGTH_LONG).show();
-            }
-        });
+        setListAdapter(mAdapter);
+        mListView.setOnItemClickListener(this);
         dbHelper.findAllGroupByUserId(user, mAdapter);
         return view;
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+       // super.onListItemClick(l, v, position, id);
+        Log.d("klikken","gelukt");
     }
 
 
@@ -75,23 +70,13 @@ public class MyGroup extends ListFragment implements OnItemClickListener{
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.d("onitemclick view", view + "");
-        Log.d("onitemclick parent", parent + "");
+
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-//        super.onListItemClick(l, v, position, id);
-//        (Group) getListAdapter().getItem(position);
-        Log.d("onlistitemclick view", v + "");
-        Log.d("onlistitem listview", l + "");
-    }
 
     public class MyListAdapter extends ArrayAdapter<Group> {
         private Context mContext;

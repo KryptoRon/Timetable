@@ -55,21 +55,22 @@ public class MyTask extends ListFragment implements AdapterView.OnItemClickListe
         mAdapter = new TaskAdapter(getContext(), new ArrayList<Task>());
 
         mListView = (ListView)view.findViewById(android.R.id.list);
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "klik", Toast.LENGTH_LONG).show();
-            }
-        });
+        setListAdapter(mAdapter);
+        mListView.setOnItemClickListener(this);
         dbHelper.findAllTaskByUserId(user, mAdapter);
 
         return view;
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        //super.onListItemClick(l, v, position, id);
+        Toast.makeText(getContext(),"klikken",Toast.LENGTH_LONG).show();
+    }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(getContext(),"klikkenandere",Toast.LENGTH_LONG).show();
     }
 
 

@@ -57,7 +57,7 @@ public class groupTask extends ListFragment {
                 Toast.makeText(getContext(), "klik", Toast.LENGTH_LONG).show();
             }
         });
-        //dbHelper.findAllTaskByGroupId(group,mAdapter);
+        dbHelper.findAllTaskByGroupId(group,mAdapter);
         return v;
 
     }

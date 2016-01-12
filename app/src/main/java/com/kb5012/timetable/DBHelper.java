@@ -151,7 +151,6 @@ public class DBHelper {
     public void findAllTaskByGroupId(Group group, TaskAdapter listAdapter) {
         final TaskAdapter mAdapter = listAdapter;
         ParseQuery<Task> query = ParseQuery.getQuery("Task");
-        Log.d("d", group.getName());
         query.whereEqualTo("group", group);
         query.findInBackground(new FindCallback<Task>() {
             public void done(List<Task> parseTasks, ParseException e) {
@@ -222,7 +221,6 @@ public class DBHelper {
 
     public void removeUserFromGroup(Group group, User user) {
 
-        //TODO testen of dit doet
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Group_user");
         query.whereEqualTo("group_id", group);
         query.whereEqualTo("user_id", user);

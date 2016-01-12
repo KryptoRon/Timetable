@@ -112,6 +112,9 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
     }
+    public void addMember(View v) {
+
+    }
 
     public void test(View v) {
         User user=(User) ParseUser.getCurrentUser();
