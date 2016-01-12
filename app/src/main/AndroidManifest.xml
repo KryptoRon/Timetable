@@ -52,6 +52,9 @@
         <activity android:name=".SplashPage"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".SignUpActivity"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -3,4 +3,14 @@
     <string name="loading_data">Loading Data...</string>
     <string name="pleasewait">Please Wait...</string>
     <string name="create_group">Create New Group</string>
+    <string name="logo_image">Logo</string>
+    <string name="usernamelabel">Username:</string>
+    <string name="username">username</string>
+    <string name="passwordlabel">Password</string>
+    <string name="password">Password</string>
+    <string name="emaillabel">Email address :</string>
+    <string name="email">Email Address</string>
+    <string name="phonelabel">Phonenumber :</string>
+    <string name="phone">Phonenumber</string>
+    <string name="btn_signup">SIGN UP</string>
 </resources>

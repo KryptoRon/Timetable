@@ -12,10 +12,8 @@ import java.util.ArrayList;
  */
 @ParseClassName("_User")
 public class User extends ParseUser{
-    private int id;
-    private String firstName;
-    private String lastName;
-    private ArrayList<Task> tasks;
+
+    ArrayList<Task> tasks;
 
     public User() {
     }
@@ -41,27 +39,11 @@ public class User extends ParseUser{
         return null;
     }
 
-    public int getId() {
-        return id;
+    public void setPhoneNumber(String phoneNumber) {
+        put("phonenumber", phoneNumber);
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getPhoneNumber() {
+        return getString("phonenumber");
     }
 }

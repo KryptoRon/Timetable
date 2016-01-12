@@ -29,14 +29,7 @@ public class DBHelper {
     }
 
     public static User userInlog(String username, String password) {
-        // demo
-        if (username.equals("username") && password.equals("password")) {
-            User user = new User();
-            user.setFirstName("test");
-            user.setLastName("testen");
-            return user;
-        }
-        // TODO hier user ophalen met wachtwoord en username van db als er geen is word er niks teruggegeven.
+                // TODO hier user ophalen met wachtwoord en username van db als er geen is word er niks teruggegeven.
         return null;
     }
 
