@@ -109,18 +109,16 @@ public class TaskCreateActivity extends AppCompatActivity{
             e.printStackTrace();
         }
 
-        //TODO : Make Dynamic
-        User receiverT = new User();
-        receiverT.setObjectId("4lCSDPPBSX");
+        //TODO: Make Dynamic
+        User receiver = (User) ParseUser.getCurrentUser();
 
         t.setTitle("" + ((EditText) findViewById(R.id.tf_name)).getText());
         t.setDescription("" + ((EditText) findViewById(R.id.tf_description)).getText());
-        t.setReceiver(receiver);
 
 
         t.put("title", "" + ((EditText) findViewById(R.id.tf_name)).getText());
         t.put("description", "" + ((EditText) findViewById(R.id.tf_description)).getText());
-        t.put("receiver", receiverT);
+        t.put("receiver",receiver);
         //TODO : Make Dynamic
         t.put("group", group);
         t.put("status", false);

@@ -36,7 +36,6 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 import static com.parse.ParseUser.getCurrentUser;
 
@@ -46,7 +45,7 @@ import static com.parse.ParseUser.getCurrentUser;
 public class MyTask extends ListFragment implements AdapterView.OnItemClickListener {
 
     private Thread thread;
-    private Handler handler;
+    private java.util.logging.Handler handler;
     private ProgressDialog progress;
     private String userId;
     private ArrayList<Task> tasks;
@@ -103,6 +102,24 @@ public class MyTask extends ListFragment implements AdapterView.OnItemClickListe
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        // abstract stub. not needed
+
+    }
+
+    public class MyListAdapter extends ArrayAdapter<Task> {
+        public MyListAdapter() {
+            super(getActivity(), R.layout.list_item_task, tasks);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View itemView = convertView;
+            if (convertView==null){
+                itemView=getActivity().getLayoutInflater().inflate(R.layout.list_item_task,parent,false);
+            }
+            Task task =tasks.get(position);
+            TextView taskName=(TextView)itemView.findViewById(R.id.task_name);
+            taskName.setText(task.getTitle());
+            return itemView;
+        }
     }
 }

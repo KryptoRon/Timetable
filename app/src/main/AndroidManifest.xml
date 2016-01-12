@@ -40,7 +40,9 @@
         <activity
             android:name=".UserScreen"
             android:theme="@style/AppTheme.NoActionBar"/>
-
+        <activity
+            android:name=".TaskCreateActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <meta-data
             android:name="com.parse.APPLICATION_ID"
             android:value="QHIC2tKjRl2qG6DnqODp0zfdCqIdvIVacKB2anbI" />

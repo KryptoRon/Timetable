@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import com.kb5012.timetable.FragmentGroupScreen.GroupInfo;
 import com.kb5012.timetable.FragmentGroupScreen.GroupMyTask;
 import com.kb5012.timetable.FragmentGroupScreen.groupTask;
+import com.kb5012.timetable.FragmentGroupScreen.groupTask;
 
 public class GroupScreen extends AppCompatActivity {
 
