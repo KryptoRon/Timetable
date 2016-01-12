@@ -130,5 +130,10 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+    public void onClickAddGroup(View v){
+        Intent intent = new Intent(getApplicationContext(), GroupCreateActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
 }

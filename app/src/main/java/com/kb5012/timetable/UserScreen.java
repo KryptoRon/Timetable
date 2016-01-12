@@ -62,8 +62,7 @@ public class UserScreen extends AppCompatActivity {
             public void onClick(View view) {
        //         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
        //                 .setAction("Action", null).show();
-                //Intent intent = new Intent(getApplicationContext(), TaskCreateActivity.class);
-                Intent intent = new Intent(getApplicationContext(), GroupCreateActivity.class);
+                Intent intent = new Intent(getApplicationContext(), TaskCreateActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("userId", userID);
                 intent.putExtras(bundle);

@@ -46,7 +46,6 @@ public class GroupCreateActivity extends AppCompatActivity {
             et.setText(g.getName());
             ImageView iv = (ImageView) findViewById(R.id.imageView);
             iv.setImageBitmap(BitmapFactory.decodeByteArray(g.getImage(), 0, g.getImage().length));
-            
         } catch (NullPointerException j){
 
         }
@@ -70,7 +69,6 @@ public class GroupCreateActivity extends AppCompatActivity {
 
                     int columnIndex=cursor.getColumnIndex(projection[0]);
                     String filePath=cursor.getString(columnIndex);
-                    cursor.close();
 
                     Bitmap bitmap = BitmapFactory.decodeFile(filePath);
 
@@ -81,6 +79,7 @@ public class GroupCreateActivity extends AppCompatActivity {
 
                     byte[] img = stream.toByteArray();
                     file = new ParseFile("Groupimage.png", img);
+                    cursor.close();
                 }
                 break;
             default:

@@ -68,5 +68,14 @@
         android:onClick="signUp"
         android:text="Sign Up" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add group"
+        android:id="@+id/button"
+        android:onClick="onClickAddGroup"
+        android:layout_below="@+id/onclickgroup"
+        android:layout_alignParentStart="true" />
+
 
 </RelativeLayout>
