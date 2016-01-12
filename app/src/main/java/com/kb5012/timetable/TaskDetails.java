@@ -80,6 +80,7 @@ public class TaskDetails extends AppCompatActivity{
             @Override
             public void done(Task object, ParseException e) {
                 object.put("status", true);
+                object.saveInBackground();
             }
         });
     }

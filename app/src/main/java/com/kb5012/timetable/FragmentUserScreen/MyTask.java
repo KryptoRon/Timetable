@@ -30,6 +30,7 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 import static com.parse.ParseUser.getCurrentUser;
 
@@ -38,6 +39,10 @@ import static com.parse.ParseUser.getCurrentUser;
  */
 public class MyTask extends ListFragment implements AdapterView.OnItemClickListener {
 
+    private Thread thread;
+    private Handler handler;
+    private ProgressDialog progress;
+    private String userId;
     private ArrayList<Task> tasks;
     final private DBHelper dbHelper = new DBHelper();
     private TaskAdapter mAdapter;
@@ -66,6 +71,14 @@ public class MyTask extends ListFragment implements AdapterView.OnItemClickListe
         loading.setVisibility(View.INVISIBLE);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        User user = (User) getCurrentUser();
+        dbHelper.findAllTaskByUserId(user, mAdapter);
+        user.setAllTasks(tasks);
     }
 
     @Override

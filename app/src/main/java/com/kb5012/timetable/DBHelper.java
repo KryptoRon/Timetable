@@ -112,7 +112,10 @@ public class DBHelper {
                 if (e == null && parseTasks != null) {
                     adapter.clear();
                     for (Task task : parseTasks) {
-                        adapter.add(task);
+                        if (!task.isStatus()) {
+                            adapter.add(task);
+                        }
+
 
                         Log.e("SUCCESS", task.getObjectId() + " , " + task.getDescription());
                     }
