@@ -10,11 +10,11 @@ import com.parse.ParseObject;
 public class Group_user extends ParseObject {
     public Group_user() {
     }
-    public String getGroup_id() {
-        return getString("group_id");
+    public ParseObject getGroup_id() {
+        return (ParseObject)get("group_id");
     }
 
-    public void setGroup_id(String group_id) {
+    public void setGroup_id(ParseObject group_id) {
         put("group_id" , group_id);
     }
     public String getUser_id() {

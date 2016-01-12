@@ -39,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         ParseObject.registerSubclass(Task.class);
         ParseObject.registerSubclass(User.class);
         ParseObject.registerSubclass(Group_user.class);
+        ParseObject.registerSubclass(Group.class);
 
         // [Optional] Power your app with Local Datastore. For more info, go to
         // https://parse.com/docs/android/guide#local-datastore

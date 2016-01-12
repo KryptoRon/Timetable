@@ -3,6 +3,7 @@ package com.kb5012.timetable;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,14 +14,24 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.kb5012.timetable.DataModels.Group;
+import com.kb5012.timetable.DataModels.Group_user;
 import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class TaskCreateActivity extends AppCompatActivity{
 
@@ -34,6 +45,7 @@ public class TaskCreateActivity extends AppCompatActivity{
     private static final int DATE_DIALOG_ID = 1;
     private int yearI, dayI, monthI, hourI, minuteI;
     private TextView date, time;
+    private String groupID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,18 +84,13 @@ public class TaskCreateActivity extends AppCompatActivity{
         ArrayAdapter<String> adapterU = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, itemsU);
         dropdownUser.setAdapter(adapterU);
 
-        DBHelper helper = new DBHelper();
+        findAllGroupByUserId(ParseUser.getCurrentUser(), this);
 
-        String[] groupNameList = new String[]{"test", "test2", "test3"};// TODO : Make dynamic
 
-        Spinner dropdownGroup = (Spinner)findViewById(R.id.spinnerGroup);
-         // TODO : Make dynamic
-        ArrayAdapter<String> adapterG = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, groupNameList);
-        dropdownGroup.setAdapter(adapterG);
     }
 
     public void onClick(View v){
-        newTask();
+        findGroupById(groupID);
         finish();
     }
 
@@ -106,11 +113,14 @@ public class TaskCreateActivity extends AppCompatActivity{
         User receiverT = new User();
         receiverT.setObjectId("4lCSDPPBSX");
 
+        Group group = new Group();
+
+
         t.put("title", "" + ((EditText) findViewById(R.id.tf_name)).getText());
         t.put("description", "" + ((EditText) findViewById(R.id.tf_description)).getText());
         t.put("receiver", receiverT);
         //TODO : Make Dynamic
-        t.put("group_id", "qSAL3jKMhY");
+        t.put("group", group);
         t.put("status", false);
         t.put("sender", ParseUser.getCurrentUser());
         t.put("deadline", convertedDate);
@@ -121,6 +131,51 @@ public class TaskCreateActivity extends AppCompatActivity{
                 Log.d("CHAT OBJECT", " SAVED");
         }});
 
+    }
+
+    public void findAllGroupByUserId(ParseUser userId, final Context context){
+        //TODO hier uit db halen alle groupen van user
+        final ArrayList<ParseObject> groups=new ArrayList<>();
+        ParseQuery<Group_user> query = ParseQuery.getQuery("Group_user");
+        query.whereEqualTo("user_id", userId);
+        query.findInBackground(new FindCallback<Group_user>() {
+            @Override
+            public void done(List<Group_user> objects, com.parse.ParseException e) {
+                if (e == null) {
+                    for (Group_user group : objects) {
+                        groups.add(group.getGroup_id());
+                    }
+                    String[] groupList = new String[groups.size()];
+                    int i = 0;
+                    for (ParseObject g : groups) {
+                        groupList[i] = g.getObjectId();
+                        i++;
+                    }
+                    populateSpinner(groupList, context, R.id.spinnerGroup);
+                }
+            }
+        });
+    }
+    private Group group;
+    public void findGroupById(String groupId){
+        group = new Group();
+        ParseQuery<Group> query = ParseQuery.getQuery("Group");
+        query.whereEqualTo("objectId", groupId);
+        query.getFirstInBackground(new GetCallback<Group>() {
+            @Override
+            public void done(Group object, com.parse.ParseException e) {
+                group = object;
+                newTask();
+            }
+        });
+    }
+
+    private Spinner dropdown;
+    public void populateSpinner(String[] list, Context context, int iD) {
+        Spinner dropdown = (Spinner)findViewById(iD);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, list);
+        dropdown.setAdapter(adapter);
+        System.out.println(groupID = dropdown.getSelectedItem().toString());
     }
 
 
