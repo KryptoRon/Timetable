@@ -3,7 +3,6 @@ package com.kb5012.timetable.DataModels;
 import com.kb5012.timetable.DataModels.Task;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
@@ -44,11 +43,11 @@ public class User extends ParseUser{
         return null;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

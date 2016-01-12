@@ -15,8 +15,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="QHIC2tKjRl2qG6DnqODp0zfdCqIdvIVacKB2anbI" />
+        <meta-data
+            android:name="com.parse.CLIENT_KEY"
+            android:value="J78bulEGe6tAHuYdNobTRlSZb3NDrcvFuOrho5Bc" />
+
+
         <activity
-            android:name=".SplashScreen"
+            android:name=".LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -26,27 +35,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".UserScreen"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".TaskCreateActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <meta-data
-            android:name="com.parse.APPLICATION_ID"
-            android:value="QHIC2tKjRl2qG6DnqODp0zfdCqIdvIVacKB2anbI" />
-        <meta-data
-            android:name="com.parse.CLIENT_KEY"
-            android:value="J78bulEGe6tAHuYdNobTRlSZb3NDrcvFuOrho5Bc" />
-        android:label=""
-        android:theme="@style/AppTheme.NoActionBar">
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".GroupScreen"
             android:label=""
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".TaskDetails"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".SplashPage"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

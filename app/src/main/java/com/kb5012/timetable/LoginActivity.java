@@ -39,13 +39,14 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.tf_password);
 
         ParseObject.registerSubclass(Task.class);
-        ParseObject.registerSubclass(User.class);
-        ParseObject.registerSubclass(Group_user.class);
         ParseObject.registerSubclass(Group.class);
+        ParseObject.registerSubclass(User.class);
 
         // [Optional] Power your app with Local Datastore. For more info, go to
         // https://parse.com/docs/android/guide#local-datastore
         Parse.enableLocalDatastore(this);
+
+
         Parse.initialize(this);
         User currentUser = (User) ParseUser.getCurrentUser();
         if (currentUser != null) {
@@ -132,8 +133,5 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
-
-
 
 }
