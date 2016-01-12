@@ -51,8 +51,8 @@ public class TaskCreateActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_create);
-        Bundle bundle = getIntent().getExtras();
-        userID = bundle.getString("userId");
+        //Bundle bundle = getIntent().getExtras();
+       // userID = bundle.getString("userId");
 
 
         yearI = currentDate.get(Calendar.YEAR);

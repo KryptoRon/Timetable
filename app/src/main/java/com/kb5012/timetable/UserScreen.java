@@ -20,9 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.kb5012.timetable.DataModels.User;
 import com.kb5012.timetable.FragmentUserScreen.MyGroup;
 import com.kb5012.timetable.FragmentUserScreen.MyTask;
 import com.parse.ParseUser;
+
+
+import java.util.ArrayList;
 
 public class UserScreen extends AppCompatActivity {
 
@@ -40,14 +44,13 @@ public class UserScreen extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    private String userID;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_screen);
-        Bundle b = getIntent().getExtras();
-        userID = ParseUser.getCurrentUser().getObjectId();
+        user= (User)ParseUser.getCurrentUser();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -68,9 +71,6 @@ public class UserScreen extends AppCompatActivity {
        //         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
        //                 .setAction("Action", null).show();
                 Intent intent = new Intent(getApplicationContext(), TaskCreateActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("userId", userID);
-                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -143,17 +143,14 @@ public class UserScreen extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            Bundle bundle = new Bundle();
-            bundle.putString("userId",userID);
+
             switch (position) {
                 case 0:
                     MyTask tab1 = new MyTask();
 
-                    tab1.setArguments(bundle);
                     return tab1;
                 case 1:
                     MyGroup tab2 = new MyGroup();
-                    tab2.setArguments(bundle);
                     return tab2;
                 default:
             return PlaceholderFragment.newInstance(position + 1);

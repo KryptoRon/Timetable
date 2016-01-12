@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import com.kb5012.timetable.FragmentGroupScreen.GroupInfo;
 import com.kb5012.timetable.FragmentGroupScreen.GroupMyTask;
 import com.kb5012.timetable.FragmentGroupScreen.groupTask;
-import com.kb5012.timetable.FragmentGroupScreen.groupTask;
 
 public class GroupScreen extends AppCompatActivity {
 
@@ -143,7 +142,6 @@ public class GroupScreen extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             Bundle bundle = new Bundle();
-            bundle.putString("groupId", groupId);
             bundle.putString("groupId", groupId);
             bundle.putString("userId",userId);
             switch (position) {
