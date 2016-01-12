@@ -22,8 +22,12 @@ import android.widget.Toast;
 import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.DataModels.Group_user;
 import com.kb5012.timetable.DataModels.User;
+import com.parse.GetCallback;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.io.ByteArrayOutputStream;
@@ -37,17 +41,34 @@ public class GroupCreateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_create);
+        try {
+            Bundle b = getIntent().getExtras();
 
-        Bundle b = getIntent().getExtras();
-        try{
-            DBHelper db = new DBHelper();
-            Group g = db.findGroupById(b.getString("GroupID"));
-            EditText et = (EditText) findViewById(R.id.tf_name);
-            et.setText(g.getName());
-            ImageView iv = (ImageView) findViewById(R.id.imageView);
-            iv.setImageBitmap(BitmapFactory.decodeByteArray(g.getImage(), 0, g.getImage().length));
-        } catch (NullPointerException j){
+            ParseQuery<Group> query = ParseQuery.getQuery("Group");
+            query.whereEqualTo("objectId", "QIkVzaaXwz");
+            query.getFirstInBackground(new GetCallback<Group>() {
+                @Override
+                public void done(final Group object, ParseException e) {
+                    if (object != null) {
+                        Group g = object;
+                        EditText et = (EditText) findViewById(R.id.tf_name);
+                        et.setText(g.getName());
+                        System.out.println("Gaan we nog verdder?");
 
+                        ParseFile imageFile = (ParseFile) g.get("group_image");
+                        imageFile.getDataInBackground(new GetDataCallback() {
+                            @Override
+                            public void done(byte[] data, ParseException e) {
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                ImageView iv = (ImageView) findViewById(R.id.imageView);
+                                iv.setImageBitmap(bitmap);
+                            }
+                        });
+                    }
+                }
+            });
+        }catch (NullPointerException e){
+            
         }
     }
 
@@ -87,6 +108,7 @@ public class GroupCreateActivity extends AppCompatActivity {
                 break;
         }
     }
+
     public void onClick(View v){
         if(newGroup()){
             finish();

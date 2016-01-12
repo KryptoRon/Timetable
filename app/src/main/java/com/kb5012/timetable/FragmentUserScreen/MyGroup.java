@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class MyGroup extends ListFragment implements OnItemClickListener{
 
     private DBHelper dbHelper=new DBHelper();
-    private int userId;
+    private String userId;
     private ArrayList<Group> groups;
 
     public MyGroup() {
@@ -41,7 +41,7 @@ public class MyGroup extends ListFragment implements OnItemClickListener{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_group, container, false);
         Bundle bundle = getArguments();
-        userId = bundle.getInt("userId");
+        userId = bundle.getString("userId");
         groups = new ArrayList<>();
 
         MyListAdapter adapter = new MyListAdapter(getActivity());
@@ -57,7 +57,7 @@ public class MyGroup extends ListFragment implements OnItemClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        userId = bundle.getInt("userId");
+        userId = bundle.getString("userId");
 
 
     }

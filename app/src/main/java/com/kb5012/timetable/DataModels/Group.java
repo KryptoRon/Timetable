@@ -21,7 +21,7 @@ public class Group extends ParseObject {
     private byte[] image;
 
     public byte[] getImage() {
-        return image;
+        return getBytes("group_image");
     }
     public void setImage(byte[] image) {
         this.image = image;
