@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void done(ParseUser user, ParseException e) {
                         if (user != null) {
                             // If user exist and authenticated, send user to Welcome.class
-                            Intent intent = new Intent(getApplicationContext(), UserScreen.class);
+                            Intent intent = new Intent(getApplicationContext(), SplashPage.class);
                             Bundle b = new Bundle();
                             b.putString("UserID", user.getObjectId());
                             intent.putExtras(b);
@@ -110,6 +110,14 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), UserScreen.class);
         Bundle b = new Bundle();
         b.putString("userID", "0");
+        intent.putExtras(b);
+        startActivity(intent);
+        finish();
+    }
+    public void onclickgroup(View v){
+        Intent intent = new Intent(getApplicationContext(), GroupScreen.class);
+        Bundle b = new Bundle();
+        b.putString("groupId", "qSAL3jKMhY");
         intent.putExtras(b);
         startActivity(intent);
         finish();

@@ -7,9 +7,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.kb5012.timetable.DataModels.Task;
+import com.kb5012.timetable.DataModels.User;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import java.util.ArrayList;
 
 /**
  * Created by Ronald on 7-1-2016.
@@ -17,6 +21,7 @@ import com.parse.ParseQuery;
 public class TaskDetails extends AppCompatActivity{
 
     Task task;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +29,19 @@ public class TaskDetails extends AppCompatActivity{
         setContentView(R.layout.activity_task_details);
         Intent intent = getIntent();
         String item = intent.getStringExtra("task");
+        user = (User) ParseUser.getCurrentUser();
 
         getTaskById(item);
     }
 
     private void getTaskById(String item) {
 
+//        ArrayList<Task> tasks = user.getAllTasks();
+//        for (Task task : tasks) {
+//            if (task.getObjectId().equals(item)){
+//
+//            }
+//        }
         ParseQuery<Task> query = ParseQuery.getQuery("Task");
         query.whereEqualTo("objectId", item);
         query.getFirstInBackground(new GetCallback<Task>() {
@@ -43,9 +55,9 @@ public class TaskDetails extends AppCompatActivity{
                 TextView text10 = (TextView) findViewById(R.id.textView10);
                 text10.setText(task.getDescription());
                 TextView text11 = (TextView) findViewById(R.id.textView11);
-                text11.setText("receiver: " + task.getReceiver());
+                text11.setText("receiver: " + task.getReceiver().getObjectId());
                 TextView text12 = (TextView) findViewById(R.id.textView12);
-                text12.setText("sender: " + task.getSender());
+                text12.setText("sender: " + task.getSender().getObjectId());
                 TextView text13 = (TextView) findViewById(R.id.textView13);
                 text13.setText(task.getObjectId());
                 TextView text14 = (TextView) findViewById(R.id.textView14);

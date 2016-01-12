@@ -29,9 +29,9 @@ public class GroupInfo extends Fragment {
     private void setMyGroups(View v) {
         //Bundle
         Bundle bundle = getArguments();
-        int groupId=0;
+        String groupId="";
         if (bundle != null) {
-            groupId = bundle.getInt("groupId");
+            groupId = bundle.getString("groupId");
         }
         TextView groupnumber=(TextView) v.findViewById(R.id.groupNumber);
         groupnumber.setText("Group id: " + groupId);

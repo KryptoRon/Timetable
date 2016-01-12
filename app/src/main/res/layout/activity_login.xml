@@ -51,7 +51,7 @@
         android:onClick="signIn"
         android:text="login" />
     <Button
-        android:id="@+id/bt_testGroup"
+        android:id="@+id/onclickgroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"

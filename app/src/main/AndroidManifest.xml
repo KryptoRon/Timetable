@@ -49,6 +49,9 @@
             android:name=".TaskDetails"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".SplashPage"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
