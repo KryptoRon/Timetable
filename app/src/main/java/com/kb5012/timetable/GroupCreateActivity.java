@@ -64,11 +64,11 @@ public class GroupCreateActivity extends AppCompatActivity {
                     Uri uri=data.getData();
                     String[] projection={MediaStore.Images.Media.DATA};
 
-                    Cursor cursor=getContentResolver().query(uri, projection, null, null, null);
+                    Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
                     cursor.moveToFirst();
 
-                    int columnIndex=cursor.getColumnIndex(projection[0]);
-                    String filePath=cursor.getString(columnIndex);
+                    int columnIndex = cursor.getColumnIndex(projection[0]);
+                    String filePath = cursor.getString(columnIndex);
 
                     Bitmap bitmap = BitmapFactory.decodeFile(filePath);
 
@@ -77,6 +77,7 @@ public class GroupCreateActivity extends AppCompatActivity {
                     ImageView iv = (ImageView) findViewById(R.id.imageView);
                     iv.setImageBitmap(bitmap);
 
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byte[] img = stream.toByteArray();
                     file = new ParseFile("Groupimage.png", img);
                     cursor.close();
