@@ -42,6 +42,7 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:inputType="textPassword"
             android:id="@+id/password_signup"
             android:hint="@string/password" />
 
@@ -56,7 +57,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/email_signup"
-            android:hint="@string/email" />
+            android:hint="@string/email"
+            android:inputType="textEmailAddress" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -69,7 +71,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/phone_signup"
-            android:hint="@string/phone" />
+            android:hint="@string/phone"
+            android:inputType="phone"/>
 
     </GridLayout>
 

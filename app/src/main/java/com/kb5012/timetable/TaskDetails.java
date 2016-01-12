@@ -48,19 +48,19 @@ public class TaskDetails extends AppCompatActivity{
             public void done(Task object, ParseException e) {
                 task = object;
 
-                // TODO test code. replace with real code when XML file is done
-                TextView text9 = (TextView) findViewById(R.id.textView9);
-                text9.setText(task.getTitle());
-                TextView text10 = (TextView) findViewById(R.id.textView10);
-                text10.setText(task.getDescription());
-                TextView text11 = (TextView) findViewById(R.id.textView11);
-                text11.setText("receiver: " + task.getReceiver().getObjectId());
-                TextView text12 = (TextView) findViewById(R.id.textView12);
-                text12.setText("sender: " + task.getSender().getObjectId());
-                TextView text13 = (TextView) findViewById(R.id.textView13);
-                text13.setText(task.getObjectId());
-                TextView text14 = (TextView) findViewById(R.id.textView14);
-                text14.setText("group id: " + task.getGroup_id());
+//                // TODO test code. replace with real code when XML file is done
+//                TextView text9 = (TextView) findViewById(R.id.titel_label);
+//                text9.setText(task.getTitle());
+//                TextView text10 = (TextView) findViewById(R.id.textView10);
+//                text10.setText(task.getDescription());
+//                TextView text11 = (TextView) findViewById(R.id.textView11);
+//                text11.setText("receiver: " + task.getReceiver().getObjectId());
+//                TextView text12 = (TextView) findViewById(R.id.textView12);
+//                text12.setText("sender: " + task.getSender().getObjectId());
+//                TextView text13 = (TextView) findViewById(R.id.textView13);
+//                text13.setText(task.getObjectId());
+//                TextView text14 = (TextView) findViewById(R.id.textView14);
+//                text14.setText("group id: " + task.getGroup_id());
             }
         });
 
