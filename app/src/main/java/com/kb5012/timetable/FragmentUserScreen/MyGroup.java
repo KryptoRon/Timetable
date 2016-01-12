@@ -2,6 +2,7 @@ package com.kb5012.timetable.FragmentUserScreen;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -16,8 +17,11 @@ import android.widget.TextView;
 
 import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Group;
+import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
+import com.kb5012.timetable.GroupScreen;
 import com.kb5012.timetable.R;
+import com.kb5012.timetable.TaskDetails;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -26,7 +30,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyGroup extends ListFragment implements AdapterView.OnItemClickListener{
+public class MyGroup extends ListFragment{
 
     private DBHelper dbHelper=new DBHelper();
     private User user;
@@ -47,15 +51,19 @@ public class MyGroup extends ListFragment implements AdapterView.OnItemClickList
         mAdapter = new MyListAdapter(getContext(), new ArrayList<Group>());
         mListView = (ListView)view.findViewById(android.R.id.list);
         setListAdapter(mAdapter);
-        mListView.setOnItemClickListener(this);
-        dbHelper.findAllGroupByUserId(user, mAdapter);
+
+        dbHelper.findAllGroupByUser(user, mAdapter);
         return view;
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-       // super.onListItemClick(l, v, position, id);
-        Log.d("klikken","gelukt");
+        Group item = (Group) getListAdapter().getItem(position);
+        Intent intent = new Intent(getContext(), GroupScreen.class);
+        Bundle b = new Bundle();
+        b.putString("groupId", item.getObjectId());
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
 
@@ -72,10 +80,7 @@ public class MyGroup extends ListFragment implements AdapterView.OnItemClickList
         super.onActivityCreated(savedInstanceState);
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-    }
 
 
     public class MyListAdapter extends ArrayAdapter<Group> {
@@ -83,7 +88,7 @@ public class MyGroup extends ListFragment implements AdapterView.OnItemClickList
         private List<Group> mGroup;
 
         public MyListAdapter(Context context, List<Group> objects) {
-            super(context, R.layout.list_item_task, objects);
+            super(context, R.layout.list_item_group, objects);
             this.mContext = context;
             this.mGroup = objects;
         }
