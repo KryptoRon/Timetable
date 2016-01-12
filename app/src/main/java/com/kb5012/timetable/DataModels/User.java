@@ -12,7 +12,6 @@ import java.util.ArrayList;
  */
 @ParseClassName("_User")
 public class User extends ParseUser{
-
     ArrayList<Task> tasks;
 
     public User() {

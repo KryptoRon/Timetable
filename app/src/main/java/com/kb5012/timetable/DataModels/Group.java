@@ -55,7 +55,7 @@ public class Group extends ParseObject {
 //        put("group_image", image_file); }
 
     public ArrayList<User> getGroupUsers() {
-        ArrayList<User> users = DBHelper.findAllUsersByGroup(this.getObjectId());
+        ArrayList<User> users = new DBHelper().findAllUsersByGroup(this.getObjectId());
         return users;
     }
 

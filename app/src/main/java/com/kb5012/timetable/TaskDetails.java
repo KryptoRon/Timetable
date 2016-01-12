@@ -3,6 +3,7 @@ package com.kb5012.timetable;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.kb5012.timetable.DataModels.Task;
@@ -63,7 +64,34 @@ public class TaskDetails extends AppCompatActivity{
 //                text14.setText("group id: " + task.getGroup_id());
             }
         });
+    }
 
+    public void onClickUpdate(View view) {
+        updateTask(task.getObjectId());
+    }
 
+    public void onClickDelete(View view) {
+        deleteTask(task.getObjectId());
+    }
+
+    private void updateTask(String taskId) {
+        ParseQuery<Task> query = ParseQuery.getQuery("Task");
+        query.getInBackground(taskId, new GetCallback<Task>() {
+            @Override
+            public void done(Task object, ParseException e) {
+                object.put("status", true);
+                object.saveInBackground();
+            }
+        });
+    }
+
+    private void deleteTask(String taskId) {
+        ParseQuery<Task> query = ParseQuery.getQuery("Task");
+        query.getInBackground(taskId, new GetCallback<Task>() {
+            @Override
+            public void done(Task object, ParseException e) {
+                object.deleteInBackground();
+            }
+        });
     }
 }

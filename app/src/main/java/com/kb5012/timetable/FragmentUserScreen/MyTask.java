@@ -2,7 +2,13 @@ package com.kb5012.timetable.FragmentUserScreen;
 
 
 import android.app.ProgressDialog;
+import android.content.AsyncTaskLoader;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.ListFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -38,6 +44,10 @@ import static com.parse.ParseUser.getCurrentUser;
  */
 public class MyTask extends ListFragment implements AdapterView.OnItemClickListener {
 
+    private Thread thread;
+    private java.util.logging.Handler handler;
+    private ProgressDialog progress;
+    private String userId;
     private ArrayList<Task> tasks;
     final private DBHelper dbHelper = new DBHelper();
     private TaskAdapter mAdapter;
@@ -69,6 +79,14 @@ public class MyTask extends ListFragment implements AdapterView.OnItemClickListe
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        User user = (User) getCurrentUser();
+        dbHelper.findAllTaskByUserId(user, mAdapter);
+        user.setAllTasks(tasks);
+    }
+
+    @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Task item = (Task) getListAdapter().getItem(position);
         Intent intent = new Intent(getContext(), TaskDetails.class);
@@ -84,6 +102,24 @@ public class MyTask extends ListFragment implements AdapterView.OnItemClickListe
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        // abstract stub. not needed
+
+    }
+
+    public class MyListAdapter extends ArrayAdapter<Task> {
+        public MyListAdapter() {
+            super(getActivity(), R.layout.list_item_task, tasks);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View itemView = convertView;
+            if (convertView==null){
+                itemView=getActivity().getLayoutInflater().inflate(R.layout.list_item_task,parent,false);
+            }
+            Task task =tasks.get(position);
+            TextView taskName=(TextView)itemView.findViewById(R.id.task_name);
+            taskName.setText(task.getTitle());
+            return itemView;
+        }
     }
 }

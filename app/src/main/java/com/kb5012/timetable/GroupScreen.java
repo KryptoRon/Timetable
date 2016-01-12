@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kb5012.timetable.FragmentGroupScreen.GroupInfo;
+import com.kb5012.timetable.FragmentGroupScreen.GroupMyTask;
+import com.kb5012.timetable.FragmentGroupScreen.groupTask;
 import com.kb5012.timetable.FragmentGroupScreen.groupTask;
 
 public class GroupScreen extends AppCompatActivity {
@@ -36,6 +38,7 @@ public class GroupScreen extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     private String groupId;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class GroupScreen extends AppCompatActivity {
         setContentView(R.layout.activity_group_screen);
         Bundle b = getIntent().getExtras();
         groupId = b.getString("groupId");
+        userId=b.getString("userId");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -140,10 +144,13 @@ public class GroupScreen extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             Bundle bundle = new Bundle();
             bundle.putString("groupId", groupId);
+            bundle.putString("groupId", groupId);
+            bundle.putString("userId",userId);
             switch (position) {
                 case 0:
-                    //TODO deze moet nog gemaakt worden. lijst van mijn taken van de groep
-                    return PlaceholderFragment.newInstance(position + 1);
+                    GroupMyTask tab1 = new GroupMyTask();
+                    tab1.setArguments(bundle);
+                    return tab1;
                 case 1:
                     groupTask tab2 = new groupTask();
                     tab2.setArguments(bundle);

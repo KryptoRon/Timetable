@@ -1,38 +1,26 @@
 package com.kb5012.timetable.FragmentGroupScreen;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Task;
-import com.kb5012.timetable.FragmentUserScreen.MyGroup;
 import com.kb5012.timetable.R;
 import com.kb5012.timetable.TaskAdapter;
-import com.parse.FindCallback;
-import com.parse.Parse;
-import com.parse.ParseAnalytics;
-import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class groupTask extends ListFragment {
+public class GroupMyTask extends ListFragment {
     private String groupId;
+    private String userId;
     private ArrayList<Task> tasks;
 
     final private DBHelper dbHelper=new DBHelper();
@@ -43,9 +31,10 @@ public class groupTask extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_group_task, container, false);
+        View v = inflater.inflate(R.layout.fragment_group_my_task, container, false);
         Bundle bundle = getArguments();
         groupId = bundle.getString("groupId");
+        userId = bundle.getString("userId");
 
 
         mAdapter = new TaskAdapter(getContext(), new ArrayList<Task>());
@@ -58,7 +47,7 @@ public class groupTask extends ListFragment {
                 Toast.makeText(getContext(), "klik", Toast.LENGTH_LONG).show();
             }
         });
-        dbHelper.findAllTaskByGroupId(groupId,mAdapter);
+        dbHelper.findAllTaskByGroupIdAndUserId(groupId,userId, mAdapter);
         return v;
 
     }
@@ -69,8 +58,8 @@ public class groupTask extends ListFragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         groupId = bundle.getString("groupId");
+        userId = bundle.getString("userId");
 
 
     }
-
 }

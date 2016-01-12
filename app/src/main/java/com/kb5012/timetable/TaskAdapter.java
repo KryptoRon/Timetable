@@ -16,26 +16,26 @@ import java.util.List;
  * Created by cc on 7-1-2016.
  */
 public class TaskAdapter extends ArrayAdapter<Task> {
-    private Context mContext;
-    private List<Task> mTasks;
+        private Context mContext;
+        private List<Task> mTasks;
 
-    public TaskAdapter(Context context, List<Task> objects) {
-        super(context, R.layout.list_item_task, objects);
-        this.mContext = context;
-        this.mTasks = objects;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View itemView = convertView;
-        if (convertView==null){
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            itemView=inflater.inflate(R.layout.list_item_task, parent, false);
+        public TaskAdapter(Context context, List<Task> objects) {
+            super(context, R.layout.list_item_task, objects);
+            this.mContext = context;
+            this.mTasks = objects;
         }
-        Task task =mTasks.get(position);
-        TextView taskName=(TextView)itemView.findViewById(R.id.task_name);
-        taskName.setText(task.getTitle());
-        return itemView;
-    }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View itemView = convertView;
+            if (convertView==null){
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                itemView=inflater.inflate(R.layout.list_item_task, parent, false);
+            }
+            Task task =mTasks.get(position);
+            TextView taskName=(TextView)itemView.findViewById(R.id.task_name);
+            taskName.setText(task.getTitle());
+            return itemView;
+        }
 
 }
