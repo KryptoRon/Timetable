@@ -44,48 +44,6 @@
         android:id="@+id/tf_name"
         android:layout_gravity="center_horizontal" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="User"
-        android:id="@+id/textView6"
-        android:layout_gravity="center_horizontal"
-        android:layout_below="@+id/tf_name"
-        android:layout_centerHorizontal="true" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_gravity="center_horizontal">
-
-        <Button
-            android:layout_width="52dp"
-            android:layout_height="wrap_content"
-            android:text="add"
-            android:id="@+id/tf_time"
-            android:onClick="onClickAdd"
-            android:layout_gravity="right"
-            android:layout_marginEnd="75dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true" />
-
-        <EditText
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/tf_addUser"
-            android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/tf_time" />
-
-    </RelativeLayout>
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="101dp"
-        android:id="@+id/listView"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.50" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

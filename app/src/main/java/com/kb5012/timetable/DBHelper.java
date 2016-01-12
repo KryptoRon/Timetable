@@ -111,7 +111,6 @@ public class DBHelper {
     }
 
     public static User findUserByUsername(String username) {
-        //TODO hier de user uithalen
         final User[] user = new User[1];
         ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
         query.whereEqualTo("username", username);
