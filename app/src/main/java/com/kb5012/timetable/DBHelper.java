@@ -43,7 +43,25 @@ public class DBHelper {
         });
         return user[0];
     }
-
+    private ArrayList<Group> groups;
+    public ArrayList<Group>findAllGroupByUserId(String userId){
+        //TODO hier uit db halen alle groupen van user
+        groups=new ArrayList<>();
+        ParseQuery<Group> query = ParseQuery.getQuery("Group_user");
+        query.whereEqualTo("user_id", userId);
+        query.findInBackground(new FindCallback<Group>() {
+            @Override
+            public void done(List<Group> objects, ParseException e) {
+                if (e == null) {
+                    for (Group group : objects) {
+                        Group newGroup = findGroupById(group.getString("group_id"));
+                        groups.add(newGroup);
+                    }
+                }
+            }
+        });
+        return groups;
+    }
     private Group group;
     public Group findGroupById(String groupId){
 
@@ -199,25 +217,6 @@ public class DBHelper {
         group_user.put("group_id", group);
         group_user.put("user_id", member);
         group_user.saveEventually();
-    }
-    private ArrayList<Group> groups;
-    public ArrayList<Group> findAllGroupByUserId(String userID) {
-        //TODO hier uit db halen alle groupen van user
-        groups=new ArrayList<>();
-        ParseQuery<Group> query = ParseQuery.getQuery("Group_user");
-        query.whereEqualTo("user_id", userID);
-        query.findInBackground(new FindCallback<Group>() {
-            @Override
-            public void done(List<Group> objects, ParseException e) {
-                if (e == null) {
-                    for (Group group : objects) {
-                        Group newGroup = findGroupById(group.getString("group_id"));
-                        groups.add(newGroup);
-                    }
-                }
-            }
-        });
-        return groups;
     }
 
     public void removeUserFromGroup(Group group, User user) {
