@@ -44,6 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         // [Optional] Power your app with Local Datastore. For more info, go to
         // https://parse.com/docs/android/guide#local-datastore
         Parse.enableLocalDatastore(this);
+
+
         Parse.initialize(this);
         User currentUser =(User) ParseUser.getCurrentUser();
         if (currentUser != null) {
@@ -64,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void done(ParseUser user, ParseException e) {
                         if (user != null) {
                             // If user exist and authenticated, send user to Welcome.class
-                            Intent intent = new Intent(getApplicationContext(), UserScreen.class);
+                            Intent intent = new Intent(getApplicationContext(), SplashPage.class);
                             Bundle b = new Bundle();
                             b.putString("UserID", user.getObjectId());
                             intent.putExtras(b);
@@ -125,7 +127,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), GroupScreen.class);
         Bundle b = new Bundle();
         b.putString("groupId", "qSAL3jKMhY");
-        b.putString("userId", "x6S4XHQKfy");
         intent.putExtras(b);
         startActivity(intent);
         finish();

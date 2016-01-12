@@ -143,6 +143,7 @@ public class GroupScreen extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             Bundle bundle = new Bundle();
             bundle.putString("groupId", groupId);
+            bundle.putString("groupId", groupId);
             bundle.putString("userId",userId);
             switch (position) {
                 case 0:

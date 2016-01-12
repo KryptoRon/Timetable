@@ -2,6 +2,7 @@ package com.kb5012.timetable.FragmentUserScreen;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -12,23 +13,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.R;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyGroup extends ListFragment implements OnItemClickListener{
+public class MyGroup extends ListFragment implements OnItemClickListener, View.OnClickListener {
 
     private DBHelper dbHelper=new DBHelper();
-    private int userId;
+    private String userId;
     private ArrayList<Group> groups;
 
     public MyGroup() {
@@ -40,9 +44,12 @@ public class MyGroup extends ListFragment implements OnItemClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_group, container, false);
+        Button b = (Button) view.findViewById(R.id.btn_createGroup);
         Bundle bundle = getArguments();
-        userId = bundle.getInt("userId");
+        userId = ParseUser.getCurrentUser().getObjectId();
         groups = new ArrayList<>();
+
+        b.setOnClickListener(this);
 
         MyListAdapter adapter = new MyListAdapter(getActivity());
         ListView myList = (ListView) view.findViewById(android.R.id.list);
@@ -57,8 +64,15 @@ public class MyGroup extends ListFragment implements OnItemClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        userId = bundle.getInt("userId");
+        userId = ParseUser.getCurrentUser().getObjectId();
 
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        Log.d("Button:" , "Create button pressed" );
+        //TODO : Start new Activity to create a new group
 
     }
 
@@ -110,4 +124,6 @@ public class MyGroup extends ListFragment implements OnItemClickListener{
             return itemView;
         }
     }
+
+
 }

@@ -113,7 +113,9 @@ public class TaskCreateActivity extends AppCompatActivity{
         User receiverT = new User();
         receiverT.setObjectId("4lCSDPPBSX");
 
-        Group group = new Group();
+        t.setTitle("" + ((EditText) findViewById(R.id.tf_name)).getText());
+        t.setDescription("" + ((EditText) findViewById(R.id.tf_description)).getText());
+        t.setReceiver(receiver);
 
 
         t.put("title", "" + ((EditText) findViewById(R.id.tf_name)).getText());
