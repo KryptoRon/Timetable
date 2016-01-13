@@ -36,6 +36,7 @@ import java.util.List;
 
 public class GroupCreateActivity extends AppCompatActivity {
     private ParseFile file;
+    private Group g;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +44,15 @@ public class GroupCreateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_group_create);
         try {
             Bundle b = getIntent().getExtras();
-
             ParseQuery<Group> query = ParseQuery.getQuery("Group");
-            query.whereEqualTo("objectId", "QIkVzaaXwz");
+            query.whereEqualTo("objectId", b.get("groupId"));
             query.getFirstInBackground(new GetCallback<Group>() {
                 @Override
                 public void done(final Group object, ParseException e) {
                     if (object != null) {
-                        Group g = object;
+                        g = object;
                         EditText et = (EditText) findViewById(R.id.tf_name);
                         et.setText(g.getName());
-                        System.out.println("Gaan we nog verdder?");
 
                         ParseFile imageFile = (ParseFile) g.get("group_image");
                         imageFile.getDataInBackground(new GetDataCallback() {
@@ -118,10 +117,16 @@ public class GroupCreateActivity extends AppCompatActivity {
     private boolean newGroup() {
         EditText et1 = (EditText) findViewById(R.id.tf_name);
         if(file != null && !et1.getText().toString().isEmpty()) {
-            ParseObject g = ParseObject.create("Group");
-            g.put("group_name", et1.getText().toString());
-            g.put("group_image",file);
-            g.saveInBackground();
+            if(g!= null) {
+                ParseObject g = ParseObject.create("Group");
+                g.put("group_name", et1.getText().toString());
+                g.put("group_image",file);
+                g.saveInBackground();
+            } else {
+                g.put("group_name", et1.getText().toString());
+                g.put("group_image",file);
+                g.saveInBackground();
+            }
             Toast.makeText(this.getBaseContext(), "Your group has been made!", Toast.LENGTH_SHORT).show();
             return true;
         } else {
