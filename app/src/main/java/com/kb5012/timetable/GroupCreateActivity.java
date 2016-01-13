@@ -9,11 +9,13 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,6 +31,12 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -71,10 +79,13 @@ public class GroupCreateActivity extends AppCompatActivity {
         }
     }
 
+    //  This onClick starts the Gallery intent to select a image
     public void onClickGallery(View v){
         Intent galleryInten = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryInten, 1);
     }
+    //  The onActivityResult takes the image from your gallery.
+    //  Than it convert it to a byte[] to eventually store it in the db.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
@@ -108,8 +119,12 @@ public class GroupCreateActivity extends AppCompatActivity {
         }
     }
 
+    // This onClick triggers when the "Save" button is clicked.
+    // It checks if a new group is made with the users that belongs
+    // in the groep. if the group is made and saved the whole intent
+    // shut down and you are returned to the group overwiev.
     public void onClick(View v){
-        if(newGroup()){
+        if(newGroup()) {
             finish();
         }
     }
