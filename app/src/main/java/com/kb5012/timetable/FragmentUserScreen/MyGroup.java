@@ -3,6 +3,7 @@ package com.kb5012.timetable.FragmentUserScreen;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -22,6 +23,8 @@ import com.kb5012.timetable.DataModels.User;
 import com.kb5012.timetable.GroupScreen;
 import com.kb5012.timetable.R;
 import com.kb5012.timetable.TaskDetails;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -30,29 +33,21 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyGroup extends ListFragment{
+public class MyGroup extends ListFragment {
 
-    private DBHelper dbHelper=new DBHelper();
+    private DBHelper dbHelper = new DBHelper();
     private User user;
-    private ArrayList<Group> groups;
-    private ListView mListView;
     private MyListAdapter mAdapter;
-
-    public MyGroup() {
-        // Required empty public constructor
-    }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_group, container, false);
-        user= (User)ParseUser.getCurrentUser();
+        user = (User) ParseUser.getCurrentUser();
         mAdapter = new MyListAdapter(getContext(), new ArrayList<Group>());
-        mListView = (ListView)view.findViewById(android.R.id.list);
+        new grouping().execute();
         setListAdapter(mAdapter);
-
-        dbHelper.findAllGroupByUser(user, mAdapter);
         return view;
     }
 
@@ -65,44 +60,57 @@ public class MyGroup extends ListFragment{
         intent.putExtras(b);
         startActivity(intent);
     }
+    private class grouping extends AsyncTask<Void,Void,Void>{
+        ArrayList<Group>groups= new ArrayList<>();
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<ParseObject> objects=(ArrayList<ParseObject>)dbHelper.findAllGroupByUser(user);
+            Group group;
+            if (objects!=null) {
+                for (ParseObject object : objects) {
+                    group = (Group) object.getParseObject("group_id");
+                    try {
+                        group.fetch();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    groups.add(group);
+                }
+                ;
+            }
+            return null;
+        }
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        user= (User) ParseUser.getCurrentUser();
-
-
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            //super.onPostExecute(aVoid);
+            mAdapter.clear();
+            for (Group group:groups) {
+                mAdapter.add(group);
+            }
+        }
     }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
-
 
 
     public class MyListAdapter extends ArrayAdapter<Group> {
-        private Context mContext;
         private List<Group> mGroup;
 
         public MyListAdapter(Context context, List<Group> objects) {
             super(context, R.layout.list_item_group, objects);
-            this.mContext = context;
             this.mGroup = objects;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View itemView = convertView;
-            if (convertView==null){
+            if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
-                itemView=inflater.inflate(R.layout.list_item_group, parent, false);
+                itemView = inflater.inflate(R.layout.list_item_group, parent, false);
             }
-            Group group =mGroup.get(position);
-            TextView taskName=(TextView)itemView.findViewById(R.id.groupName);
+            Group group = mGroup.get(position);
+            TextView taskName = (TextView) itemView.findViewById(R.id.groupName);
             taskName.setText(group.getName());
             return itemView;
         }
-}}
+    }
+}

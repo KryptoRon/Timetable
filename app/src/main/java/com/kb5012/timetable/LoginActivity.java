@@ -84,21 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
         startActivity(intent);
     }
-    public void test (View v){
-        Intent intent = new Intent(getApplicationContext(), UserScreen.class);
-        Bundle b = new Bundle();
-        b.putString("userID", "0");
-        intent.putExtras(b);
-        startActivity(intent);
-        finish();
-    }
-    public void onclickgroup(View v){
-        Intent intent = new Intent(getApplicationContext(), GroupScreen.class);
-        Bundle b = new Bundle();
-        b.putString("groupId", "qSAL3jKMhY");
-        intent.putExtras(b);
-        startActivity(intent);
-        finish();
-    }
+
+
 
 }

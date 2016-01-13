@@ -43,10 +43,12 @@ public class DBHelper {
         });
         return user[0];
     }
+
     private ArrayList<Group> groups;
-    public ArrayList<Group>findAllGroupByUserId(String userId){
+
+    public ArrayList<Group> findAllGroupByUserId(String userId) {
         //TODO hier uit db halen alle groupen van user
-        groups=new ArrayList<>();
+        groups = new ArrayList<>();
         ParseQuery<Group> query = ParseQuery.getQuery("Group_user");
         query.whereEqualTo("user_id", userId);
         query.findInBackground(new FindCallback<Group>() {
@@ -62,8 +64,10 @@ public class DBHelper {
         });
         return groups;
     }
+
     private Group group;
-    public Group findGroupById(String groupId){
+
+    public Group findGroupById(String groupId) {
 
         ParseQuery<Group> query = ParseQuery.getQuery("Group");
         query.whereEqualTo("objectId", groupId);
@@ -75,7 +79,9 @@ public class DBHelper {
         });
         return group;
     }
+
     private static Task task;
+
     public static Task findTaskById(String taskId) {
         ParseQuery<Task> query = ParseQuery.getQuery("Task");
         query.whereEqualTo("objectId", taskId);
@@ -106,9 +112,6 @@ public class DBHelper {
                         if (!task.isStatus()) {
                             adapter.add(task);
                         }
-
-
-                        Log.e("SUCCESS", task.getObjectId() + " , " + task.getDescription());
                     }
 
                 } else {
@@ -167,7 +170,7 @@ public class DBHelper {
         final TaskAdapter myAdapter = mAdapter;
         ParseQuery<Task> query = ParseQuery.getQuery("Task");
         query.whereEqualTo("receiver", user);
-        query.whereEqualTo("group",group);
+        query.whereEqualTo("group", group);
         query.findInBackground(new FindCallback<Task>() {
             public void done(List<Task> parseTasks, ParseException e) {
                 if (e == null) {
@@ -211,9 +214,10 @@ public class DBHelper {
         });
 
     }
-    public void addMemberToGroup(Group group, User member){
-        ParseObject group_user=ParseObject.create("Group_user");
-        Log.d("voegdtoe", group.getObjectId()+" "+member.getObjectId());
+
+    public void addMemberToGroup(Group group, User member) {
+        ParseObject group_user = ParseObject.create("Group_user");
+        Log.d("voegdtoe", group.getObjectId() + " " + member.getObjectId());
         group_user.put("group_id", group);
         group_user.put("user_id", member);
         group_user.saveEventually();
@@ -240,34 +244,18 @@ public class DBHelper {
             }
         });
     }
-    public void findAllGroupByUser(User user,final MyGroup.MyListAdapter adapter) {
-        final MyGroup.MyListAdapter mAdapter = adapter;
+
+    public List<ParseObject> findAllGroupByUser(User user) {
+        ArrayList<Group> groups=new ArrayList<>();
+        ArrayList<ParseObject> parseObjects= new ArrayList<>();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Group_user");
         query.whereEqualTo("user_id", user);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> parseGroup, ParseException e) {
-                if (e == null) {
-                    if (parseGroup != null) {
-                        mAdapter.clear();
-                        for (int i = 0; i < parseGroup.size(); i++) {
-                            //findGroupById(parseGroup.get(i).get("group_id")+"",adapter);
-                            //TODO get groups
-                            Group group = (Group) parseGroup.get(i).getParseObject("group_id");
-                            try {
-                                group.fetch();
-                            } catch (ParseException e1) {
-                                e1.printStackTrace();
-                            }
-                            mAdapter.add(group);
-                        }
-                    }
-
-                } else {
-                    Log.e("ERROR", "message: " + e);
-                }
-                //Log.e("SUCCESS", "we have " + tasks.size() + " results");
-            }
-        });
+        try {
+            return query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

@@ -11,36 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/loadingLayout"
-        android:orientation="vertical"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/loading_data"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pleasewait"/>
-
-
-        <ProgressBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="?android:attr/progressBarStyleLarge"
-            android:indeterminate="false"
-            android:id="@+id/progressBar"
-            android:layout_gravity="center"
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true" />
-
-    </LinearLayout>
 
 
 </RelativeLayout>
