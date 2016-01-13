@@ -45,39 +45,27 @@ public class DBHelper {
     }
 
     private ArrayList<Group> groups;
+    public User findUserByUsername(String username){
+        ParseQuery<User> query = ParseQuery.getQuery("_User");
+        query.whereEqualTo("username", username);
+        try {
+            return query.getFirst();
+        } catch (ParseException e) {
+            return null;
+        }
 
-    public ArrayList<Group> findAllGroupByUserId(String userId) {
-        //TODO hier uit db halen alle groupen van user
-        groups = new ArrayList<>();
-        ParseQuery<Group> query = ParseQuery.getQuery("Group_user");
-        query.whereEqualTo("user_id", userId);
-        query.findInBackground(new FindCallback<Group>() {
-            @Override
-            public void done(List<Group> objects, ParseException e) {
-                if (e == null) {
-                    for (Group group : objects) {
-                        Group newGroup = findGroupById(group.getString("group_id"));
-                        groups.add(newGroup);
-                    }
-                }
-            }
-        });
-        return groups;
     }
-
-    private Group group;
 
     public Group findGroupById(String groupId) {
 
         ParseQuery<Group> query = ParseQuery.getQuery("Group");
         query.whereEqualTo("objectId", groupId);
-        query.getFirstInBackground(new GetCallback<Group>() {
-            @Override
-            public void done(Group object, ParseException e) {
-                group = object;
-            }
-        });
-        return group;
+        try {
+            return query.getFirst();
+        } catch (ParseException e) {
+            return null;
+        }
+
     }
 
     private static Task task;
@@ -243,6 +231,21 @@ public class DBHelper {
                 }
             }
         });
+    }
+    public Boolean isMember(Group group,User user){
+        List<ParseObject> objects=null;
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Group_user");
+        query.whereEqualTo("user_id", user);
+        query.whereEqualTo("group_id", group);
+        try {
+             objects=query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if(objects.size()>0){
+            return true;
+        }
+        return false;
     }
 
     public List<ParseObject> findAllGroupByUser(User user) {

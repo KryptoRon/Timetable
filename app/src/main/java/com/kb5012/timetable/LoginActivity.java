@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         // Locate EditTexts in main.xml
         username = (EditText) findViewById(R.id.tf_username);
         password = (EditText) findViewById(R.id.tf_password);
-
+        Parse.enableLocalDatastore(this);
         ParseObject.registerSubclass(Task.class);
         ParseObject.registerSubclass(User.class);
         ParseObject.registerSubclass(Group_user.class);
@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // [Optional] Power your app with Local Datastore. For more info, go to
         // https://parse.com/docs/android/guide#local-datastore
-        Parse.enableLocalDatastore(this);
+
         Parse.initialize(this);
         User currentUser =(User) ParseUser.getCurrentUser();
         if (currentUser != null) {

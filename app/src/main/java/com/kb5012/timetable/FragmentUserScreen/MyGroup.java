@@ -7,22 +7,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Group;
-import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
 import com.kb5012.timetable.GroupScreen;
 import com.kb5012.timetable.R;
-import com.kb5012.timetable.TaskDetails;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -46,7 +42,7 @@ public class MyGroup extends ListFragment {
         View view = inflater.inflate(R.layout.fragment_my_group, container, false);
         user = (User) ParseUser.getCurrentUser();
         mAdapter = new MyListAdapter(getContext(), new ArrayList<Group>());
-        new grouping().execute();
+        new AsyncGroup().execute();
         setListAdapter(mAdapter);
         return view;
     }
@@ -60,7 +56,7 @@ public class MyGroup extends ListFragment {
         intent.putExtras(b);
         startActivity(intent);
     }
-    private class grouping extends AsyncTask<Void,Void,Void>{
+    private class AsyncGroup extends AsyncTask<Void,Void,Void>{
         ArrayList<Group>groups= new ArrayList<>();
         @Override
         protected Void doInBackground(Void... params) {

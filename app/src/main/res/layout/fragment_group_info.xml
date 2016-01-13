@@ -22,15 +22,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/groupName"
-            android:onClick="leaveGroup"
             android:text="Leave group" />
 
         <Button
             android:id="@+id/addMember"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add member"
-            android:onClick="addMember"/>
+            android:text="Add member"/>
+/>
     </LinearLayout>
 
     <ListView
