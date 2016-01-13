@@ -1,17 +1,23 @@
 package com.kb5012.timetable;
 
+import android.content.Context;
 import android.support.annotation.MainThread;
+import android.text.Layout;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.DataModels.Group_user;
 import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
+import com.kb5012.timetable.FragmentUserScreen.MyGroup;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,20 +27,7 @@ import java.util.List;
  */
 public class DBHelper {
 
-    //ToDo database connection maken..
     public DBHelper() {
-    }
-
-    public static User userInlog(String username, String password) {
-        // demo
-        if (username.equals("username") && password.equals("password")) {
-            User user = new User();
-            user.setFirstName("test");
-            user.setLastName("testen");
-            return user;
-        }
-        // TODO hier user ophalen met wachtwoord en username van db als er geen is word er niks teruggegeven.
-        return null;
     }
 
     public static User findUserById(String id) {
@@ -82,32 +75,48 @@ public class DBHelper {
         });
         return group;
     }
+    private static Task task;
+    public static Task findTaskById(String taskId) {
+        ParseQuery<Task> query = ParseQuery.getQuery("Task");
+        query.whereEqualTo("objectId", taskId);
+        query.getFirstInBackground(new GetCallback<Task>() {
+            @Override
+            public void done(Task object, ParseException e) {
+                task = object;
+            }
+        });
+        return task;
+    }
+
+
     /*
      *  Find all tasks based on User ID
-     *  @param userId : String which is the PK from ParseObject
-     *  @return : returns a list of all Tasks found by using "userId" as parameter
+     *  @param user : ParseUser to be used.
+     *  @param adapter : adapter to be updated when query is succes
      */
-    public ArrayList<Task> findAllTaskByUserId(String userId) {
+    public void findAllTaskByUserId(ParseUser user, final TaskAdapter adapter) {
 
-        final ArrayList<Task> tasks = new ArrayList<>();
         ParseQuery<Task> query = ParseQuery.getQuery("Task");
-        query.whereEqualTo("receiver", userId);
+        query.whereEqualTo("receiver", user);
         query.findInBackground(new FindCallback<Task>() {
             public void done(List<Task> parseTasks, ParseException e) {
-                if (e == null) {
+                if (e == null && parseTasks != null) {
+                    adapter.clear();
                     for (Task task : parseTasks) {
-                        tasks.add(task);
+                        if (!task.isStatus()) {
+                            adapter.add(task);
+                        }
+
+
                         Log.e("SUCCESS", task.getObjectId() + " , " + task.getDescription());
                     }
 
                 } else {
                     Log.e("ERROR", "message: " + e);
                 }
-                Log.e("SUCCESS", "we have " + tasks.size() + " results");
+                //Log.e("SUCCESS", "we have " + tasks.size() + " results");
             }
         });
-
-        return tasks;
     }
 
     public static User findUserByUsername(String username) {
@@ -142,14 +151,15 @@ public class DBHelper {
 
         return users;
     }
-    public void findAllTaskByGroupId(String groupid,TaskAdapter listAdapter) {
+
+    public void findAllTaskByGroupId(Group group, TaskAdapter listAdapter) {
         final TaskAdapter mAdapter = listAdapter;
         ParseQuery<Task> query = ParseQuery.getQuery("Task");
-        query.whereEqualTo("group_id", groupid);
+        query.whereEqualTo("group", group);
         query.findInBackground(new FindCallback<Task>() {
             public void done(List<Task> parseTasks, ParseException e) {
                 if (e == null) {
-                    if(parseTasks != null){
+                    if (parseTasks != null) {
                         mAdapter.clear();
                         for (int i = 0; i < parseTasks.size(); i++) {
                             mAdapter.add(parseTasks.get(i));
@@ -164,18 +174,19 @@ public class DBHelper {
         });
     }
 
-    public void findAllTaskByGroupIdAndUserId(String groupId, String userId, TaskAdapter mAdapter) {
-        final TaskAdapter Adapter = mAdapter;
+
+    public void findAllTaskByGroupIdAndUserId(Group group, User user, TaskAdapter mAdapter) {
+        final TaskAdapter myAdapter = mAdapter;
         ParseQuery<Task> query = ParseQuery.getQuery("Task");
-        query.whereEqualTo("group_id", groupId);
-        query.whereEqualTo("receiver", userId);
+        query.whereEqualTo("receiver", user);
+        query.whereEqualTo("group",group);
         query.findInBackground(new FindCallback<Task>() {
             public void done(List<Task> parseTasks, ParseException e) {
                 if (e == null) {
-                    if(parseTasks != null){
-                        Adapter.clear();
+                    if (parseTasks != null) {
+                        myAdapter.clear();
                         for (int i = 0; i < parseTasks.size(); i++) {
-                            Adapter.add(parseTasks.get(i));
+                            myAdapter.add(parseTasks.get(i));
                         }
                     }
 
@@ -195,11 +206,11 @@ public class DBHelper {
         query.findInBackground(new FindCallback<Group_user>() {
             public void done(List<Group_user> parseUsers, ParseException e) {
                 if (e == null) {
-                    if(parseUsers != null){
+                    if (parseUsers != null) {
                         Adapter.clear();
                         User user;
                         for (int i = 0; i < parseUsers.size(); i++) {
-                            user= findUserById(parseUsers.get(i).getUser_id());
+                            user = findUserById(parseUsers.get(i).getUser_id());
                             Adapter.add(user);
                         }
                     }
@@ -212,4 +223,63 @@ public class DBHelper {
         });
 
     }
+    public void addMemberToGroup(Group group, User member){
+        ParseObject group_user=ParseObject.create("Group_user");
+        Log.d("voegdtoe", group.getObjectId()+" "+member.getObjectId());
+        group_user.put("group_id", group);
+        group_user.put("user_id", member);
+        group_user.saveEventually();
+    }
+
+    public void removeUserFromGroup(Group group, User user) {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Group_user");
+        query.whereEqualTo("group_id", group);
+        query.whereEqualTo("user_id", user);
+
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null) {
+
+
+                    for (ParseObject delete : parseObjects) {
+                        delete.deleteEventually();
+                    }
+                } else {
+                    Log.e("ERROR", "message: " + e);
+                }
+            }
+        });
+    }
+    public void findAllGroupByUser(User user,final MyGroup.MyListAdapter adapter) {
+        final MyGroup.MyListAdapter mAdapter = adapter;
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Group_user");
+        query.whereEqualTo("user_id", user);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> parseGroup, ParseException e) {
+                if (e == null) {
+                    if (parseGroup != null) {
+                        mAdapter.clear();
+                        for (int i = 0; i < parseGroup.size(); i++) {
+                            //findGroupById(parseGroup.get(i).get("group_id")+"",adapter);
+                            //TODO get groups
+                            Group group = (Group) parseGroup.get(i).getParseObject("group_id");
+                            try {
+                                group.fetch();
+                            } catch (ParseException e1) {
+                                e1.printStackTrace();
+                            }
+                            mAdapter.add(group);
+                        }
+                    }
+
+                } else {
+                    Log.e("ERROR", "message: " + e);
+                }
+                //Log.e("SUCCESS", "we have " + tasks.size() + " results");
+            }
+        });
+    }
+
 }

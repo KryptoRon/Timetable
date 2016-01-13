@@ -33,7 +33,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
                 itemView=inflater.inflate(R.layout.list_item_task, parent, false);
             }
             Task task =mTasks.get(position);
-            TextView taskName=(TextView)itemView.findViewById(R.id.taskName);
+            TextView taskName=(TextView)itemView.findViewById(R.id.task_name);
             taskName.setText(task.getTitle());
             return itemView;
         }

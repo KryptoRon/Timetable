@@ -11,16 +11,19 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.kb5012.timetable.DBHelper;
+import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.DataModels.Task;
+import com.kb5012.timetable.DataModels.User;
 import com.kb5012.timetable.R;
 import com.kb5012.timetable.TaskAdapter;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
 public class GroupMyTask extends ListFragment {
-    private String groupId;
-    private String userId;
+    private Group group;
+    private User user;
     private ArrayList<Task> tasks;
 
     final private DBHelper dbHelper=new DBHelper();
@@ -33,8 +36,9 @@ public class GroupMyTask extends ListFragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_group_my_task, container, false);
         Bundle bundle = getArguments();
-        groupId = bundle.getString("groupId");
-        userId = bundle.getString("userId");
+        String groupId = bundle.getString("groupId");
+        group= dbHelper.findGroupById(groupId);
+        user= (User)ParseUser.getCurrentUser();
 
 
         mAdapter = new TaskAdapter(getContext(), new ArrayList<Task>());
@@ -47,7 +51,7 @@ public class GroupMyTask extends ListFragment {
                 Toast.makeText(getContext(), "klik", Toast.LENGTH_LONG).show();
             }
         });
-        dbHelper.findAllTaskByGroupIdAndUserId(groupId,userId, mAdapter);
+        dbHelper.findAllTaskByGroupIdAndUserId(group,user, mAdapter);
         return v;
 
     }
@@ -57,8 +61,6 @@ public class GroupMyTask extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        groupId = bundle.getString("groupId");
-        userId = bundle.getString("userId");
 
 
     }

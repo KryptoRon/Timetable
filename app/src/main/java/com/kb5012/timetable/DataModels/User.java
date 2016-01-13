@@ -7,18 +7,12 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
+/**
+ * Created by Ronald on 14-12-2015.
+ */
 @ParseClassName("_User")
 public class User extends ParseUser{
-    private String id;
-    private String firstName;
-    private String lastName;
-    private ArrayList<Task> tasks;
-    public String getUsername() {
-        return getString("username");
-    }
-    public void setUsername(String username) {
-        put("username", username);
-    }
+    ArrayList<Task> tasks;
 
     public User() {
     }
@@ -44,27 +38,11 @@ public class User extends ParseUser{
         return null;
     }
 
-    public String getId() {
-        return id;
+    public void setPhoneNumber(String phoneNumber) {
+        put("phonenumber", phoneNumber);
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getPhoneNumber() {
+        return getString("phonenumber");
     }
 }

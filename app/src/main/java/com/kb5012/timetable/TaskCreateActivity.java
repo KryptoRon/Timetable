@@ -51,8 +51,8 @@ public class TaskCreateActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_create);
-        Bundle bundle = getIntent().getExtras();
-        userID = bundle.getString("userId");
+        //Bundle bundle = getIntent().getExtras();
+       // userID = bundle.getString("userId");
 
 
         yearI = currentDate.get(Calendar.YEAR);
@@ -109,16 +109,16 @@ public class TaskCreateActivity extends AppCompatActivity{
             e.printStackTrace();
         }
 
-        //TODO : Make Dynamic
-        User receiverT = new User();
-        receiverT.setObjectId("4lCSDPPBSX");
+        //TODO: Make Dynamic
+        User receiver = (User) ParseUser.getCurrentUser();
 
-        Group group = new Group();
+        t.setTitle("" + ((EditText) findViewById(R.id.tf_name)).getText());
+        t.setDescription("" + ((EditText) findViewById(R.id.tf_description)).getText());
 
 
         t.put("title", "" + ((EditText) findViewById(R.id.tf_name)).getText());
         t.put("description", "" + ((EditText) findViewById(R.id.tf_description)).getText());
-        t.put("receiver", receiverT);
+        t.put("receiver",receiver);
         //TODO : Make Dynamic
         t.put("group", group);
         t.put("status", false);

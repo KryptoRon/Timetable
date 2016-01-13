@@ -65,9 +65,6 @@ public class LoginActivity extends AppCompatActivity {
                         if (user != null) {
                             // If user exist and authenticated, send user to Welcome.class
                             Intent intent = new Intent(getApplicationContext(), UserScreen.class);
-                            Bundle b = new Bundle();
-                            b.putString("UserID", user.getObjectId());
-                            intent.putExtras(b);
                             startActivity(intent);
                             Toast.makeText(getApplicationContext(),
                                     "Successfully Logged in",
@@ -83,35 +80,9 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    public void signUp(View v) {
-        usernametxt = username.getText().toString();
-        passwordtxt = password.getText().toString();
-        // Force user to fill up the form
-        if (usernametxt.equals("") && passwordtxt.equals("")) {
-            Toast.makeText(getApplicationContext(),
-                    "Please complete the sign up form",
-                    Toast.LENGTH_LONG).show();
-
-        } else {
-            // Save new user data into Parse.com Data Storage
-            ParseUser user = new ParseUser();
-            user.setUsername(usernametxt);
-            user.setPassword(passwordtxt);
-            user.signUpInBackground(new SignUpCallback() {
-                public void done(ParseException e) {
-                    if (e == null) {
-                        // Show a simple Toast message upon successful registration
-                        Toast.makeText(getApplicationContext(),
-                                "Successfully Signed up, please log in.",
-                                Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(),
-                                "Sign up Error", Toast.LENGTH_LONG)
-                                .show();
-                    }
-                }
-            });
-        }
+    public void startSignUp(View v) {
+        Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+        startActivity(intent);
     }
     public void test (View v){
         Intent intent = new Intent(getApplicationContext(), UserScreen.class);
@@ -125,7 +96,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), GroupScreen.class);
         Bundle b = new Bundle();
         b.putString("groupId", "qSAL3jKMhY");
-        b.putString("userId", "x6S4XHQKfy");
         intent.putExtras(b);
         startActivity(intent);
         finish();
