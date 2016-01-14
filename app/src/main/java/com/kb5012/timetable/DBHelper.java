@@ -92,14 +92,13 @@ public class DBHelper {
 
         ParseQuery<Task> query = ParseQuery.getQuery("Task");
         query.whereEqualTo("receiver", user);
+        query.orderByAscending("deadline");
         query.findInBackground(new FindCallback<Task>() {
             public void done(List<Task> parseTasks, ParseException e) {
                 if (e == null && parseTasks != null) {
                     adapter.clear();
                     for (Task task : parseTasks) {
-                        if (!task.isStatus()) {
-                            adapter.add(task);
-                        }
+                        adapter.add(task);
                     }
 
                 } else {

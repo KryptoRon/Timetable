@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/customBG">
 
     <ImageView
-        android:layout_width="3000dp"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
         android:id="@+id/image_logo"
         android:layout_alignParentTop="true"
@@ -25,7 +26,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/usernamelabel"
-            android:id="@+id/username_label" />
+            android:id="@+id/username_label"
+            android:textColor="@color/customAccent"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,7 +40,8 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/passwordlabel"
             android:id="@+id/password_label"
-            android:paddingTop="25dp"/>
+            android:paddingTop="25dp"
+            android:textColor="@color/customAccent"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +55,8 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/emaillabel"
             android:id="@+id/email_label"
-            android:paddingTop="25dp"/>
+            android:paddingTop="25dp"
+            android:textColor="@color/customAccent"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,7 +70,8 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/phonelabel"
             android:id="@+id/phone_label"
-            android:paddingTop="25dp"/>
+            android:paddingTop="25dp"
+            android:textColor="@color/customAccent"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

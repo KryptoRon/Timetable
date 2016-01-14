@@ -7,15 +7,35 @@
     <ImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:id="@+id/imageView"
-        android:src="@android:drawable/btn_star_big_on"
+        android:id="@+id/avatar"
+        android:src="@drawable/defaultavatar"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/task_name"
-        android:text="Test Name"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_centerHorizontal="true" />
+        android:text="@string/task_name"
+        android:layout_below="@+id/completed"
+        android:layout_toEndOf="@+id/avatar"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/completed"
+        android:text="@string/task_complete"
+        android:textColor="#00ff12"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10dp"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/due_date"
+        android:text="@string/due_date"
+        android:layout_below="@+id/task_name"
+        android:layout_alignEnd="@+id/completed" />
 </RelativeLayout>

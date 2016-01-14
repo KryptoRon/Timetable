@@ -2,5 +2,11 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#854e38</color>
+    <color name="customPrimary">#F57C00</color>
+    <color name="customPrimaryDark">#E65100</color>
+    <color name="customAccent">#DD2C00</color>
+    <color name="customBG">#fefefc</color>
+    <color name="customButton">#854e38</color>
+    <color name="RED">#FF0000</color>
 </resources>

@@ -16,4 +16,10 @@
     <string name="task_description">Description</string>
     <string name="task_title">Title</string>
     <string name="task_deadline">Done By</string>
+    <string name="tv_login_or">OR</string>
+    <string name="past_due">Past Due</string>
+    <string name="due">"Due: "</string>
+    <string name="task_complete">Completed</string>
+    <string name="due_date">due date</string>
+    <string name="task_name">Test Name</string>
 </resources>
