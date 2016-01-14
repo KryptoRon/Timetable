@@ -1,86 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
-    <TextView
-        android:layout_width="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="@color/customBG">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/task_title"
-        android:id="@+id/task_titel_label"
-        android:layout_below="@+id/image_logo"
-        android:layout_alignStart="@+id/image_logo" />
+        android:paddingTop="@dimen/appbar_padding_top"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/task_description"
-        android:id="@+id/task_description_label"
-        android:layout_below="@+id/task_titel_label"
-        android:layout_alignStart="@+id/image_logo" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/task_deadline"
-        android:id="@+id/task_deadline_label"
-        android:layout_below="@+id/task_description_label"
-        android:layout_alignStart="@+id/task_description_label" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Created at"
-        android:id="@+id/task_created_at"
-        android:layout_below="@+id/task_deadline_label"
-        android:layout_alignStart="@+id/task_deadline_label" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/task_create_by"
-        android:layout_below="@+id/task_created_at"
-        android:layout_alignStart="@+id/task_created_at" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/textView14"
-        android:layout_below="@+id/textView13"
-        android:layout_alignStart="@+id/textView13" />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
     <ImageView
+        android:id="@+id/image_logo"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:id="@+id/image_logo"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:src="@drawable/timetable"
-        android:layout_margin="25dp"/>
-        android:layout_alignParentStart="true" />
+        android:layout_margin="5dp"
+        android:src="@drawable/timetable" />
 
-    <Button
+    <Switch
+        android:id="@+id/task_switch_complete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="delete"
-        android:id="@+id/bDelete"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true"
-        android:onClick="onClickDelete"/>
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:onClick="onClickUpdate"
+        android:text="@string/task_detail_complete"
+        android:textOff="@string/switch_no"
+        android:textOn="@string/switch_yes"
+        android:checked="false"
+        android:layout_margin="20dp"/>
 
-    <Button
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="5"
+        android:rowCount="14"
+        android:id="@+id/gridLayout"
+        android:layout_below="@+id/image_logo"
+        android:layout_alignEnd="@+id/btn_detail_delete"
+        android:layout_margin="20dp">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_height="80dp"
+            android:layout_width="80dp"
+            android:src="@drawable/defaultavatar"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_rowSpan="4"/>
+
+        <TextView
+            android:id="@+id/task_created_at_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Created at"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_row="0"
+            android:layout_column="1" />
+
+        <TextView
+            android:id="@+id/task_deadline_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/task_deadline"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:gravity="right"/>
+
+        <TextView
+            android:id="@+id/task_created_at"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Created at date"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:layout_marginEnd="10dp"/>
+
+        <TextView
+            android:id="@+id/task_deadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Due at Date"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:gravity="end"
+            android:layout_marginEnd="10dp"/>
+
+        <TextView
+            android:id="@+id/task_titel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/task_title"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_row="3"
+            android:layout_column="1"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_columnSpan="2" />
+
+        <TextView
+            android:id="@+id/task_sender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name Sender"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_row="5"
+            android:layout_column="0" />
+
+        <TextView
+            android:id="@+id/task_description_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/task_description"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_row="6"
+            android:layout_column="0"
+            android:layout_columnSpan="3"
+            android:layout_gravity="center_horizontal|center_vertical"/>
+
+    </GridLayout>
+
+    <ImageButton
+        android:id="@+id/btn_detail_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="complete"
-        android:id="@+id/bComplete"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/textView14"
-        android:onClick="onClickUpdate"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="onClickDelete"
+        android:src="@android:drawable/ic_menu_delete" />
+
+
+
+
 </RelativeLayout>

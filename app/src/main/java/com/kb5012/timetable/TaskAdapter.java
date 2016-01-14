@@ -1,8 +1,8 @@
 package com.kb5012.timetable;
 
 import android.content.Context;
-import android.graphics.Paint;
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kb5012.timetable.DataModels.Task;
+import com.kb5012.timetable.DataModels.User;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
 
 /**
  * Created by cc on 7-1-2016.
@@ -76,7 +76,19 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
 
         // TODO set image of the person who assigned
-        ImageView avatar = (ImageView) itemView.findViewById(R.id.avatar);
+        final ImageView avatar = (ImageView) itemView.findViewById(R.id.avatar);
+        User sender = (User) task.getParseUser("sender");
+        final ParseFile img = sender.getAvatar();
+        img.getDataInBackground(new GetDataCallback() {
+            @Override
+            public void done(byte[] data, ParseException e) {
+                if (e == null) {
+                    Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    avatar.setImageBitmap(bmp);
+                } else {
+                }
+            }
+        });
 
 
         return itemView;

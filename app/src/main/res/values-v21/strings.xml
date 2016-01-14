@@ -22,4 +22,6 @@
     <string name="task_complete">Completed</string>
     <string name="due_date">due date</string>
     <string name="task_name">Test Name</string>
+    <string name="switch_yes">Yes</string>
+    <string name="switch_no">No</string>
 </resources>
