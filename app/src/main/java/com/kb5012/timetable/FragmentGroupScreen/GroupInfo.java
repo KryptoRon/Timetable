@@ -5,17 +5,16 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kb5012.timetable.DBHelper;
@@ -24,6 +23,8 @@ import com.kb5012.timetable.DataModels.User;
 import com.kb5012.timetable.R;
 import com.kb5012.timetable.UserAdapter;
 import com.kb5012.timetable.UserScreen;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -36,24 +37,27 @@ import java.util.ArrayList;
  * Use the {@link GroupInfo#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GroupInfo extends Fragment {
+public class GroupInfo extends ListFragment {
     private Group group;
 
-    private ArrayList<User> users;
     final private DBHelper dbHelper = new DBHelper();
-    private ListView mListView;
     private UserAdapter mAdapter;
     private EditText input;
     private AlertDialog d;
-
+    private ListView mListView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_group_info, container, false);
         Bundle bundle = getArguments();
         String groupId = bundle.getString("groupId");
         group= dbHelper.findGroupById(groupId);
+        mAdapter = new UserAdapter(getContext(), new ArrayList<User>());
+        new AsyncFindMember().execute();
+        setListAdapter(mAdapter);
+
         setAddMemberButton(v);
         setLeaveButton(v);
+        mListView = (ListView)v.findViewById(android.R.id.list);
         return v;
     }
 
@@ -99,7 +103,7 @@ public class GroupInfo extends Fragment {
                             @Override
                             public void onClick(View view) {
                                 // TODO Do something
-                                   new AsyncTaskFindUser().execute(input.getText().toString());
+                                   new AsyncTaskAddMember().execute(input.getText().toString());
                                 //Dismiss once everything is OK.
                                 //d.dismiss();
                             }
@@ -146,7 +150,37 @@ public class GroupInfo extends Fragment {
         });
 
     }
-    private class AsyncTaskFindUser extends AsyncTask<String,User,Void>{
+    private class AsyncFindMember extends AsyncTask<Void,Void,Void>{
+        ArrayList<User>users= new ArrayList<>();
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<ParseObject> objects=(ArrayList<ParseObject>)dbHelper.findAllUsersByGroup(group);
+            User user;
+            if (objects!=null) {
+                for (ParseObject object : objects) {
+                    user = (User) object.getParseObject("user_id");
+                    try {
+                        user.fetch();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    users.add(user);
+                }
+                ;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            //super.onPostExecute(aVoid);
+            mAdapter.clear();
+            for (User user:users) {
+                mAdapter.add(user);
+            }
+        }
+    }
+    private class AsyncTaskAddMember extends AsyncTask<String,User,Void>{
         User user;
         @Override
         protected Void doInBackground(String... params) {
@@ -175,5 +209,4 @@ public class GroupInfo extends Fragment {
             }
         }
     }
-
 }
