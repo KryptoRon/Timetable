@@ -111,24 +111,28 @@ public class DBHelper {
     }
 
 
-    public ArrayList<User> findAllUsersByGroup(String objectId) {
-        final ArrayList<User> users = new ArrayList<>();
-        ParseQuery<User> query = ParseQuery.getQuery("Group_user");
-        query.whereEqualTo("group_id", objectId);
-        query.findInBackground(new FindCallback<User>() {
-            @Override
-            public void done(List<User> objects, ParseException e) {
-                if (e == null) {
-                    for (User user : objects) {
-                        User newUser = findUserById(user.getString("user_id"));
-                        users.add(newUser);
-                    }
-                }
-            }
-        });
-
-
-        return users;
+    public List<ParseObject> findAllUsersByGroup(Group group) {
+        List<ParseObject>objects=null;
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Group_user");
+        query.whereEqualTo("group_id", group);
+        Log.d("group", group.getObjectId());
+        try {
+            objects=query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return objects;
+    }
+    public List<ParseObject> findAllGroupByUser(User user) {
+        List<ParseObject>object=null;
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Group_user");
+        query.whereEqualTo("user_id", user);
+        try {
+            object= query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return object;
     }
 
     public void findAllTaskByGroupId(Group group, TaskAdapter listAdapter) {
@@ -248,17 +252,6 @@ public class DBHelper {
         return false;
     }
 
-    public List<ParseObject> findAllGroupByUser(User user) {
-        ArrayList<Group> groups=new ArrayList<>();
-        ArrayList<ParseObject> parseObjects= new ArrayList<>();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Group_user");
-        query.whereEqualTo("user_id", user);
-        try {
-            return query.find();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
 
 }
