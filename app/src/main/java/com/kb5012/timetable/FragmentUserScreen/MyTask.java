@@ -42,16 +42,12 @@ import static com.parse.ParseUser.getCurrentUser;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyTask extends ListFragment implements AdapterView.OnItemClickListener {
+public class MyTask extends ListFragment {
 
-    private Thread thread;
-    private java.util.logging.Handler handler;
-    private ProgressDialog progress;
-    private String userId;
     private ArrayList<Task> tasks;
     final private DBHelper dbHelper = new DBHelper();
     private TaskAdapter mAdapter;
-    LinearLayout loading;
+    //LinearLayout loading;
 
     public MyTask() {
         // Required empty public constructor
@@ -68,12 +64,8 @@ public class MyTask extends ListFragment implements AdapterView.OnItemClickListe
         dbHelper.findAllTaskByUserId(user, mAdapter);
 
         user.setAllTasks(tasks);
-        ListView list = (ListView) view.findViewById(android.R.id.list);
-        loading = (LinearLayout) view.findViewById(R.id.loadingLayout);
 
         setListAdapter(mAdapter);
-        list.setOnItemClickListener(this);
-        loading.setVisibility(View.INVISIBLE);
 
         return view;
     }
@@ -92,34 +84,5 @@ public class MyTask extends ListFragment implements AdapterView.OnItemClickListe
         Intent intent = new Intent(getContext(), TaskDetails.class);
         intent.putExtra("task" , item.getObjectId());
         startActivity(intent);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    public class MyListAdapter extends ArrayAdapter<Task> {
-        public MyListAdapter() {
-            super(getActivity(), R.layout.list_item_task, tasks);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View itemView = convertView;
-            if (convertView==null){
-                itemView=getActivity().getLayoutInflater().inflate(R.layout.list_item_task,parent,false);
-            }
-            Task task =tasks.get(position);
-            TextView taskName=(TextView)itemView.findViewById(R.id.task_name);
-            taskName.setText(task.getTitle());
-            return itemView;
-        }
     }
 }

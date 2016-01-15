@@ -1,5 +1,6 @@
 package com.kb5012.timetable.FragmentGroupScreen;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -16,6 +17,7 @@ import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
 import com.kb5012.timetable.R;
 import com.kb5012.timetable.TaskAdapter;
+import com.kb5012.timetable.TaskDetails;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -44,16 +46,17 @@ public class GroupMyTask extends ListFragment {
         mAdapter = new TaskAdapter(getContext(), new ArrayList<Task>());
 
         mListView = (ListView)v.findViewById(android.R.id.list);
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), "klik", Toast.LENGTH_LONG).show();
-            }
-        });
+        setListAdapter(mAdapter);
         dbHelper.findAllTaskByGroupIdAndUserId(group,user, mAdapter);
         return v;
 
+    }
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        Task item = (Task) getListAdapter().getItem(position);
+        Intent intent = new Intent(getContext(), TaskDetails.class);
+        intent.putExtra("task", item.getObjectId());
+        startActivity(intent);
     }
 
 

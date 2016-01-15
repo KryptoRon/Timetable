@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
         // Locate EditTexts in main.xml
         username = (EditText) findViewById(R.id.tf_username);
         password = (EditText) findViewById(R.id.tf_password);
-
+        Parse.enableLocalDatastore(this);
         ParseObject.registerSubclass(Task.class);
         ParseObject.registerSubclass(User.class);
         ParseObject.registerSubclass(Group_user.class);
@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // [Optional] Power your app with Local Datastore. For more info, go to
         // https://parse.com/docs/android/guide#local-datastore
-        Parse.enableLocalDatastore(this);
+
         Parse.initialize(this);
         User currentUser =(User) ParseUser.getCurrentUser();
         if (currentUser != null) {
@@ -84,25 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
         startActivity(intent);
     }
-    public void test (View v){
-        Intent intent = new Intent(getApplicationContext(), UserScreen.class);
-        Bundle b = new Bundle();
-        b.putString("userID", "0");
-        intent.putExtras(b);
-        startActivity(intent);
-        finish();
-    }
-    public void onclickgroup(View v){
-        Intent intent = new Intent(getApplicationContext(), GroupScreen.class);
-        Bundle b = new Bundle();
-        b.putString("groupId", "qSAL3jKMhY");
-        intent.putExtras(b);
-        startActivity(intent);
-        finish();
-    }
-    public void onClickAddGroup(View v){
-        Intent intent = new Intent(getApplicationContext(), GroupCreateActivity.class);
-        startActivity(intent);
-    }
+
+
 
 }

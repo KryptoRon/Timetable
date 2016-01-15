@@ -2,6 +2,7 @@ package com.kb5012.timetable.DataModels;
 
 import com.kb5012.timetable.DataModels.Task;
 import com.parse.ParseClassName;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -13,6 +14,14 @@ import java.util.ArrayList;
 @ParseClassName("_User")
 public class User extends ParseUser{
     ArrayList<Task> tasks;
+
+    public ParseFile getAvatar() {
+        return getParseFile("avatar");
+    }
+
+    public void setAvatar(ParseFile avatar) {
+        put("avatar", avatar);
+    }
 
     public User() {
     }
@@ -45,4 +54,6 @@ public class User extends ParseUser{
     public String getPhoneNumber() {
         return getString("phonenumber");
     }
+
+
 }
