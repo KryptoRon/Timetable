@@ -175,7 +175,7 @@ public class TaskCreateActivity extends AppCompatActivity{
         Spinner dropdown = (Spinner)findViewById(iD);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, list);
         dropdown.setAdapter(adapter);
-        System.out.println(groupID = dropdown.getSelectedItem().toString());
+        //System.out.println(groupID = dropdown.getSelectedItem().toString());
     }
 
 

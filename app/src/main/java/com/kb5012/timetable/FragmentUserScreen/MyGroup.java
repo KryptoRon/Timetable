@@ -19,6 +19,7 @@ import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
+import com.kb5012.timetable.GroupCreateActivity;
 import com.kb5012.timetable.GroupScreen;
 import com.kb5012.timetable.R;
 import com.kb5012.timetable.TaskDetails;
@@ -80,8 +81,10 @@ public class MyGroup extends ListFragment{
         super.onActivityCreated(savedInstanceState);
     }
 
-
-
+    public void onClickMakeGroup(View v){
+        Intent intent = new Intent(getContext(), GroupCreateActivity.class);
+        startActivity(intent);
+    }
 
     public class MyListAdapter extends ArrayAdapter<Group> {
         private Context mContext;

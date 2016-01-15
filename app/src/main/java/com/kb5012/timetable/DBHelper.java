@@ -88,6 +88,10 @@ public class DBHelper {
         return task;
     }
 
+    public static void deleteGroup(ParseObject group){
+        group.deleteInBackground();
+    }
+
 
     /*
      *  Find all tasks based on User ID
