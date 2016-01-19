@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.DataModels.User;
+import com.kb5012.timetable.notification;
 import com.kb5012.timetable.R;
 import com.kb5012.timetable.UserAdapter;
 import com.kb5012.timetable.UserScreen;
@@ -115,7 +116,10 @@ public class GroupInfo extends ListFragment {
             }
         });
     }
-
+    private void useNotification(User receiver){
+        String text="You have been added to "+group.getName();
+        notification.singleNotification(receiver, text);
+    }
 
     private void setLeaveButton(View v) {
         Button button = (Button) v.findViewById(R.id.leaveGroup);
@@ -185,7 +189,6 @@ public class GroupInfo extends ListFragment {
         @Override
         protected Void doInBackground(String... params) {
            user= dbHelper.findUserByUsername(params[0]);
-            Log.d("user", user.getObjectId());
             return null;
         }
 
@@ -197,6 +200,7 @@ public class GroupInfo extends ListFragment {
                 if(!dbHelper.isMember(group,user)){
                     dbHelper.addMemberToGroup(group,user);
                     Toast.makeText(getContext(),user.getUsername()+" added",Toast.LENGTH_LONG).show();
+                    useNotification(user);
                     d.dismiss();
                 }
                 else{

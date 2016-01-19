@@ -16,7 +16,7 @@ public class User extends ParseUser{
     ArrayList<Task> tasks;
 
     public ParseFile getAvatar() {
-        return getParseFile("avatar");
+            return getParseFile("avatar");
     }
 
     public void setAvatar(ParseFile avatar) {
