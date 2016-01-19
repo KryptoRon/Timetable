@@ -2,6 +2,8 @@ package com.kb5012.timetable.FragmentGroupScreen;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +29,7 @@ import com.kb5012.timetable.UserAdapter;
 import com.kb5012.timetable.UserScreen;
 import com.kb5012.timetable.notification;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -51,11 +55,21 @@ public class GroupInfo extends ListFragment {
 
         setAddMemberButton(v);
         setLeaveButton(v);
-        mListView = (ListView)v.findViewById(android.R.id.list);
-        TextView mTitle = (TextView) v.findViewById(R.id.groupName);
-        mTitle.setText(group.getName());
+        try {
+            mListView = (ListView)v.findViewById(android.R.id.list);
+            TextView mTitle = (TextView) v.findViewById(R.id.groupName);
+            mTitle.setText(group.getName());
+            ImageView iv = (ImageView) v.findViewById(R.id.groupAvatar);
+            ParseFile file = group.getImage();
+            byte[] data = file.getData();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+            iv.setImageBitmap(bitmap);
 
-        return v;
+            return v;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void setAddMemberButton(View v) {

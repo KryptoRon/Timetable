@@ -29,13 +29,8 @@ import com.kb5012.timetable.DataModels.User;
 import com.kb5012.timetable.R;
 import com.kb5012.timetable.TaskAdapter;
 import com.kb5012.timetable.TaskDetails;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.parse.ParseUser.getCurrentUser;
 
