@@ -62,8 +62,8 @@ public class GroupCreateActivity extends AppCompatActivity {
                         EditText et = (EditText) findViewById(R.id.tf_name);
                         et.setText(g.getName());
 
-                        ParseFile imageFile = (ParseFile) g.get("group_image");
-                        imageFile.getDataInBackground(new GetDataCallback() {
+                        file = (ParseFile) g.get("group_image");
+                        file.getDataInBackground(new GetDataCallback() {
                             @Override
                             public void done(byte[] data, ParseException e) {
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
@@ -136,9 +136,9 @@ public class GroupCreateActivity extends AppCompatActivity {
                 ParseObject g = ParseObject.create("Group");
                 g.put("group_name", et1.getText().toString());
                 g.put("group_image",file);
+                g.put("owner", ParseUser.getCurrentUser());
                 g.saveInBackground();
             } else {
-                g = new Group();
                 g.put("group_name", et1.getText().toString());
                 g.put("group_image",file);
                 g.put("owner", ParseUser.getCurrentUser());

@@ -17,7 +17,9 @@ import android.widget.Toast;
 import com.kb5012.timetable.DataModels.User;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -60,16 +62,16 @@ public class SignUpActivity extends AppCompatActivity {
         emailtxt = email.getText().toString();
         phonetxt = phonenumber.getText().toString();
         // Force user to fill up the form
-       if (usernametxt.equals("") || passwordtxt.equals("") || emailtxt.equals("") || phonetxt.equals("")) {
+       if (usernametxt.equals("") || passwordtxt.equals("") || password2.equals("") || emailtxt.equals("") || phonetxt.equals("")) {
             Toast.makeText(getApplicationContext(),
                     "Please complete the sign up form",
                     Toast.LENGTH_LONG).show();
         }else if (!password1.equals(password2)){
             Toast.makeText(getApplicationContext(),
-                    "Your passwords doesn't match. KUT!" + password1 +" : "+ password2,
+                    "Your passwords doesn't match",
                     Toast.LENGTH_LONG).show();
         } else {
-            // Save new user data into Parse.com Data Storage
+           // Save new user data into Parse.com Data Storage
             User user = new User();
             user.setUsername(usernametxt);
             user.setPassword(passwordtxt);
@@ -121,6 +123,7 @@ public class SignUpActivity extends AppCompatActivity {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     byte[] img = stream.toByteArray();
                     file = new ParseFile("avatar.png", img);
+                    file.saveInBackground();
 
                     ImageView iv = (ImageView) findViewById(R.id.signUpAvatar);
                     iv.setImageBitmap(bitmap);
