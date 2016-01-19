@@ -11,6 +11,7 @@ import com.kb5012.timetable.DataModels.*;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -35,17 +36,9 @@ public class LoginActivity extends AppCompatActivity {
         // Locate EditTexts in main.xml
         username = (EditText) findViewById(R.id.tf_username);
         password = (EditText) findViewById(R.id.tf_password);
-        Parse.enableLocalDatastore(this);
-        ParseObject.registerSubclass(Task.class);
-        ParseObject.registerSubclass(User.class);
-        ParseObject.registerSubclass(Group_user.class);
-        ParseObject.registerSubclass(Group.class);
 
-        // [Optional] Power your app with Local Datastore. For more info, go to
-        // https://parse.com/docs/android/guide#local-datastore
 
-        Parse.initialize(this);
-        User currentUser =(User) ParseUser.getCurrentUser();
+        User currentUser = (User) ParseUser.getCurrentUser();
         if (currentUser != null) {
             Intent intent = new Intent(getApplicationContext(), UserScreen.class);
             Bundle b = new Bundle();
@@ -84,7 +77,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
         startActivity(intent);
     }
-
 
 
 }

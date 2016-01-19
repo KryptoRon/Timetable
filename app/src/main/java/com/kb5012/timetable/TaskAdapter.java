@@ -77,6 +77,11 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         // TODO set image of the person who assigned
         final ImageView avatar = (ImageView) itemView.findViewById(R.id.avatar);
         User sender = (User) task.getParseUser("sender");
+        try {
+            sender.fetchIfNeeded();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         final ParseFile img = sender.getAvatar();
         if (img != null) {
             img.getDataInBackground(new GetDataCallback() {

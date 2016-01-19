@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.kb5012.timetable.DataModels.User;
 import com.kb5012.timetable.FragmentUserScreen.MyGroup;
 import com.kb5012.timetable.FragmentUserScreen.MyTask;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 
@@ -53,6 +54,10 @@ public class UserScreen extends AppCompatActivity {
         user= (User)ParseUser.getCurrentUser();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // init user for notification
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        installation.put("user",ParseUser.getCurrentUser());
+        installation.saveInBackground();
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());

@@ -92,7 +92,6 @@ public class DBHelper {
         List<ParseObject> objects = null;
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Group_user");
         query.whereEqualTo("group_id", group);
-        Log.d("group", group.getObjectId());
         try {
             objects = query.find();
         } catch (ParseException e) {
@@ -175,15 +174,12 @@ public class DBHelper {
 
     public void addMemberToGroup(Group group, User member) {
         ParseObject group_user = ParseObject.create("Group_user");
-        Log.d("voegdtoe", group.getObjectId() + " " + member.getObjectId());
         group_user.put("group_id", group);
         group_user.put("user_id", member);
         group_user.saveEventually();
     }
 
     public void removeUserFromGroup(Group group, User user) {
-        Log.d("group", group.getObjectId());
-        Log.d("user", user.getObjectId());
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Group_user");
         query.whereEqualTo("group_id", group);
         query.whereEqualTo("user_id", user);

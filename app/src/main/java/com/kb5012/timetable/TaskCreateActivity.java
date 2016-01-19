@@ -7,8 +7,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,22 +17,16 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.kb5012.timetable.DataModels.Group;
-import com.kb5012.timetable.DataModels.Group_user;
 import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class TaskCreateActivity extends AppCompatActivity{
 
@@ -148,9 +140,13 @@ public class TaskCreateActivity extends AppCompatActivity{
         t.put("sender", ParseUser.getCurrentUser());
         t.put("deadline", convertedDate);
         t.saveEventually();
+        useNotification();
 
     }
-
+    private void useNotification(){
+        String text= ParseUser.getCurrentUser().getUsername()+" has given you a task in "+group.getName()+" group";
+        notification.singleNotification(receiver, text);
+    }
 
 
 
