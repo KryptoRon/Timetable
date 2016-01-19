@@ -82,7 +82,7 @@ public class TaskDetails extends AppCompatActivity{
                 completed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            updateTask(task.getObjectId(), isChecked);
+                            updateTask(isChecked);
 
                     }
                 });
@@ -114,15 +114,9 @@ public class TaskDetails extends AppCompatActivity{
         deleteTask(task.getObjectId());
     }
 
-    private void updateTask(String taskId, final boolean status) {
-        ParseQuery<Task> query = ParseQuery.getQuery("Task");
-        query.getInBackground(taskId, new GetCallback<Task>() {
-            @Override
-            public void done(Task object, ParseException e) {
-                object.put("status", status);
-                object.saveEventually();
-            }
-        });
+    private void updateTask(final boolean status) {
+        task.put("status", status);
+        task.saveEventually();
     }
 
     private void deleteTask(String taskId) {

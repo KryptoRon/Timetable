@@ -9,6 +9,9 @@
         android:layout_height="80dp"
         android:id="@+id/avatar"
         android:src="@drawable/defaultavatar"
+        android:padding="1dp"
+        android:background="@android:color/black"
+        android:layout_margin="5dp"
         />
 
     <TextView

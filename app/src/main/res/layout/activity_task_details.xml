@@ -28,7 +28,7 @@
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:src="@drawable/timetable" />
 
     <Switch
@@ -62,7 +62,10 @@
             android:src="@drawable/defaultavatar"
             android:layout_row="0"
             android:layout_column="0"
-            android:layout_rowSpan="4"/>
+            android:layout_rowSpan="4"
+            android:padding="1dp"
+            android:background="@android:color/black"
+            />
 
         <TextView
             android:id="@+id/task_created_at_label"
@@ -71,7 +74,9 @@
             android:text="Created at"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_row="0"
-            android:layout_column="1" />
+            android:layout_column="1"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="5dp"/>
 
         <TextView
             android:id="@+id/task_deadline_label"
@@ -81,7 +86,8 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_row="0"
             android:layout_column="2"
-            android:gravity="right"/>
+            android:gravity="right"
+            android:layout_marginLeft="5dp"/>
 
         <TextView
             android:id="@+id/task_created_at"
@@ -90,7 +96,8 @@
             android:text="Created at date"
             android:layout_row="1"
             android:layout_column="1"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="5dp"/>
 
         <TextView
             android:id="@+id/task_deadline"
@@ -101,7 +108,8 @@
             android:layout_row="1"
             android:layout_column="2"
             android:gravity="end"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="5dp"/>
 
         <TextView
             android:id="@+id/task_titel"
@@ -112,7 +120,8 @@
             android:layout_row="3"
             android:layout_column="1"
             android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_columnSpan="2" />
+            android:layout_columnSpan="2"
+            android:layout_rowSpan="2"/>
 
         <TextView
             android:id="@+id/task_sender"
@@ -132,7 +141,8 @@
             android:layout_row="6"
             android:layout_column="0"
             android:layout_columnSpan="3"
-            android:layout_gravity="center_horizontal|center_vertical"/>
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginTop="15dp"/>
 
     </GridLayout>
 

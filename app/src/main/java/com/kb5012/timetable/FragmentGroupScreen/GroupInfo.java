@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
@@ -14,30 +13,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.DataModels.User;
-import com.kb5012.timetable.notification;
 import com.kb5012.timetable.R;
 import com.kb5012.timetable.UserAdapter;
 import com.kb5012.timetable.UserScreen;
+import com.kb5012.timetable.notification;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link GroupInfo.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link GroupInfo#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class GroupInfo extends ListFragment {
     private Group group;
 
@@ -59,11 +52,14 @@ public class GroupInfo extends ListFragment {
         setAddMemberButton(v);
         setLeaveButton(v);
         mListView = (ListView)v.findViewById(android.R.id.list);
+        TextView mTitle = (TextView) v.findViewById(R.id.groupName);
+        mTitle.setText(group.getName());
+
         return v;
     }
 
     private void setAddMemberButton(View v) {
-        Button button = (Button) v.findViewById(R.id.addMember);
+        ImageButton button = (ImageButton) v.findViewById(R.id.addMember);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
