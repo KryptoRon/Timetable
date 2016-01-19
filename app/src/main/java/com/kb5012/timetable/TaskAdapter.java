@@ -34,7 +34,6 @@ public class TaskAdapter extends ArrayAdapter<Task> {
     }
 
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View itemView = convertView;
@@ -51,7 +50,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
         // set completed tag if task completed
         TextView completed = (TextView) itemView.findViewById(R.id.completed);
-        if (task.isStatus()){
+        if (task.isStatus()) {
             completed.setVisibility(View.VISIBLE);
         }
 
@@ -66,7 +65,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
             dateString = mdf.format(deadline);
 
             // if task is past due
-            if (deadline.before(Calendar.getInstance().getTime()) && !task.isStatus()){
+            if (deadline.before(Calendar.getInstance().getTime()) && !task.isStatus()) {
                 completed.setVisibility(View.VISIBLE);
                 completed.setText(R.string.past_due);
                 completed.setTextColor(mContext.getResources().getColor(R.color.RED));
@@ -79,16 +78,18 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         final ImageView avatar = (ImageView) itemView.findViewById(R.id.avatar);
         User sender = (User) task.getParseUser("sender");
         final ParseFile img = sender.getAvatar();
-        img.getDataInBackground(new GetDataCallback() {
-            @Override
-            public void done(byte[] data, ParseException e) {
-                if (e == null) {
-                    Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-                    avatar.setImageBitmap(bmp);
-                } else {
+        if (img != null) {
+            img.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
+                    if (e == null) {
+                        Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+                        avatar.setImageBitmap(bmp);
+                    } else {
+                    }
                 }
-            }
-        });
+            });
+        }
 
 
         return itemView;

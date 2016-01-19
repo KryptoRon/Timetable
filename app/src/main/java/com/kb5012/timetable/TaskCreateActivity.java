@@ -4,10 +4,13 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -40,20 +43,21 @@ public class TaskCreateActivity extends AppCompatActivity{
 
     private String year;
     private String month;
+    private User receiver;
     private String day;
     private static final int TIME_DIALOG_ID = 0;
     private static final int DATE_DIALOG_ID = 1;
     private int yearI, dayI, monthI, hourI, minuteI;
     private TextView date, time;
+    private UserAdapter adapterU;
     private String groupID;
+    private Group group;
+    private DBHelper dbHelper= new DBHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_create);
-        //Bundle bundle = getIntent().getExtras();
-       // userID = bundle.getString("userId");
-
 
         yearI = currentDate.get(Calendar.YEAR);
         monthI = currentDate.get(Calendar.MONTH) + 1;
@@ -71,26 +75,49 @@ public class TaskCreateActivity extends AppCompatActivity{
         });
 
         date = (TextView) findViewById(R.id.date_view);
-        date.setText(dayI +"-"+  monthI +"-"+ yearI);
+        date.setText(dayI + "-" + monthI + "-" + yearI);
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog(DATE_DIALOG_ID);
             }
         });
-
         Spinner dropdownUser = (Spinner)findViewById(R.id.spinnerUser);
-        String[] itemsU = new String[]{"Ray", "Chie-Cheung", "Ronald", "Jordi,", "Bryant"}; // TODO : Make dynamic
-        ArrayAdapter<String> adapterU = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, itemsU);
-        dropdownUser.setAdapter(adapterU);
 
-        findAllGroupByUserId(ParseUser.getCurrentUser(), this);
+        Spinner dropdownGroup = (Spinner)findViewById(R.id.spinnerGroup);
+        adapterU=new UserAdapter(this,new ArrayList<User>());
+        dropdownUser.setAdapter(adapterU);
+        dropdownUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                receiver = dbHelper.findUserByUsername(parent.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        dropdownGroup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                group = dbHelper.findgroupByGroupName(parent.getSelectedItem().toString());
+                new AsyncFindMember().execute();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        new AsyncGroup().execute();
 
 
     }
 
+
     public void onClick(View v){
-        findGroupById(groupID);
+        newTask();
         finish();
     }
 
@@ -109,9 +136,6 @@ public class TaskCreateActivity extends AppCompatActivity{
             e.printStackTrace();
         }
 
-        //TODO: Make Dynamic
-        User receiver = (User) ParseUser.getCurrentUser();
-
         t.setTitle("" + ((EditText) findViewById(R.id.tf_name)).getText());
         t.setDescription("" + ((EditText) findViewById(R.id.tf_description)).getText());
 
@@ -119,63 +143,22 @@ public class TaskCreateActivity extends AppCompatActivity{
         t.put("title", "" + ((EditText) findViewById(R.id.tf_name)).getText());
         t.put("description", "" + ((EditText) findViewById(R.id.tf_description)).getText());
         t.put("receiver",receiver);
-        //TODO : Make Dynamic
         t.put("group", group);
         t.put("status", false);
         t.put("sender", ParseUser.getCurrentUser());
         t.put("deadline", convertedDate);
-
-        t.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(com.parse.ParseException e) {
-                Log.d("CHAT OBJECT", " SAVED");
-        }});
+        t.saveEventually();
 
     }
 
-    public void findAllGroupByUserId(ParseUser userId, final Context context){
-        //TODO hier uit db halen alle groupen van user
-        final ArrayList<ParseObject> groups=new ArrayList<>();
-        ParseQuery<Group_user> query = ParseQuery.getQuery("Group_user");
-        query.whereEqualTo("user_id", userId);
-        query.findInBackground(new FindCallback<Group_user>() {
-            @Override
-            public void done(List<Group_user> objects, com.parse.ParseException e) {
-                if (e == null) {
-                    for (Group_user group : objects) {
-                        groups.add(group.getGroup_id());
-                    }
-                    String[] groupList = new String[groups.size()];
-                    int i = 0;
-                    for (ParseObject g : groups) {
-                        groupList[i] = g.getObjectId();
-                        i++;
-                    }
-                    populateSpinner(groupList, context, R.id.spinnerGroup);
-                }
-            }
-        });
-    }
-    private Group group;
-    public void findGroupById(String groupId){
-        group = new Group();
-        ParseQuery<Group> query = ParseQuery.getQuery("Group");
-        query.whereEqualTo("objectId", groupId);
-        query.getFirstInBackground(new GetCallback<Group>() {
-            @Override
-            public void done(Group object, com.parse.ParseException e) {
-                group = object;
-                newTask();
-            }
-        });
-    }
 
-    private Spinner dropdown;
+
+
+
     public void populateSpinner(String[] list, Context context, int iD) {
         Spinner dropdown = (Spinner)findViewById(iD);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, list);
         dropdown.setAdapter(adapter);
-        System.out.println(groupID = dropdown.getSelectedItem().toString());
     }
 
 
@@ -220,5 +203,68 @@ public class TaskCreateActivity extends AppCompatActivity{
         }
 
     };
+    private class AsyncFindMember extends AsyncTask<Void, Void, Void> {
+        ArrayList<User> users = new ArrayList<>();
+        String[] memberNames;
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<ParseObject> objects = (ArrayList<ParseObject>) dbHelper.findAllUsersByGroup(group);
+
+            User user;
+            if (objects != null) {
+                memberNames= new String[objects.size()];
+                int i=0;
+                for (ParseObject object : objects) {
+                    user = (User) object.getParseObject("user_id");
+                    try {
+                        user.fetch();
+                        memberNames[i]=user.getUsername();
+                        i++;
+                    } catch (com.parse.ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            populateSpinner(memberNames, TaskCreateActivity.this, R.id.spinnerUser);
+
+        }
+    }
+    private class AsyncGroup extends AsyncTask<Void,Void,Void>{
+        ArrayList<Group> groups = new ArrayList<>();
+        String[] groupNames;
+        @Override
+        protected Void doInBackground(Void... params) {
+            ArrayList<ParseObject> objects = (ArrayList<ParseObject>) dbHelper.findAllGroupByUser((User)ParseUser.getCurrentUser());
+
+            Group tempGroup;
+            if (objects != null) {
+                groupNames= new String[objects.size()];
+                int i=0;
+                for (ParseObject object : objects) {
+                    tempGroup = (Group) object.getParseObject("group_id");
+                    try {
+                        tempGroup.fetch();
+                        groupNames[i]=tempGroup.getName();
+                        i++;
+                    } catch (com.parse.ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            populateSpinner(groupNames, TaskCreateActivity.this, R.id.spinnerGroup);
+        }
+    }
 
 }
