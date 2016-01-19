@@ -18,7 +18,6 @@ import com.kb5012.timetable.DataModels.User;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
@@ -28,7 +27,6 @@ import java.io.ByteArrayOutputStream;
  * Created by Ronald on 12-1-2016.
  */
 public class SignUpActivity extends AppCompatActivity {
-
     private ParseFile file;
     private EditText username;
     private String usernametxt;
@@ -39,6 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText phonenumber;
     private String phonetxt;
     private Button btn_signup;
+    public User user = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,20 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    public void signUp(View v) {
+    public void onClickMakeUser(View v){
+        file.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(null == e){
+                    signUp();
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void signUp() {
         usernametxt = username.getText().toString();
         passwordtxt = password.getText().toString();
         EditText passwordR = (EditText) findViewById(R.id.password_signupR);
@@ -66,34 +78,34 @@ public class SignUpActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     "Please complete the sign up form",
                     Toast.LENGTH_LONG).show();
-        }else if (!password1.equals(password2)){
+       }else if (!password1.equals(password2)){
             Toast.makeText(getApplicationContext(),
                     "Your passwords doesn't match",
                     Toast.LENGTH_LONG).show();
-        } else {
+       }else {
            // Save new user data into Parse.com Data Storage
-            User user = new User();
             user.setUsername(usernametxt);
             user.setPassword(passwordtxt);
             user.setEmail(emailtxt);
             user.setPhoneNumber(phonetxt);
-            user.setAvatar(file);
+            user.put("avatar", file);
             user.signUpInBackground(new SignUpCallback() {
                 public void done(ParseException e) {
-                    if (e == null) {
-                        // Show a simple Toast message upon successful registration
-                        Toast.makeText(getApplicationContext(),
-                                "Successfully Signed up, please log in.",
-                                Toast.LENGTH_LONG).show();
-                        finish();
-                    } else {
-                        Toast.makeText(getApplicationContext(),
-                                "Sign up Error: " + e, Toast.LENGTH_LONG)
-                                .show();
-                    }
+                   if (e == null) {
+                       // Show a simple Toast message upon successful registration
+                       Toast.makeText(getApplicationContext(),
+                               "Successfully Signed up, please log in.",
+                               Toast.LENGTH_LONG).show();
+                       finish();
+                   } else {
+                       Toast.makeText(getApplicationContext(),
+                               "Sign up error", Toast.LENGTH_LONG)
+                               .show();
+                       e.printStackTrace();
+                   }
                 }
             });
-        }
+       }
     }
 
     //  This onClick starts the Gallery intent to select a image
@@ -121,14 +133,13 @@ public class SignUpActivity extends AppCompatActivity {
                     Bitmap bitmap = BitmapFactory.decodeFile(filePath);
 
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    byte[] img = stream.toByteArray();
-                    file = new ParseFile("avatar.png", img);
-                    file.saveInBackground();
 
                     ImageView iv = (ImageView) findViewById(R.id.signUpAvatar);
                     iv.setImageBitmap(bitmap);
 
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] img = stream.toByteArray();
+                    file = new ParseFile("avatar.png", img);
                     cursor.close();
                 }
                 break;

@@ -3,6 +3,8 @@ package com.kb5012.timetable.FragmentUserScreen;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,7 +22,9 @@ import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.DataModels.User;
 import com.kb5012.timetable.GroupScreen;
 import com.kb5012.timetable.R;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -103,10 +108,20 @@ public class MyGroup extends ListFragment {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 itemView = inflater.inflate(R.layout.list_item_group, parent, false);
             }
-            Group group = mGroup.get(position);
-            TextView taskName = (TextView) itemView.findViewById(R.id.groupName);
-            taskName.setText(group.getName());
-            return itemView;
+            try {
+                Group group = mGroup.get(position);
+                TextView taskName = (TextView) itemView.findViewById(R.id.groupName);
+                taskName.setText(group.getName());
+                ImageView groupImage = (ImageView) itemView.findViewById(R.id.groupImage);
+                ParseFile file = group.getImage();
+                byte[] data = file.getData();
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                groupImage.setImageBitmap(bitmap);
+                return itemView;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
     }
 }

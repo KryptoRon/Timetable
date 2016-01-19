@@ -59,9 +59,6 @@ public class LoginActivity extends AppCompatActivity {
                             // If user exist and authenticated, send user to Welcome.class
                             Intent intent = new Intent(getApplicationContext(), UserScreen.class);
                             startActivity(intent);
-                            Toast.makeText(getApplicationContext(),
-                                    "Successfully Logged in",
-                                    Toast.LENGTH_LONG).show();
                             finish();
                         } else {
                             Toast.makeText(
@@ -74,6 +71,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void startSignUp(View v) {
+        try {
+            ParseUser current_user = ParseUser.getCurrentUser();
+            current_user.logOut();
+        } catch (IllegalArgumentException e){
+
+        }
         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
         startActivity(intent);
     }

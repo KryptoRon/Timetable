@@ -25,14 +25,15 @@ import java.util.ArrayList;
 public class Group extends ParseObject {
     private ArrayList<User> members;
     private ArrayList<Task> tasks;
-    private byte[] image;
+    private ParseFile image;
     private User beheerder;
     private String name;
 
-    public byte[] getImage() {
-        return getBytes("group_image");
+    public ParseFile getImage() {
+        return getParseFile("group_image");
     }
-    public void setImage(byte[] image) {
+    public void setImage(ParseFile image) {
+        put("group_image", image);
         this.image = image;
     }
 

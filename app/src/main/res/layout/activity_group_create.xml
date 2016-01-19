@@ -41,7 +41,7 @@
     <EditText
         android:layout_width="230dp"
         android:layout_height="wrap_content"
-        android:id="@+id/tf_name"
+        android:id="@+id/newGroupName"
         android:layout_gravity="center_horizontal" />
 
     <Button

@@ -52,7 +52,7 @@ public class UserScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_screen);
         user = (User)ParseUser.getCurrentUser();
-        Toast.makeText(getApplicationContext(), "U bent ingelogged als: " + user.getUsername(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "U are logged in as: " + user.getUsername(), Toast.LENGTH_SHORT).show();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // init user for notification

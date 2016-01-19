@@ -22,8 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kb5012.timetable.DataModels.Group;
-import com.kb5012.timetable.DataModels.Group_user;
-import com.kb5012.timetable.DataModels.User;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -31,20 +29,13 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GroupCreateActivity extends AppCompatActivity {
     private ParseFile file;
     private Group g;
+    private Boolean newGroup = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +50,7 @@ public class GroupCreateActivity extends AppCompatActivity {
                 public void done(final Group object, ParseException e) {
                     if (object != null) {
                         g = object;
-                        EditText et = (EditText) findViewById(R.id.tf_name);
+                        EditText et = (EditText) findViewById(R.id.newGroupName);
                         et.setText(g.getName());
 
                         file = (ParseFile) g.get("group_image");
@@ -71,6 +62,7 @@ public class GroupCreateActivity extends AppCompatActivity {
                                 iv.setImageBitmap(bitmap);
                             }
                         });
+                        newGroup = false;
                     }
                 }
             });
@@ -130,16 +122,21 @@ public class GroupCreateActivity extends AppCompatActivity {
     }
 
     private boolean newGroup() {
-        EditText et1 = (EditText) findViewById(R.id.tf_name);
+        EditText et1 = (EditText) findViewById(R.id.newGroupName);
+        String groupName = et1.getText().toString();
         if(file != null && !et1.getText().toString().isEmpty()) {
-            if(g!= null) {
+            if(newGroup) {
                 ParseObject g = ParseObject.create("Group");
-                g.put("group_name", et1.getText().toString());
+                g.put("group_name", groupName);
                 g.put("group_image",file);
                 g.put("owner", ParseUser.getCurrentUser());
                 g.saveInBackground();
+                ParseObject g_u = ParseObject.create("Group_user");
+                g_u.put("group_id", g);
+                g_u.put("user_id", ParseUser.getCurrentUser());
+                g_u.saveInBackground();
             } else {
-                g.put("group_name", et1.getText().toString());
+                g.put("group_name", groupName);
                 g.put("group_image",file);
                 g.put("owner", ParseUser.getCurrentUser());
                 g.saveInBackground();
