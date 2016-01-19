@@ -78,6 +78,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         // TODO set image of the person who assigned
         final ImageView avatar = (ImageView) itemView.findViewById(R.id.avatar);
         User sender = (User) task.getParseUser("sender");
+        /*
         final ParseFile img = sender.getAvatar();
         img.getDataInBackground(new GetDataCallback() {
             @Override
@@ -89,6 +90,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
                 }
             }
         });
+        */
 
 
         return itemView;

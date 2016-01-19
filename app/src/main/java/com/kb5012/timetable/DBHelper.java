@@ -45,16 +45,6 @@ public class DBHelper {
     }
 
     private ArrayList<Group> groups;
-    public User findUserByUsername(String username){
-        ParseQuery<User> query = ParseQuery.getQuery("_User");
-        query.whereEqualTo("username", username);
-        try {
-            return query.getFirst();
-        } catch (ParseException e) {
-            return null;
-        }
-
-    }
 
     public Group findGroupById(String groupId) {
 

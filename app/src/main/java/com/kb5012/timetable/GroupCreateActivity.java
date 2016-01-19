@@ -138,8 +138,10 @@ public class GroupCreateActivity extends AppCompatActivity {
                 g.put("group_image",file);
                 g.saveInBackground();
             } else {
+                g = new Group();
                 g.put("group_name", et1.getText().toString());
                 g.put("group_image",file);
+                g.put("owner", ParseUser.getCurrentUser());
                 g.saveInBackground();
             }
             Toast.makeText(this.getBaseContext(), "Your group has been made!", Toast.LENGTH_SHORT).show();

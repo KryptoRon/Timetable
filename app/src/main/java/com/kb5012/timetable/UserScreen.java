@@ -50,7 +50,8 @@ public class UserScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_screen);
-        user= (User)ParseUser.getCurrentUser();
+        user = (User)ParseUser.getCurrentUser();
+        Toast.makeText(getApplicationContext(), "U bent ingelogged als: " + user.getUsername(), Toast.LENGTH_SHORT).show();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -121,5 +122,10 @@ public class UserScreen extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    public void onClickMakeGroup(View v){
+        Intent intent = new Intent(getApplicationContext(), GroupCreateActivity.class);
+        startActivity(intent);
     }
 }

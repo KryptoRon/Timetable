@@ -5,21 +5,21 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="110dp"
         android:id="@+id/image_logo"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/logo_image"
         android:src="@drawable/timetable" />
-
     <GridLayout
+        android:layout_below="@+id/image_logo"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@+id/image_logo"
         android:layout_centerHorizontal="true"
         android:columnCount="2"
-        android:rowCount="4">
+        android:rowCount="4"
+        android:id="@+id/gridLayout2">
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,6 +53,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Repeate password"
+            android:id="@+id/password_labelR"
+            android:paddingTop="25dp"
+            android:textColor="@color/customAccent"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:id="@+id/password_signupR"
+            android:hint="@string/password" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/emaillabel"
             android:id="@+id/email_label"
             android:paddingTop="25dp"
@@ -78,7 +93,6 @@
             android:id="@+id/phone_signup"
             android:hint="@string/phone"
             android:inputType="phone"/>
-
     </GridLayout>
 
     <Button
@@ -86,6 +100,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/btn_signUp"
         android:text="@string/btn_signup"
+        android:onClick="signUp"
         android:layout_alignParentBottom="true"
-        android:onClick="signUp"/>
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:id="@+id/signUpAvatar"
+        android:src="@drawable/addavatar"
+        android:layout_below="@+id/gridLayout2"
+        android:onClick="onClickGallery"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
