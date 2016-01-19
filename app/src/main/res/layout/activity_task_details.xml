@@ -48,7 +48,7 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="5"
+        android:columnCount="8"
         android:rowCount="14"
         android:id="@+id/gridLayout"
         android:layout_below="@+id/image_logo"
@@ -80,7 +80,7 @@
             android:text="@string/task_deadline"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_row="0"
-            android:layout_column="2"
+            android:layout_column="7"
             android:gravity="right"/>
 
         <TextView
@@ -93,28 +93,6 @@
             android:layout_marginEnd="10dp"/>
 
         <TextView
-            android:id="@+id/task_deadline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Due at Date"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_row="1"
-            android:layout_column="2"
-            android:gravity="end"
-            android:layout_marginEnd="10dp"/>
-
-        <TextView
-            android:id="@+id/task_titel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/task_title"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_row="3"
-            android:layout_column="1"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_columnSpan="2" />
-
-        <TextView
             android:id="@+id/task_sender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -124,15 +102,15 @@
             android:layout_column="0" />
 
         <TextView
-            android:id="@+id/task_description_label"
+            android:id="@+id/task_deadline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/task_description"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_row="6"
-            android:layout_column="0"
-            android:layout_columnSpan="3"
-            android:layout_gravity="center_horizontal|center_vertical"/>
+            android:text="Due at Date"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_row="1"
+            android:layout_column="7"
+            android:gravity="end"
+            android:layout_marginEnd="10dp"/>
 
     </GridLayout>
 
@@ -145,7 +123,31 @@
         android:onClick="onClickDelete"
         android:src="@android:drawable/ic_menu_delete" />
 
+    <TextView
+        android:id="@+id/task_description_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/task_description"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_row="6"
+        android:layout_column="0"
+        android:layout_columnSpan="3"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_below="@+id/task_titel"
+        android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:id="@+id/task_titel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/task_title"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_row="3"
+        android:layout_column="1"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_columnSpan="2"
+        android:layout_below="@+id/gridLayout"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
