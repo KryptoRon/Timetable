@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
@@ -8,39 +8,62 @@
         android:id="@+id/groupName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left|top"
-        android:text="New Text" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="New Text"
+        android:layout_alignTop="@+id/addMember"
+        android:layout_centerHorizontal="true" />
 
 
     <Button
         android:id="@+id/leaveGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/groupName"
-        android:text="Leave group" />
+        android:text="Leave group"
+        android:layout_marginTop="15dp"
+        android:layout_alignEnd="@+id/removeGroup" />
 
-    <Button
+    <ImageButton
         android:id="@+id/addMember"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add member" />
-    <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@android:drawable/ic_input_add"
+        android:layout_below="@+id/removeGroup"
+        android:layout_alignEnd="@+id/leaveGroup" />
+
+    <ImageButton
         android:id="@+id/removeGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="delete group" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@android:drawable/ic_menu_delete"
+        android:layout_below="@+id/leaveGroup"
+        android:layout_alignEnd="@id/android:list" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Members"
-        android:id="@+id/textView9" />
+        android:id="@+id/textView9"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <ListView
         android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/addMember"></ListView>
+        android:layout_below="@id/textView9"
+        android:textAlignment="center"
+        android:layout_margin="20dp" />
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/groupAvatar"
+        android:layout_alignTop="@+id/leaveGroup"
+        android:layout_alignStart="@id/android:list"
+        android:src="@drawable/defaultavatar"
+        android:padding="1dp"
+        android:background="@android:color/black"/>
 
 
-</LinearLayout>
+</RelativeLayout>
