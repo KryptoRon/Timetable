@@ -49,6 +49,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void signIn(View v) {
+        try {
+            ParseUser current_user = ParseUser.getCurrentUser();
+            current_user.logOut();
+        } catch (IllegalArgumentException e){
+
+        }
         usernametxt = username.getText().toString();
         passwordtxt = password.getText().toString();
 
@@ -72,8 +78,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void startSignUp(View v) {
         try {
-            ParseUser current_user = ParseUser.getCurrentUser();
-            current_user.logOut();
+            //ParseUser current_user = ParseUser.getCurrentUser();
+            //current_user.logOut();
         } catch (IllegalArgumentException e){
 
         }

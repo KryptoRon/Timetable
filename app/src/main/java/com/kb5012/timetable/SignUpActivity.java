@@ -14,10 +14,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.DataModels.User;
+import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
@@ -36,8 +40,10 @@ public class SignUpActivity extends AppCompatActivity {
     private String emailtxt;
     private EditText phonenumber;
     private String phonetxt;
+    private EditText passwordR;
+    private ImageView avatar;
+    private boolean newUser = true;
     private Button btn_signup;
-    public User user = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +54,29 @@ public class SignUpActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password_signup);
         email = (EditText) findViewById(R.id.email_signup);
         phonenumber = (EditText) findViewById(R.id.phone_signup);
+        passwordR = (EditText) findViewById(R.id.password_signupR);
+        avatar = (ImageView) findViewById(R.id.signUpAvatar);
 
+        try {
+            ParseUser current_user = ParseUser.getCurrentUser();
 
+            file = (ParseFile) current_user.get("avatar");
+            file.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
+                    ParseUser current_user = ParseUser.getCurrentUser();
+                    username.setText(current_user.getString("username"));
+                    password.setText(current_user.getString("password"));
+                    passwordR.setText(current_user.getString("password"));
+                    email.setText(current_user.getString("email"));
+                    phonenumber.setText(current_user.getString("phonenumber"));
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    avatar.setImageBitmap(bitmap);
+                    newUser = false;
+                }
+            });
+        }catch (NullPointerException e){
+        }
     }
 
     public void onClickMakeUser(View v){
@@ -68,7 +95,6 @@ public class SignUpActivity extends AppCompatActivity {
     public void signUp() {
         usernametxt = username.getText().toString();
         passwordtxt = password.getText().toString();
-        EditText passwordR = (EditText) findViewById(R.id.password_signupR);
         String password1 = passwordtxt;
         String password2 = passwordR.getText().toString();
         emailtxt = email.getText().toString();
@@ -84,27 +110,55 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
        }else {
            // Save new user data into Parse.com Data Storage
-            user.setUsername(usernametxt);
-            user.setPassword(passwordtxt);
-            user.setEmail(emailtxt);
-            user.setPhoneNumber(phonetxt);
-            user.put("avatar", file);
-            user.signUpInBackground(new SignUpCallback() {
-                public void done(ParseException e) {
-                   if (e == null) {
-                       // Show a simple Toast message upon successful registration
-                       Toast.makeText(getApplicationContext(),
-                               "Successfully Signed up, please log in.",
-                               Toast.LENGTH_LONG).show();
-                       finish();
-                   } else {
-                       Toast.makeText(getApplicationContext(),
-                               "Sign up error", Toast.LENGTH_LONG)
-                               .show();
-                       e.printStackTrace();
+           if(newUser) {
+               User user = new User();
+               user.put("username",usernametxt);
+               user.put("password",passwordtxt);
+               user.put("email",emailtxt);
+               user.put("phonenumber",phonetxt);
+               user.put("avatar", file);
+               user.signUpInBackground(new SignUpCallback() {
+                   public void done(ParseException e) {
+                       if (e == null) {
+                           // Show a simple Toast message upon successful registration
+                           Toast.makeText(getApplicationContext(),
+                                   "Successfully Signed up, please log in.",
+                                   Toast.LENGTH_LONG).show();
+                           finish();
+                       } else {
+                           Toast.makeText(getApplicationContext(),
+                                   "Sign up error", Toast.LENGTH_LONG)
+                                   .show();
+                           e.printStackTrace();
+                       }
                    }
-                }
-            });
+               });
+           } else {
+               ParseUser user = ParseUser.getCurrentUser();
+               user.put("username",usernametxt);
+               user.put("password",passwordtxt);
+               user.put("email",emailtxt);
+               user.put("phonenumber",phonetxt);
+               user.put("avatar", file);
+               user.saveInBackground(new SaveCallback() {
+                   @Override
+                   public void done(ParseException e) {
+                       if (e == null) {
+                           // Show a simple Toast message upon successful change
+                           Toast.makeText(getApplicationContext(),
+                                   "Successfully updated your account. Please log in.",
+                                   Toast.LENGTH_LONG).show();
+                           finish();
+                       } else {
+                           Toast.makeText(getApplicationContext(),
+                                   "Sign up error", Toast.LENGTH_LONG)
+                                   .show();
+                           e.printStackTrace();
+                       }
+
+                   }
+               });
+           }
        }
     }
 
@@ -134,8 +188,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-                    ImageView iv = (ImageView) findViewById(R.id.signUpAvatar);
-                    iv.setImageBitmap(bitmap);
+                    avatar.setImageBitmap(bitmap);
 
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byte[] img = stream.toByteArray();
