@@ -61,10 +61,11 @@ public class GroupInfo extends ListFragment {
             mTitle.setText(group.getName());
             ImageView iv = (ImageView) v.findViewById(R.id.groupAvatar);
             ParseFile file = group.getImage();
-            byte[] data = file.getData();
-            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-            iv.setImageBitmap(bitmap);
-
+            if (file != null) {
+                byte[] data = file.getData();
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                iv.setImageBitmap(bitmap);
+            }
             return v;
         } catch (ParseException e) {
             e.printStackTrace();

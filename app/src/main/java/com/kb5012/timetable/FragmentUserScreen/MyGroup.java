@@ -22,7 +22,6 @@ import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.DataModels.User;
 import com.kb5012.timetable.GroupScreen;
 import com.kb5012.timetable.R;
-import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -114,9 +113,11 @@ public class MyGroup extends ListFragment {
                 taskName.setText(group.getName());
                 ImageView groupImage = (ImageView) itemView.findViewById(R.id.groupImage);
                 ParseFile file = group.getImage();
-                byte[] data = file.getData();
-                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                groupImage.setImageBitmap(bitmap);
+                if (file != null) {
+                    byte[] data = file.getData();
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    groupImage.setImageBitmap(bitmap);
+                }
                 return itemView;
             } catch (ParseException e) {
                 e.printStackTrace();
