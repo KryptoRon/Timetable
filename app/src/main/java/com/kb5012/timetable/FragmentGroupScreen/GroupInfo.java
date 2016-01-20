@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Group;
+import com.kb5012.timetable.DataModels.Task;
 import com.kb5012.timetable.DataModels.User;
 import com.kb5012.timetable.R;
 import com.kb5012.timetable.UserAdapter;
@@ -144,10 +145,12 @@ public class GroupInfo extends ListFragment {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Group group = new Group();
                                 User user = (User) ParseUser.getCurrentUser();
                                 dbHelper.removeUserFromGroup(group, user);
-
+                                ArrayList<Task> tasks=dbHelper.findAllTaskByGroupIdAndUserId(group, user);
+                                for (Task task:tasks) {
+                                    task.deleteEventually();
+                                }
                                 Intent intent = new Intent(getActivity(), UserScreen.class);
                                 Bundle b = new Bundle();
                                 b.putString("userId", user.getObjectId());
