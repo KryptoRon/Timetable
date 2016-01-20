@@ -110,6 +110,7 @@ public class TaskDetails extends AppCompatActivity{
 
     public void onClickDelete(View view) {
         deleteTask(task.getObjectId());
+        finish();
     }
 
     private void updateTask(final boolean status) {

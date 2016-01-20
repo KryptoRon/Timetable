@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,20 +32,28 @@ public class GroupMyTask extends ListFragment {
     private ArrayList<Task> tasks;
 
     final private DBHelper dbHelper=new DBHelper();
-
+    private SwipeRefreshLayout swipeGroupMyTask;
     private ListView mListView;
     private TaskAdapter mAdapter;
     private View view;
+    private String groupId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_group_my_task, container, false);
         Bundle bundle = getArguments();
-        String groupId = bundle.getString("groupId");
+        groupId = bundle.getString("groupId");
         group= dbHelper.findGroupById(groupId);
         user= (User)ParseUser.getCurrentUser();
         new AsyncGetMyTasks().execute(groupId);
+        swipeGroupMyTask = (SwipeRefreshLayout) view.findViewById(R.id.swipe_group_my_task);
+        swipeGroupMyTask.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
         return view;
 
     }
@@ -76,6 +85,15 @@ public class GroupMyTask extends ListFragment {
         mAdapter=new TaskAdapter(getContext(),tempTask);
         setListAdapter(mAdapter);
     }
+
+    public void refresh() {
+        mAdapter = new TaskAdapter(getContext(), new ArrayList<Task>());
+        new AsyncGetMyTasks().execute(groupId);
+        user.setAllTasks(tasks);
+        swipeGroupMyTask.setRefreshing(false);
+    }
+
+
     private void setSpinner(){
         Spinner spinner=(Spinner)view.findViewById(R.id.spinner);
         List<String> list= new ArrayList<>();

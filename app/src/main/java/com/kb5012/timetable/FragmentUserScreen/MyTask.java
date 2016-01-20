@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class MyTask extends ListFragment {
     private View view;
     //LinearLayout loading;
     private User user;
+    private SwipeRefreshLayout refreshSwipeTask;
     public MyTask() {
         // Required empty public constructor
     }
@@ -52,6 +54,13 @@ public class MyTask extends ListFragment {
         mAdapter = new TaskAdapter(getContext(), new ArrayList<Task>());
         new AsyncGetMyTasks().execute();
         user.setAllTasks(tasks);
+        refreshSwipeTask = (SwipeRefreshLayout) view.findViewById(R.id.swipe_my_task);
+        refreshSwipeTask.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 
         return view;
     }
@@ -67,7 +76,7 @@ public class MyTask extends ListFragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String filter=parent.getItemAtPosition(position).toString();
+                String filter = parent.getItemAtPosition(position).toString();
                 filterTask(filter);
             }
 
@@ -82,6 +91,13 @@ public class MyTask extends ListFragment {
         super.onResume();
         tasks=dbHelper.findAllTaskByUserId(user);
         user.setAllTasks(tasks);
+    }
+
+    public void refresh() {
+        mAdapter = new TaskAdapter(getContext(), new ArrayList<Task>());
+        new AsyncGetMyTasks().execute();
+        user.setAllTasks(tasks);
+        refreshSwipeTask.setRefreshing(false);
     }
 
 

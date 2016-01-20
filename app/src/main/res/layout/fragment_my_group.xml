@@ -3,14 +3,11 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     tools:context="com.kb5012.timetable.FragmentUserScreen.MyGroup">
-
-    <ListView
-        android:id="@id/android:list"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_mygroups"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/btn_createGroup">
-    </ListView>
-
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner"></android.support.v4.widget.SwipeRefreshLayout>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,5 +16,13 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:onClick="onClickMakeGroup"/>
+
+    <ListView
+        android:id="@id/android:list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/btn_createGroup"
+        android:layout_alignParentStart="true">
+    </ListView>
 
 </RelativeLayout>

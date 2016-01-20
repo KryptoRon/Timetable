@@ -4,16 +4,25 @@
     android:layout_height="match_parent"
     tools:context="com.kb5012.timetable.FragmentUserScreen.MyTask">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_group_task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner">
     <ListView
         android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/spinner"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:id="@+id/spinner"/>
+        android:id="@+id/spinner"
+        android:background="?attr/colorPrimary" />
 
 
 </RelativeLayout>

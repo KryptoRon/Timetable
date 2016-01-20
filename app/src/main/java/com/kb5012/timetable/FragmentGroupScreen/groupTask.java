@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,19 +30,25 @@ public class groupTask extends ListFragment {
     private ListView mListView;
     private TaskAdapter mAdapter;
     private View view;
+    private SwipeRefreshLayout swipeGroupTask;
+    private String groupId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
          view = inflater.inflate(R.layout.fragment_group_task, container, false);
         Bundle bundle = getArguments();
-        String groupId = bundle.getString("groupId");
-
-
+        groupId = bundle.getString("groupId");
         new AsyncGetMyTasks().execute(groupId);
 
         mListView = (ListView)view.findViewById(android.R.id.list);
-
+        swipeGroupTask = (SwipeRefreshLayout) view.findViewById(R.id.swipe_group_task);
+        swipeGroupTask.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
         return view;
 
     }
@@ -58,6 +65,13 @@ public class groupTask extends ListFragment {
         super.onCreate(savedInstanceState);
 
 
+    }
+
+    public void refresh() {
+        mAdapter = new TaskAdapter(getContext(), new ArrayList<Task>());
+        new AsyncGetMyTasks().execute(groupId);
+
+        swipeGroupTask.setRefreshing(false);
     }
     private void filterTask(String filter){
         ArrayList<Task> tempTask=new ArrayList<>();
