@@ -144,8 +144,6 @@ public class GroupInfo extends ListFragment {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // TODO db group verlaten
-                                //TODO group object maken
                                 Group group = new Group();
                                 User user = (User) ParseUser.getCurrentUser();
                                 dbHelper.removeUserFromGroup(group, user);

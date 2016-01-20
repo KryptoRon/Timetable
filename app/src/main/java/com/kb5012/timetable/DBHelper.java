@@ -68,24 +68,17 @@ public class DBHelper {
         }
 
     }
-    public void findAllTaskByUserId(ParseUser user, final TaskAdapter adapter) {
+    public ArrayList<Task> findAllTaskByUserId(User user) {
 
         ParseQuery<Task> query = ParseQuery.getQuery("Task");
         query.whereEqualTo("receiver", user);
         query.orderByAscending("deadline");
-        query.findInBackground(new FindCallback<Task>() {
-            public void done(List<Task> parseTasks, ParseException e) {
-                if (e == null && parseTasks != null) {
-                    adapter.clear();
-                    for (Task task : parseTasks) {
-                        adapter.add(task);
-                    }
-
-                } else {
-                    Log.e("ERROR", "message: " + e);
-                }
-            }
-        });
+        try {
+            return (ArrayList<Task>)query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List<ParseObject> findAllUsersByGroup(Group group) {
@@ -112,25 +105,15 @@ public class DBHelper {
         return object;
     }
 
-    public void findAllTaskByGroupId(Group group, TaskAdapter listAdapter) {
-        final TaskAdapter mAdapter = listAdapter;
+    public ArrayList<Task> findAllTaskByGroupId(Group group) {
         ParseQuery<Task> query = ParseQuery.getQuery("Task");
         query.whereEqualTo("group", group);
-        query.findInBackground(new FindCallback<Task>() {
-            public void done(List<Task> parseTasks, ParseException e) {
-                if (e == null) {
-                    if (parseTasks != null) {
-                        mAdapter.clear();
-                        for (int i = 0; i < parseTasks.size(); i++) {
-                            mAdapter.add(parseTasks.get(i));
-                        }
-                    }
-
-                } else {
-                    Log.e("ERROR", "message: " + e);
-                }
-            }
-        });
+        try {
+            return (ArrayList<Task>)query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void deleteGroup(Group group) {
@@ -149,27 +132,16 @@ public class DBHelper {
     }
 
 
-    public void findAllTaskByGroupIdAndUserId(Group group, User user, TaskAdapter mAdapter) {
-        final TaskAdapter myAdapter = mAdapter;
+    public ArrayList<Task> findAllTaskByGroupIdAndUserId(Group group, User user) {
         ParseQuery<Task> query = ParseQuery.getQuery("Task");
         query.whereEqualTo("receiver", user);
         query.whereEqualTo("group", group);
-        query.findInBackground(new FindCallback<Task>() {
-            public void done(List<Task> parseTasks, ParseException e) {
-                if (e == null) {
-                    if (parseTasks != null) {
-                        myAdapter.clear();
-                        for (int i = 0; i < parseTasks.size(); i++) {
-                            myAdapter.add(parseTasks.get(i));
-                        }
-                    }
-
-                } else {
-                    Log.e("ERROR", "message findAllTaskByGroupIdAndUserId: " + e);
-                }
-            }
-        });
-
+        try {
+            return (ArrayList<Task>)query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    return null;
     }
 
     public void addMemberToGroup(Group group, User member) {
