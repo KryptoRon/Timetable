@@ -1,39 +1,23 @@
 package com.kb5012.timetable.FragmentGroupScreen;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Group;
 import com.kb5012.timetable.DataModels.Task;
-import com.kb5012.timetable.DataModels.User;
-import com.kb5012.timetable.FragmentUserScreen.MyGroup;
 import com.kb5012.timetable.R;
 import com.kb5012.timetable.TaskAdapter;
 import com.kb5012.timetable.TaskDetails;
-import com.parse.FindCallback;
-import com.parse.Parse;
-import com.parse.ParseAnalytics;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -84,12 +68,11 @@ public class groupTask extends ListFragment {
                 tempTask.add(task);
             }
             //task that has need to be done but isn`t pas the deadline yet
-            if(filter=="TODO"&&!task.isStatus()&&task.getDeadline().compareTo(c.getTime())>0){
+            else if(filter=="TODO"&&!task.isStatus()&&task.getDeadline().compareTo(c.getTime())>0){
                 tempTask.add(task);
-                break;
             }
             // filter need to be on past due and the deadline has expired and haven`t been completed
-            if(filter=="Past Due"&&task.getDeadline().compareTo(c.getTime())<0&&!task.isStatus()){
+            else if(filter=="Past Due"&&task.getDeadline().compareTo(c.getTime())<0&&!task.isStatus()){
                 tempTask.add(task);
             }
         }
