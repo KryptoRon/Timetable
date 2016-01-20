@@ -26,7 +26,7 @@ public class Group extends ParseObject {
     private ArrayList<User> members;
     private ArrayList<Task> tasks;
     private ParseFile image;
-    private User beheerder;
+    private User owner;
     private String name;
 
     public ParseFile getImage() {
@@ -47,10 +47,16 @@ public class Group extends ParseObject {
         return getString("group_name");
     }
 
+    public void setOwner(User Owner) {
+        put("owner", owner);
+    }
+    public User getOwner() {
+        return (User)getParseUser("owner");
+    }
+
     public void setName(String group_name) {
         put("group_name", group_name);
     }
-
 //    TODO: Figure out images on parse
 //    public Drawable getImage(Context context) {
 //        ParseFile file = getParseFile("group_image");

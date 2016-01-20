@@ -116,21 +116,6 @@ public class DBHelper {
         return null;
     }
 
-    public void deleteGroup(Group group) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Group_user");
-        query.whereEqualTo("group_id", group);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> parseObjects, ParseException e) {
-                if (e == null) {
-                    for (ParseObject object : parseObjects) {
-                        object.deleteEventually();
-                    }
-                }
-            }
-        });
-        group.deleteEventually();
-    }
-
 
     public ArrayList<Task> findAllTaskByGroupIdAndUserId(Group group, User user) {
         ParseQuery<Task> query = ParseQuery.getQuery("Task");

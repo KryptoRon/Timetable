@@ -47,8 +47,6 @@ public class GroupScreen extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         groupId = b.getString("groupId");
         userId=b.getString("userId");
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
