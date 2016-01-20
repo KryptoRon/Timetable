@@ -32,4 +32,14 @@
     <string name="switch_no">No</string>
     <string name="task_detail_complete">Complete</string>
     <string name="title_activity_manifast_add">manifastAdd</string>
+    <string name="usernametxt">Username</string>
+    <string name="new_group_label">New group</string>
+    <string name="group_create_image">Image</string>
+    <string name="name_label">Name</string>
+    <string name="group_label">Group</string>
+    <string name="receiver">For who?</string>
+    <string name="assign_task">Assign Task</string>
+    <string name="timeframe">Timeframe</string>
+    <string name="subject">Subject</string>
+    <string name="task_create_titel">New task</string>
 </resources>

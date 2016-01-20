@@ -37,7 +37,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:onClick="onClickUpdate"
         android:text="@string/task_detail_complete"
         android:textOff="@string/switch_no"
         android:textOn="@string/switch_yes"
@@ -75,8 +74,8 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_row="0"
             android:layout_column="1"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="5dp"/>
 
         <TextView
             android:id="@+id/task_deadline_label"
@@ -86,8 +85,8 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_row="0"
             android:layout_column="2"
-            android:gravity="right"
-            android:layout_marginLeft="5dp"/>
+            android:gravity="end"
+            android:layout_marginStart="5dp"/>
 
         <TextView
             android:id="@+id/task_created_at"
@@ -96,8 +95,8 @@
             android:text="Created at date"
             android:layout_row="1"
             android:layout_column="1"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="5dp"/>
 
         <TextView
             android:id="@+id/task_deadline"
@@ -109,7 +108,7 @@
             android:layout_column="2"
             android:gravity="end"
             android:layout_marginEnd="10dp"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginStart="5dp"/>
 
         <TextView
             android:id="@+id/task_titel"

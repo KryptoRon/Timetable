@@ -138,7 +138,7 @@ public class GroupInfo extends ListFragment {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("Username");
+                builder.setTitle(getString(R.string.usernametxt));
 
                 // Set up the input
                 input = new EditText(getContext());
@@ -245,7 +245,7 @@ public class GroupInfo extends ListFragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Toast.makeText(getContext(), "Group deleted", Toast.LENGTH_LONG);
+            Toast.makeText(getContext(), "Group deleted", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getActivity(), UserScreen.class);
             Bundle b = new Bundle();
             b.putString("userId", ParseUser.getCurrentUser().getObjectId());

@@ -106,10 +106,6 @@ public class TaskDetails extends AppCompatActivity{
         });
     }
 
-    public void onClickUpdate(View view) {
-//        updateTask(task.getObjectId());
-    }
-
     public void onClickDelete(View view) {
         deleteTask(task.getObjectId());
     }
