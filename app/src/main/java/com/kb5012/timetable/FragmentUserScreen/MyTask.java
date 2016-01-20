@@ -1,28 +1,18 @@
 package com.kb5012.timetable.FragmentUserScreen;
 
 
-import android.app.ProgressDialog;
-import android.content.AsyncTaskLoader;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.app.ListFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.kb5012.timetable.DBHelper;
 import com.kb5012.timetable.DataModels.Task;
@@ -31,10 +21,8 @@ import com.kb5012.timetable.R;
 import com.kb5012.timetable.TaskAdapter;
 import com.kb5012.timetable.TaskDetails;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static com.parse.ParseUser.getCurrentUser;
@@ -113,12 +101,11 @@ public class MyTask extends ListFragment {
                 tempTask.add(task);
             }
             //task that has need to be done but isn`t pas the deadline yet
-            if(filter=="TODO"&&!task.isStatus()&&task.getDeadline().compareTo(c.getTime())>0){
+            else if(filter=="TODO"&&!task.isStatus()&&task.getDeadline().compareTo(c.getTime())>0){
                 tempTask.add(task);
-                break;
             }
             // filter need to be on past due and the deadline has expired and haven`t been completed
-            if(filter=="Past Due"&&task.getDeadline().compareTo(c.getTime())<0&&!task.isStatus()){
+            else if(filter=="Past Due"&&task.getDeadline().compareTo(c.getTime())<0&&!task.isStatus()){
                 tempTask.add(task);
             }
         }

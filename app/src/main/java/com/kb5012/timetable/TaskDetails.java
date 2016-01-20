@@ -76,13 +76,13 @@ public class TaskDetails extends AppCompatActivity{
                 description.setText(task.getDescription());
                 if (!task.isStatus()) {
                     completed.setChecked(false);
-                }else {
+                } else {
                     completed.setChecked(true);
                 }
                 completed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            updateTask(isChecked);
+                        updateTask(isChecked);
 
                     }
                 });
@@ -90,18 +90,20 @@ public class TaskDetails extends AppCompatActivity{
                 User user_sender = (User) task.getParseUser("sender");
                 sender.setText(user_sender.getUsername());
                 final ParseFile img = user_sender.getAvatar();
-                img.getDataInBackground(new GetDataCallback() {
-                    @Override
-                    public void done(byte[] data, ParseException e) {
-                        if (e == null) {
-                            Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-                            avatar.setImageBitmap(bmp);
-                        } else {
+                if (img != null) {
+                    img.getDataInBackground(new GetDataCallback() {
+                        @Override
+                        public void done(byte[] data, ParseException e) {
+                            if (e == null) {
+                                Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                avatar.setImageBitmap(bmp);
+                            } else {
+                            }
                         }
-                    }
-                });
+                    });
 
 
+                }
             }
         });
     }
