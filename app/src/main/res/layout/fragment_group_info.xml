@@ -13,6 +13,13 @@
         android:layout_alignTop="@+id/addMember"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:id="@+id/updateGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update group"
+        android:layout_below="@+id/leaveGroup"
+        android:layout_alignStart="@+id/leaveGroup" />
 
     <Button
         android:id="@+id/leaveGroup"
@@ -35,7 +42,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@android:drawable/ic_menu_delete"
-        android:layout_below="@+id/leaveGroup"
+        android:layout_below="@+id/updateGroup"
         android:layout_alignEnd="@id/android:list" />
 
     <TextView

@@ -57,6 +57,10 @@ public class GroupInfo extends ListFragment {
         setDeleteButton(v);
         setAddMemberButton(v);
         setLeaveButton(v);
+        if(!group.getOwner().getUsername().equals(ParseUser.getCurrentUser().getUsername())){
+            Button updateGKnop = (Button) v.findViewById(R.id.updateGroup);
+            updateGKnop.setVisibility(View.INVISIBLE);
+        }
         try {
             mListView = (ListView) v.findViewById(android.R.id.list);
             TextView mTitle = (TextView) v.findViewById(R.id.groupName);
